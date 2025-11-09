@@ -1,0 +1,7 @@
+alias st='open -a "Sublime Text"'
+alias code='open -a "Visual Studio Code"'
+
+alias ls="eza --git --icons"
+alias man='tldr'
+alias tar="tar --exclude '.DS_Store'"
+
