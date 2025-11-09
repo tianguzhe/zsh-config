@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
+      "command": "npx"
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://server.smithery.ai/@upstash/context7-mcp/mcp?api_key=${MCP_API_KEY}&profile=${MCP_PROFILE}"
+    },
+    "exa": {
+      "type": "http",
+      "url": "https://mcp.exa.ai/mcp?api_key=${MCP_API_KEY}&profile=${MCP_PROFILE}"
+    },
+    "sequential-thinking": {
+      "type": "http",
+      "url": "https://server.smithery.ai/@smithery-ai/server-sequential-thinking/mcp?api_key=${MCP_API_KEY}&profile=${MCP_PROFILE}"
+    }
+  }
+}

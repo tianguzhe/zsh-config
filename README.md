@@ -44,6 +44,78 @@ source ~/.zshrc
 
 安装脚本会自动备份现有配置文件为 `.backup` 后缀。
 
+## Claude Code 配置
+
+本项目集成了完整的 Claude Code CLI 配置系统，提供 AI 辅助开发能力。
+
+### 环境变量配置
+
+使用 MCP 服务器前需要配置以下环境变量：
+
+```bash
+export MCP_API_KEY="your_api_key"
+export MCP_PROFILE="your_profile"
+```
+
+### Agents（AI 助手角色）
+
+- **backend-architect** - 后端架构师：RESTful API 设计、微服务架构、数据库设计
+- **frontend-developer** - 前端开发者：React 组件、响应式设计、性能优化
+- **code-reviewer** - 代码审查专家：代码质量、安全性、可维护性检查
+- **mcp-expert** - MCP 集成专家：MCP 服务器配置、协议规范
+
+### Commands（自定义命令）
+
+- **/explain-code** - 代码功能分析器：16 步系统化代码分析流程
+- **/git-commit** - Git Commit 生成器：自动分析变更并生成规范的 commit 消息
+- **/git-reset** - Git 重置命令
+- **/git-force-push** - Git 强制推送命令
+
+### Skills（专业技能包）
+
+- **hilt** - Android 依赖注入（基于 Dagger）
+- **koin** - Kotlin 依赖注入框架（支持 Android、Ktor、KMP）
+
+### MCP 服务器
+
+- **chrome-devtools** - Chrome 浏览器自动化
+- **context7** - 代码文档上下文检索
+- **exa** - AI 驱动的网络搜索
+- **sequential-thinking** - 多步骤思维推理
+
+### 状态栏功能
+
+自定义状态栏显示：
+- 模型名称和成本统计
+- 对话轮数和上下文使用率
+- Token 详情（输入/输出/缓存命中率）
+- IP 地理位置信息
+- 会话时长和 Git 分支
+
+### 使用示例
+
+**使用 Commands：**
+```bash
+# 分析代码功能
+/explain-code src/main.ts
+
+# 生成 commit 消息
+/git-commit
+```
+
+**使用 Skills：**
+```bash
+# 获取 Hilt 依赖注入帮助
+/hilt
+
+# 获取 Koin 依赖注入帮助
+/koin
+```
+
+**Agents 会在相关任务时自动触发**，例如：
+- 编写代码后自动触发 code-reviewer 进行审查
+- 设计 API 时自动触发 backend-architect 提供建议
+
 ## 许可证
 
 MIT
