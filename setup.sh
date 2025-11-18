@@ -63,8 +63,8 @@ echo "安装 zsh 插件..."
 # 复制配置文件
 echo "复制配置文件..."
 [ -f ~/.zshrc ] && cp ~/.zshrc ~/.zshrc.backup
-[ -f ~/.zshenv ] && cp ~/.zshenv ~/.zshenv.backup
+[ -f ~/.zprofile ] && cp ~/.zprofile ~/.zprofile.backup
 [ -f ~/.zsh_alias ] && cp ~/.zsh_alias ~/.zsh_alias.backup
-cp .zsh_alias .zshenv .zshrc ~/
+cp .zsh_alias .zprofile .zshrc ~/
 
 echo "安装完成！请重启终端或运行: source ~/.zshrc"
