@@ -1,4 +1,16 @@
 {
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/json-to-toon.mjs"
+          }
+        ]
+      }
+    ]
+  },
   "statusLine": {
     "command": "bash ~/.claude/statusline.sh",
     "type": "command"
