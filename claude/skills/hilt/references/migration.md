@@ -1,6 +1,6 @@
 # Hilt - Migration
 
-**Pages:** 10
+**Pages:** 11
 
 ---
 
@@ -614,6 +614,17 @@ Example 3 (unknown):
 @AliasOf(dagger.hilt.android.scopes.ActivityScoped::class)
 annotation class MyActivityScoped {}
 ```
+
+---
+
+## Hilt and Dagger annotations cheat sheet Stay organized with collections Save and categorize content based on your preferences.
+
+**URL:** https://developer.android.com/training/dependency-injection/hilt-cheatsheet
+
+**Contents:**
+- Hilt and Dagger annotations cheat sheet Stay organized with collections Save and categorize content based on your preferences.
+
+This cheat sheet allows you to quickly see what the different Hilt and Dagger annotations do and how to use them. The cheat sheet is also downloadable in PDF format.
 
 ---
 
