@@ -4,7 +4,7 @@
 
 ### Android
 **File:** `android.md`
-**Pages:** 7
+**Pages:** 6
 
 ### Core
 **File:** `core.md`
@@ -16,12 +16,8 @@
 
 ### Migration
 **File:** `migration.md`
-**Pages:** 11
-
-### Other
-**File:** `other.md`
-**Pages:** 3
+**Pages:** 10
 
 ### Testing
 **File:** `testing.md`
-**Pages:** 10
+**Pages:** 8

@@ -1,6 +1,6 @@
 # Hilt - Android
 
-**Pages:** 7
+**Pages:** 6
 
 ---
 
@@ -476,50 +476,6 @@ class FooViewModel @Inject constructor(
   val foo: Foo
 ) : ViewModel()
 ```
-
----
-
-## Use Hilt with other Jetpack libraries Stay organized with collections Save and categorize content based on your preferences.
-
-**URL:** https://developer.android.com/training/dependency-injection/hilt-jetpack
-
-**Contents:**
-- Use Hilt with other Jetpack libraries Stay organized with collections Save and categorize content based on your preferences.
-- Inject ViewModel objects with Hilt
-  - Kotlin
-  - Java
-  - Kotlin
-  - Java
-  - @ViewModelScoped
-- Integration with the Jetpack navigation library
-  - Groovy
-  - Kotlin
-
-Hilt includes extensions for providing classes from other Jetpack libraries. Hilt currently supports the following Jetpack components:
-
-You must add the Hilt dependencies to take advantage of these integrations. For more information about adding dependencies, see Dependency injection with Hilt.
-
-Provide a ViewModel by annotating it with @HiltViewModel and using the @Inject annotation in the ViewModel object's constructor.
-
-Then, an activity or a fragment that is annotated with @AndroidEntryPoint can get the ViewModel instance as normal using ViewModelProvider or the by viewModels() KTX extensions:
-
-All Hilt ViewModels are provided by the ViewModelComponent which follows the same lifecycle as a ViewModel, and as such, can survive configuration changes. To scope a dependency to a ViewModel use the @ViewModelScoped annotation.
-
-A @ViewModelScoped type will make it so that a single instance of the scoped type is provided across all dependencies injected into the ViewModel. Other instances of a ViewModel that request the scoped instance will receive a different instance.
-
-If a single instance needs to be shared across various ViewModels, then it should be scoped using either @ActivityRetainedScoped or @Singleton.
-
-Add the following additional dependencies to your Gradle file:
-
-If your ViewModel is scoped to the navigation graph, use the hiltNavGraphViewModels function that works with fragments that are annotated with @AndroidEntryPoint.
-
-To see how Hilt integrates with Jetpack Compose, see the Hilt section of Compose and other libraries.
-
-Add the following additional dependencies to your Gradle file. Note that in addition to the library, you need to include an additional annotation processor that works on top of the Hilt annotation processor:
-
-Inject a Worker using the @HiltWorker annotation in the class and @AssistedInject in the Worker object's constructor. You can use only @Singleton or unscoped bindings in Worker objects. You must also annotate the Context and WorkerParameters dependencies with @Assisted:
-
-Then, have your Application class implement the Configuration.Provider interface, inject an instance of HiltWorkFactory, and pass it into the WorkManager configuration as follows:
 
 ---
 
