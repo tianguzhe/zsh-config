@@ -44,3 +44,4 @@
 | Context7 | 库/框架文档查询 |
 | Exa | Web 搜索、代码上下文 |
 | Codex | 独立代理执行任务 |
+| Serena | 代码语义分析，详见 `~/.claude/docs/serena.md` |
