@@ -27,6 +27,15 @@ chmod +x setup.sh
 source ~/.zshrc
 ```
 
+## 更新开发工具
+
+```bash
+chmod +x dev-up.sh
+./dev-up.sh
+```
+
+批量更新 Homebrew、npm、pipx、Rust、Bun、uv 等开发工具。
+
 ## 包含的配置文件
 
 - `.zshrc` - Zsh 主配置
