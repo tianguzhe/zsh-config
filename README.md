@@ -91,6 +91,20 @@ export MCP_PROFILE="your_profile"
 - **context7** - 代码文档上下文检索
 - **exa** - AI 驱动的网络搜索
 - **sequential-thinking** - 多步骤思维推理
+- **serena** - 代码导航和分析工具
+- **codex** - AI 辅助编码和代码生成工具
+
+#### 添加 Serena MCP 服务器
+
+```bash
+claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context claude-code --project "$(pwd)"
+```
+
+#### 添加 Codex MCP 服务器
+
+```bash
+claude mcp add codex -s user --transport stdio -- uvx --from git+https://github.com/GuDaStudio/codexmcp.git codexmcp
+```
 
 ### 状态栏功能
 
