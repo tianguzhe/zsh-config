@@ -85,6 +85,11 @@ export MCP_PROFILE="your_profile"
 - **hilt** - Android 依赖注入（基于 Dagger）
 - **koin** - Kotlin 依赖注入框架（支持 Android、Ktor、KMP）
 
+**更多 Skills 资源：**
+
+- 访问 [Skills Marketplace](https://skillsmp.com/) 获取更多社区贡献的 Claude Code Skills
+- 浏览、安装和分享专业领域的 AI 技能包
+
 ### MCP 服务器
 
 - **chrome-devtools** - Chrome 浏览器自动化
