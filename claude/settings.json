@@ -1,10 +1,18 @@
 {
+  "hasCompletedOnboarding": true,
   "includeCoAuthoredBy": false,
   "language": "Chinese",
   "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1",
   "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
   "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
   "CLAUDE_CODE_PROXY_RESOLVES_HOSTS": "true",
+  "CLAUDE_CODE_ENABLE_TASKS": "true",
+  "enabledPlugins": {
+    "claude-md-management@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true
+  },
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -17,6 +25,7 @@
       }
     ]
   },
+  "model": "claude-sonnet-4-5-20250929",
   "statusLine": {
     "command": "bash ~/.claude/statusline.sh",
     "type": "command"
