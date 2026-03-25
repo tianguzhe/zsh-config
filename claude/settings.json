@@ -7,6 +7,8 @@
   "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
   "CLAUDE_CODE_PROXY_RESOLVES_HOSTS": "true",
   "CLAUDE_CODE_ENABLE_TASKS": "true",
+  "ENABLE_TOOL_SEARCH": "true",
+  "CLAUDE_CODE_NEW_INIT": "1",
   "enabledPlugins": {
     "claude-md-management@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
