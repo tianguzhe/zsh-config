@@ -2,58 +2,31 @@
 
 ################################################################################
 # Claude Code 状态栏脚本
-# 功能：显示模型信息、成本、上下文使用量、Token统计、IP信息、会话时长、Git分支等
-#
-# 主要功能：
-# - 模型名称和成本统计
-# - 对话轮数和上下文使用率（带进度条）
-# - Token 详情（输入/输出/缓存命中率）
-# - IP 地理位置信息（带缓存）
-# - 会话时长统计
-# - Git 分支信息
+# 第1行：路径 • 分支 • 模型 · 成本 · 轮数 · Context · Token
+# 第2行：Usage 进度条 + 重置时间（订阅用户专属）
 ################################################################################
 
 # ==============================================================================
 # 配置常量
 # ==============================================================================
 
-# IP 缓存配置（避免频繁网络请求）
-readonly IP_CACHE_FILE="/tmp/.claude_ip_cache"
-readonly IP_CACHE_DURATION=300  # 5分钟缓存
-
 # 上下文配置
 readonly CONTEXT_MAX_TOKENS=200000  # 200k tokens
 
-# 颜色配置（RGB格式）
-readonly COLOR_RED="248;18;81"              # 警告红色
-readonly COLOR_YELLOW="252;228;43"          # 警告黄色
-readonly COLOR_GREEN="165;254;0"            # 正常绿色
-readonly COLOR_BLUE="100;149;237"           # Input tokens
-readonly COLOR_LIGHT_GREEN="144;238;144"    # Output tokens
-readonly COLOR_PURPLE="186;85;211"          # Cache hit rate
-readonly COLOR_SKY_BLUE="120;220;255"       # 用户名（明亮的青蓝色）
-readonly COLOR_GRAY="128;128;128"           # 分隔符
-readonly COLOR_MEDIUM_PURPLE="147;112;219"  # 对话轮数
-
-# ==============================================================================
-# 工具函数 - 系统检查
-# ==============================================================================
-
-# 检查系统必需依赖
-check_system_dependencies() {
-    local missing_deps=()
-
-    command -v jq &> /dev/null || missing_deps+=("jq")
-    command -v curl &> /dev/null || missing_deps+=("curl")
-
-    if [ ${#missing_deps[@]} -gt 0 ]; then
-        echo "缺少必要工具：${missing_deps[*]}" >&2
-        echo "请安装这些工具后重新运行脚本" >&2
-        return 1
-    fi
-
-    return 0
-}
+# 颜色配置（RGB格式）- Catppuccin Mocha
+readonly COLOR_RED="243;139;168"            # 警告红（Flamingo）
+readonly COLOR_YELLOW="249;226;175"         # 警告黄（Yellow）
+readonly COLOR_GREEN="166;227;161"          # 正常绿（Green）
+readonly COLOR_BLUE="116;199;236"           # Input tokens（Sapphire）
+readonly COLOR_LIGHT_GREEN="148;226;213"    # Output tokens（Teal）
+readonly COLOR_PURPLE="203;166;247"         # Cache / 模型名（Mauve）
+readonly COLOR_GRAY="108;112;134"           # 分隔符（Overlay1）
+readonly COLOR_MEDIUM_PURPLE="180;190;254"  # 对话轮数（Lavender）
+readonly COLOR_MILK="245;224;220"           # 第2行标签（Rosewater）
+readonly COLOR_DIRTY="235;160;172"          # dirty 分支（Maroon）
+readonly COLOR_PATH="250;179;135"           # 路径（Peach）
+readonly COLOR_COST="249;226;175"           # 费用（Yellow）
+readonly COLOR_DIV="88;91;112"             # 区块分隔 │（Overlay0）
 
 # ==============================================================================
 # 工具函数 - 数字格式化
@@ -86,15 +59,10 @@ format_number() {
 
 # 生成进度条（10格宽度）
 generate_progress_bar() {
-    local percentage="$1"
-    local bar_length=10
-    local filled=$((percentage * bar_length / 100))
-    local empty=$((bar_length - filled))
-
-    local bar=""
-    [ $filled -gt 0 ] && bar=$(printf '█%.0s' $(seq 1 $filled))
-    [ $empty -gt 0 ] && bar="${bar}$(printf '░%.0s' $(seq 1 $empty))"
-
+    local percentage="$1" bar="" i
+    local filled=$((percentage * 10 / 100))
+    for ((i=0; i<filled; i++));    do bar+="█"; done
+    for ((i=filled; i<10; i++)); do bar+="░"; done
     echo "$bar"
 }
 
@@ -123,20 +91,14 @@ get_token_details() {
         return
     fi
 
-    # 读取最后几行，寻找最新的 usage 信息
-    local last_usage=$(tail -20 "$transcript_path" | while IFS= read -r line; do
-        if [ -n "$line" ]; then
-            local usage=$(echo "$line" | jq -c '.message.usage // empty' 2>/dev/null)
-            [ -n "$usage" ] && echo "$usage"
-        fi
-    done | tail -1)
+    local last_usage
+    last_usage=$(jq -c 'select(.message.usage) | .message.usage' "$transcript_path" 2>/dev/null | tail -1)
 
     if [ -z "$last_usage" ]; then
         echo "0|0|0|0"
         return
     fi
 
-    # 一次性提取所有 token 字段
     eval "$(echo "$last_usage" | jq -r '@sh "
         input_tokens=\(.input_tokens // 0)
         output_tokens=\(.output_tokens // 0)
@@ -144,64 +106,11 @@ get_token_details() {
         cache_creation=\(.cache_creation_input_tokens // 0)"' \
         2>/dev/null || echo 'input_tokens=0; output_tokens=0; cache_read=0; cache_creation=0')"
 
-    # 计算总上下文长度和缓存命中率
     local context_length=$((input_tokens + cache_read + cache_creation))
-    local total_input=$((input_tokens + cache_read + cache_creation))
     local cache_hit_rate=0
-
-    [ $total_input -gt 0 ] && cache_hit_rate=$((cache_read * 100 / total_input))
+    [ $context_length -gt 0 ] && cache_hit_rate=$((cache_read * 100 / context_length))
 
     echo "${context_length}|${input_tokens}|${output_tokens}|${cache_hit_rate}"
-}
-
-# ==============================================================================
-# 核心功能 - IP 信息获取（带缓存）
-# ==============================================================================
-
-# 获取 IP 和地区信息
-get_ip_info() {
-    # 检查缓存是否有效
-    if [ -f "$IP_CACHE_FILE" ]; then
-        local cache_age=$(($(date +%s) - $(stat -f%m "$IP_CACHE_FILE" 2>/dev/null || echo 0)))
-        if [ $cache_age -lt $IP_CACHE_DURATION ]; then
-            cat "$IP_CACHE_FILE"
-            return
-        fi
-    fi
-
-    # 请求 IP 信息（使用 curl 内置超时）
-    local ip_json=$(curl -s --max-time 3 --connect-timeout 2 https://ipinfo.io/json 2>/dev/null)
-
-    if [ $? -ne 0 ] || [ -z "$ip_json" ]; then
-        return
-    fi
-
-    # 提取 IP 相关字段
-    local ip=$(echo "$ip_json" | jq -r '.ip // ""' 2>/dev/null)
-    local city=$(echo "$ip_json" | jq -r '.city // ""' 2>/dev/null)
-    local region=$(echo "$ip_json" | jq -r '.region // ""' 2>/dev/null)
-    local country=$(echo "$ip_json" | jq -r '.country // ""' 2>/dev/null)
-
-    if [ -z "$ip" ]; then
-        return
-    fi
-
-    # IP 脱敏：隐藏最后一段
-    local masked_ip=$(echo "$ip" | sed -E 's/\.[0-9]+$/.***/g')
-
-    # 选择最具体的地理位置信息
-    local location=""
-    [ -n "$city" ] && location="$city"
-    [ -z "$location" ] && [ -n "$region" ] && location="$region"
-    [ -z "$location" ] && [ -n "$country" ] && location="$country"
-
-    # 组装结果
-    local result="$masked_ip"
-    [ -n "$location" ] && result="$masked_ip - $location"
-
-    # 保存到缓存
-    echo "$result" > "$IP_CACHE_FILE"
-    echo "$result"
 }
 
 # ==============================================================================
@@ -210,35 +119,25 @@ get_ip_info() {
 
 # 格式化工作目录（保留最后两级目录）
 format_working_directory() {
-    local cwd="$1"
+    local cwd="${1%/}"
+    [[ -z "$cwd" || "$cwd" == "null" ]] && return
 
-    if [ -z "$cwd" ] || [ "$cwd" = "null" ]; then
-        echo ""
-        return
-    fi
+    local stripped="${cwd//\//}"
+    local slash_count=$(( ${#cwd} - ${#stripped} ))
 
-    # 去除末尾斜杠
-    cwd="${cwd%/}"
-
-    # 统计目录层级数
-    local dir_count=$(echo "$cwd" | grep -o "/" | wc -l | tr -d ' ')
-
-    # 如果层级小于等于2，直接返回
-    if [ "$dir_count" -le 2 ]; then
+    if (( slash_count <= 2 )); then
         echo "$cwd"
-        return
+    else
+        local parent="${cwd%/*}"
+        echo "<</${parent##*/}/${cwd##*/}"
     fi
-
-    # 提取最后两级目录
-    local last_two=$(echo "$cwd" | awk -F'/' '{print $(NF-1)"/"$NF}')
-    echo "<</${last_two}"
 }
 
 # ==============================================================================
 # 核心功能 - Git 分支获取
 # ==============================================================================
 
-# 获取当前 Git 分支名
+# 获取当前 Git 分支名（含 dirty 标记）
 get_git_branch() {
     local cwd="$1"
 
@@ -247,8 +146,10 @@ get_git_branch() {
         return
     fi
 
-    # 切换到工作目录并获取分支名
-    (cd "$cwd" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null) || echo ""
+    local branch dirty=""
+    branch=$(git -C "$cwd" rev-parse --abbrev-ref HEAD 2>/dev/null) || return
+    git -C "$cwd" status --porcelain 2>/dev/null | grep -q . && dirty="*"
+    echo "${branch}${dirty}"
 }
 
 # ==============================================================================
@@ -293,10 +194,10 @@ format_context_display() {
     local percentage="$1"
     local exceeds="$2"
 
-    # 根据使用率选择颜色
+    # 根据使用率选择颜色（60% 预警，75% 危险，与 claude-hud 一致）
     local color="$COLOR_GREEN"
-    [ "$percentage" -ge 50 ] && color="$COLOR_YELLOW"
-    [ "$percentage" -ge 90 ] && color="$COLOR_RED"
+    [ "$percentage" -ge 60 ] && color="$COLOR_YELLOW"
+    [ "$percentage" -ge 75 ] && color="$COLOR_RED"
     [ "$exceeds" = "true" ] && color="$COLOR_RED"
 
     local progress_bar=$(generate_progress_bar "$percentage")
@@ -317,44 +218,9 @@ format_message_count() {
 # 格式化函数 - 渐变色生成
 # ==============================================================================
 
-# 为模型名称生成橙-黄渐变色
-generate_model_gradient() {
-    local text="$1"
-    local gradient=""
-    local colors=(
-        "255;165;0" "255;175;0" "255;185;0" "255;195;0" "255;205;0"
-        "255;215;0" "255;225;0" "255;235;0" "255;245;0" "255;255;0"
-        "255;255;0" "255;255;0" "255;255;0" "255;255;0" "255;255;0"
-        "255;255;0" "255;255;0" "255;255;0" "255;255;0" "255;255;0"
-    )
-
-    for i in $(seq 0 $((${#text} - 1))); do
-        local char="${text:$i:1}"
-        local color_index=$((i % ${#colors[@]}))
-        local color="${colors[$color_index]}"
-        gradient="${gradient}\033[38;2;${color}m${char}"
-    done
-
-    echo "${gradient}\033[0m"
-}
-
-# 为 IP 信息生成青蓝-薄荷绿渐变色（与用户名色调协调）
-generate_ip_gradient() {
-    local text="$1"
-    local gradient=""
-    local length=${#text}
-
-    for i in $(seq 0 $((length - 1))); do
-        local char="${text:$i:1}"
-        local progress=$((i * 100 / length))
-        # 从青蓝 (120,220,255) 渐变到薄荷绿 (120,255,220)
-        local r=120
-        local g=$((220 + (255 - 220) * progress / 100))
-        local b=$((255 - (255 - 220) * progress / 100))
-        gradient="${gradient}\033[38;2;${r};${g};${b}m${char}"
-    done
-
-    echo "${gradient}\033[0m"
+# 模型名称着色（Mauve 实色）
+format_model_name() {
+    echo "\033[38;2;${COLOR_PURPLE}m${1}\033[0m"
 }
 
 # ==============================================================================
@@ -364,112 +230,139 @@ generate_ip_gradient() {
 # 读取 JSON 输入
 input=$(cat)
 
-# 检查系统依赖（警告但不阻止运行）
-check_system_dependencies 2>/dev/null || echo "警告：某些功能可能无法正常工作" >&2
+command -v jq &>/dev/null || { echo "缺少 jq" >&2; exit 1; }
 
-# --- 提取模型信息 ---
-model_name=$(echo "$input" | jq -r '.model.display_name' 2>/dev/null || echo "")
-model_id=$(echo "$input" | jq -r '.model.id' 2>/dev/null || echo "")
-total_cost=$(echo "$input" | jq -r '.cost.total_cost_usd' 2>/dev/null || echo "0.00")
-transcript_path=$(echo "$input" | jq -r '.transcript_path' 2>/dev/null || echo "")
-exceeds_200k=$(echo "$input" | jq -r '.exceeds_200k_tokens' 2>/dev/null || echo "false")
+# --- 一次性提取所有 stdin 字段 ---
+eval "$(echo "$input" | jq -r '@sh "
+    model_name=\(.model.display_name // "Sonnet 4")
+    model_id=\(.model.id // "")
+    total_cost=\(.cost.total_cost_usd // "0.00")
+    transcript_path=\(.transcript_path // "")
+    exceeds_200k=\(.exceeds_200k_tokens // "false")
+    cwd=\(.cwd // "")
+    context_native_pct=\(.context_window.used_percentage // "")
+    context_window_size=\(.context_window.context_window_size // "")
+    five_hour_pct=\(.rate_limits.five_hour.used_percentage // "")
+    seven_day_pct=\(.rate_limits.seven_day.used_percentage // "")
+    five_hour_reset=\(.rate_limits.five_hour.resets_at // "")"' 2>/dev/null)"
 
-# 设置默认值
-[ -z "$model_name" ] || [ "$model_name" = "null" ] && model_name="Sonnet 4"
-[ -z "$total_cost" ] || [ "$total_cost" = "null" ] && total_cost="0.00"
-
-# --- 判断模型上下文容量 ---
-has_1m_context=false
-if [[ "$model_name" == *"[1m]"* ]] || [[ "$model_name" == *"1m"* ]] || \
-   [[ "$model_id" == *"1m"* ]] || [[ "$model_id" == *"-1m-"* ]]; then
-    has_1m_context=true
-fi
-
-# 构建模型名称（包含上下文标注）
+# --- 1M 上下文标注 ---
 model_name_display="$model_name"
-if [ "$has_1m_context" = true ] && [[ "$model_name" != *"(with 1M token context)"* ]]; then
-    model_name_display="${model_name} (with 1M token context)"
+if [[ "$model_id" == *"1m"* ]] || [[ "$model_id" == *"-1m-"* ]]; then
+    model_name_display="${model_name} (1M)"
 fi
 
-# --- 提取对话统计信息 ---
+# --- 对话统计 ---
 message_count=$(get_message_count "$transcript_path")
-token_details=$(get_token_details "$transcript_path")
+IFS='|' read -r context_tokens input_tokens output_tokens cache_hit_rate \
+    <<< "$(get_token_details "$transcript_path")"
 
-# 解析 Token 详情
-context_tokens=$(echo "$token_details" | cut -d'|' -f1)
-input_tokens=$(echo "$token_details" | cut -d'|' -f2)
-output_tokens=$(echo "$token_details" | cut -d'|' -f3)
-cache_hit_rate=$(echo "$token_details" | cut -d'|' -f4)
-
-# --- 提取工作目录 ---
-cwd=$(echo "$input" | jq -r '.cwd // empty' 2>/dev/null)
-
-# --- 格式化工作目录 ---
+# --- 工作目录 + Git ---
 formatted_cwd=$(format_working_directory "$cwd")
-
-# --- 提取 Git 分支信息 ---
 git_branch=$(get_git_branch "$cwd")
 
-# --- 计算上下文使用率 ---
+# --- 上下文使用率（优先 stdin 原生百分比，v2.1.6+）---
 context_percentage=0
-if [ "$context_tokens" -gt 0 ]; then
-    context_percentage=$((context_tokens * 100 / CONTEXT_MAX_TOKENS))
+if [ -n "$context_native_pct" ]; then
+    context_percentage=$(printf "%.0f" "$context_native_pct" 2>/dev/null || echo 0)
+    [ "$context_percentage" -gt 100 ] && context_percentage=100
+elif [ "${context_tokens:-0}" -gt 0 ]; then
+    effective_max=${context_window_size:-$CONTEXT_MAX_TOKENS}
+    context_percentage=$((context_tokens * 100 / effective_max))
     [ "$context_percentage" -gt 100 ] && context_percentage=100
 fi
 
-# --- 获取 IP 信息 ---
-ip_info=$(get_ip_info)
-
 # --- 格式化显示元素 ---
 formatted_cost=$(printf "%.2f" "$total_cost")
-cost_display="\033[38;2;255;165;0m\$${formatted_cost}\033[0m"
 
-model_gradient=$(generate_model_gradient "$model_name_display")
+model_display=$(format_model_name "$model_name_display")
 token_info=$(format_token_details "$input_tokens" "$output_tokens" "$cache_hit_rate")
-context_display=$(format_context_display "$context_percentage" "$exceeds_200k")
 message_count_display=$(format_message_count "$message_count")
 
-# 用户名 + IP 信息
-name="yikwing"
-if [ -n "$ip_info" ]; then
-    ip_gradient=$(generate_ip_gradient "$ip_info")
-    name_display="\033[1;38;2;${COLOR_SKY_BLUE}m${name}\033[0m \033[38;2;${COLOR_GRAY}m(\033[0m${ip_gradient}\033[38;2;${COLOR_GRAY}m)\033[0m"
-else
-    name_display="\033[1;38;2;${COLOR_SKY_BLUE}m${name}\033[0m"
-fi
-
 # ==============================================================================
-# 输出状态栏
-# 格式：用户名 (IP) • 工作目录 • 🌿分支 • ✨ 模型名 · $成本 · #轮数 · 上下文% · Token详情
+# 输出状态栏（两行）
+# 第1行：路径 • Git分支 • 模型 · 成本 · 轮数 · Token详情
+# 第2行：Context █████░░░░░ 45% │ Usage ██░░░░░░░░ 25% (1h 30m / 5h)  [奶白色]
 # ==============================================================================
 
-separator="\033[38;2;${COLOR_GRAY}m·\033[0m"
-bullet="\033[38;2;${COLOR_GRAY}m•\033[0m"
+sep="\033[38;2;${COLOR_GRAY}m · \033[0m"
+div="\033[38;2;${COLOR_DIV}m  │  \033[0m"
+milk="\033[38;2;${COLOR_MILK}m"
 
-# 构建输出（根据可用信息动态组合）
-output_parts=("$name_display" "$bullet")
+# --- 第1行：[path ⎇ branch]  │  [model (#32) · cost]  │  [Ctx █ · tokens] ---
 
-# 添加工作目录（如果有）
+# 区块1：位置
+block1=""
 if [ -n "$formatted_cwd" ]; then
-    output_parts+=("📁 \033[38;2;${COLOR_YELLOW}m${formatted_cwd}\033[0m" "$bullet")
+    block1="\033[38;2;${COLOR_PATH}m${formatted_cwd}\033[0m"
 fi
-
-# 添加 Git 分支（如果有）
 if [ -n "$git_branch" ]; then
-    output_parts+=("🌿 \033[38;2;${COLOR_GREEN}m${git_branch}\033[0m" "$bullet")
+    [ -n "$block1" ] && block1="${block1}\033[38;2;${COLOR_GRAY}m · \033[0m"
+    if [[ "$git_branch" == *"*" ]]; then
+        branch_name="${git_branch%\*}"
+        block1="${block1}\033[38;2;${COLOR_DIRTY}m⎇ ${branch_name} *\033[0m"
+    else
+        block1="${block1}\033[38;2;${COLOR_GREEN}m⎇ ${git_branch}\033[0m"
+    fi
 fi
 
-# 添加模型和成本
-output_parts+=("✨ $model_gradient" "$separator" "$cost_display")
+# 区块2：模型 + 轮次 + 费用
+cost_display="\033[38;2;${COLOR_COST}m\$${formatted_cost}\033[0m"
+if [ "$message_count" -gt 0 ]; then
+    count_part="\033[38;2;${COLOR_GRAY}m(\033[0m\033[38;2;${COLOR_MEDIUM_PURPLE}m#${message_count}\033[0m\033[38;2;${COLOR_GRAY}m)\033[0m"
+    block2="${model_display} ${count_part}${sep}${cost_display}"
+else
+    block2="${model_display}${sep}${cost_display}"
+fi
 
-# 添加对话轮数（如果有）
-[ -n "$message_count_display" ] && output_parts+=("$separator" "$message_count_display")
+# 区块3：上下文 + token 详情
+context_display=$(format_context_display "$context_percentage" "$exceeds_200k")
+block3="${context_display}"
+[ -n "$token_info" ] && block3="${block3}${sep}${token_info}"
 
-# 添加上下文显示
-output_parts+=("$separator" "$context_display")
+# 拼接三块
+line1="${block1}${div}${block2}${div}${block3}"
 
-# 添加 Token 详情（如果有）
-[ -n "$token_info" ] && output_parts+=("$separator" "$token_info")
+printf "%b\n" "$line1"
 
-# 输出最终结果
-printf "%b\n" "${output_parts[*]}"
+# --- 第2行：Usage ███░░░░░░░ 38% (1h 29m / 5h) 7d:████████░░ 82%（订阅用户专属）---
+if [ -n "$five_hour_pct" ]; then
+    five_int=$(printf "%.0f" "$five_hour_pct" 2>/dev/null)
+    if [ -n "$five_int" ]; then
+        usage_color="\033[38;2;${COLOR_GREEN}m"
+        [ "$five_int" -ge 70 ] && usage_color="\033[38;2;${COLOR_YELLOW}m"
+        [ "$five_int" -ge 90 ] && usage_color="\033[38;2;${COLOR_RED}m"
+
+        usage_bar=$(generate_progress_bar "$five_int")
+        line2="${milk}Usage  \033[0m${usage_color}${usage_bar}  ${five_int}%\033[0m"
+
+        # 重置剩余时间
+        if [ -n "$five_hour_reset" ] && [ "$five_hour_reset" -gt 0 ] 2>/dev/null; then
+            now=$(date +%s)
+            remaining_secs=$((five_hour_reset - now))
+            if [ "$remaining_secs" -gt 0 ]; then
+                remaining_mins=$((remaining_secs / 60))
+                if [ "$remaining_mins" -ge 60 ]; then
+                    h=$((remaining_mins / 60)); m=$((remaining_mins % 60))
+                    reset_label="${h}h ${m}m"
+                else
+                    reset_label="${remaining_mins}m"
+                fi
+                line2="${line2}  \033[38;2;${COLOR_GRAY}m(${reset_label} / 5h)\033[0m"
+            fi
+        fi
+
+        # 7天（>= 80% 才显示）
+        if [ -n "$seven_day_pct" ]; then
+            seven_int=$(printf "%.0f" "$seven_day_pct" 2>/dev/null)
+            if [ -n "$seven_int" ] && [ "$seven_int" -ge 80 ]; then
+                seven_color="\033[38;2;${COLOR_YELLOW}m"
+                [ "$seven_int" -ge 90 ] && seven_color="\033[38;2;${COLOR_RED}m"
+                seven_bar=$(generate_progress_bar "$seven_int")
+                line2="${line2}  ${milk}7d:  \033[0m${seven_color}${seven_bar}  ${seven_int}%\033[0m"
+            fi
+        fi
+
+        printf "%b\n" "$line2"
+    fi
+fi

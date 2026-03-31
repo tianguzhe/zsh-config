@@ -1,35 +1,39 @@
 {
-  "hasCompletedOnboarding": true,
+  "env": {
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
+    "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ENABLE_TASKS": "true",
+    "CLAUDE_CODE_NEW_INIT": "1",
+    "CLAUDE_CODE_PROXY_RESOLVES_HOSTS": "true",
+    "ENABLE_TOOL_SEARCH": "true"
+  },
   "includeCoAuthoredBy": false,
-  "language": "Chinese",
-  "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1",
-  "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
-  "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-  "CLAUDE_CODE_PROXY_RESOLVES_HOSTS": "true",
-  "CLAUDE_CODE_ENABLE_TASKS": "true",
-  "ENABLE_TOOL_SEARCH": "true",
-  "CLAUDE_CODE_NEW_INIT": "1",
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline.sh"
+  },
   "enabledPlugins": {
     "claude-md-management@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "planning-with-files@planning-with-files": true,
+    "pua@pua-skills": true,
     "skill-creator@claude-plugins-official": true
   },
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node ~/.claude/hooks/json-to-toon.mjs"
-          }
-        ]
+  "extraKnownMarketplaces": {
+    "planning-with-files": {
+      "source": {
+        "source": "github",
+        "repo": "OthmanAdi/planning-with-files"
       }
-    ]
+    },
+    "pua-skills": {
+      "source": {
+        "source": "github",
+        "repo": "tanweai/pua"
+      }
+    }
   },
-  "model": "claude-sonnet-4-5-20250929",
-  "statusLine": {
-    "command": "bash ~/.claude/statusline.sh",
-    "type": "command"
-  }
+  "language": "Chinese"
 }
