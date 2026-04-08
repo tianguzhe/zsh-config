@@ -51,7 +51,7 @@ echo ""
 
 # 安装基础工具
 info "安装基础工具..."
-TOOLS="pipx eza tldr fzf atuin zoxide neovim nodejs jq"
+TOOLS="pipx eza tlrc fzf atuin zoxide neovim nodejs jq"
 for tool in $TOOLS; do
     if brew list "$tool" &>/dev/null; then
         warn "$tool 已安装"
@@ -85,7 +85,7 @@ echo ""
 info "检查 uv..."
 if ! command -v uv &> /dev/null; then
     info "安装 uv..."
-    curl -LsSf https://astral.ac.cn/uv/install.sh | sh
+    curl -LsSf https://astral.sh/uv/install.sh | sh
     success "uv 安装完成"
 else
     warn "uv 已安装"
