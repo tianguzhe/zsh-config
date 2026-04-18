@@ -4,7 +4,7 @@
 
 ### Getting Started
 **File:** `getting_started.md`
-**Pages:** 5
+**Pages:** 4
 
 ### Library
 **File:** `library.md`
@@ -12,7 +12,7 @@
 
 ### Other
 **File:** `other.md`
-**Pages:** 43
+**Pages:** 52
 
 ### Products
 **File:** `products.md`

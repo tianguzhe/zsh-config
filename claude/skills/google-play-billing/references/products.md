@@ -104,8 +104,8 @@ UserChoiceBillingListener 应执行以下操作：
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (php):
+```php
 val purchasesUpdatedListener =
    PurchasesUpdatedListener { billingResult, purchases ->
        // Handle new Google Play purchase.
@@ -123,8 +123,8 @@ val billingClient = BillingClient.newBuilder(context)
    .build()
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (php):
+```php
 val purchasesUpdatedListener =
    PurchasesUpdatedListener { billingResult, purchases ->
        // Handle new Google Play purchase.
@@ -142,8 +142,8 @@ val billingClient = BillingClient.newBuilder(context)
    .build()
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (java):
+```java
 private PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
     @Override
     public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
@@ -166,8 +166,8 @@ private BillingClient billingClient = BillingClient.newBuilder(context)
     .build();
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 private PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
     @Override
     public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
@@ -294,12 +294,12 @@ Play 结算库会自动尝试重新连接。如果您在进行 API 调用时仍�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (javascript):
-```javascript
+Example 1 (php):
+```php
 class BillingClientWrapper(context: Context) : PurchasesUpdatedListener {
   // Initialize the BillingClient.
   private val billingClient = BillingClient.newBuilder(context)
@@ -358,8 +358,8 @@ class BillingClientWrapper(context: Context) : PurchasesUpdatedListener {
 }
 ```
 
-Example 2 (javascript):
-```javascript
+Example 2 (php):
+```php
 class BillingClientWrapper(context: Context) : PurchasesUpdatedListener {
   // Initialize the BillingClient.
   private val billingClient = BillingClient.newBuilder(context)
@@ -418,8 +418,8 @@ class BillingClientWrapper(context: Context) : PurchasesUpdatedListener {
 }
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (typescript):
+```typescript
 private fun acknowledge(purchaseToken: String): BillingResult {
   val params = AcknowledgePurchaseParams.newBuilder()
     .setPurchaseToken(purchaseToken)
@@ -534,8 +534,8 @@ private suspend fun <T> exponentialRetry(
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (typescript):
+```typescript
 private fun acknowledge(purchaseToken: String): BillingResult {
   val params = AcknowledgePurchaseParams.newBuilder()
     .setPurchaseToken(purchaseToken)
@@ -710,7 +710,7 @@ private suspend fun <T> exponentialRetry(
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
@@ -733,8 +733,8 @@ BillingClient billingClient =
         .build();
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (python):
+```python
 if (skuDetails.isRewarded()) {
     val params = RewardLoadParams.Builder()
             .setSkuDetails(skuDetails)
@@ -751,8 +751,8 @@ if (skuDetails.isRewarded()) {
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 if (skuDetails.isRewarded()) {
     RewardLoadParams.Builder params = RewardLoadParams.newBuilder();
     params.setSkuDetails(skuDetails);
@@ -873,12 +873,12 @@ Play 结算库会自动尝试重新连接。如果您在进行 API 调用时仍�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (javascript):
-```javascript
+Example 1 (php):
+```php
 class BillingClientWrapper(context: Context) : PurchasesUpdatedListener {
   // Initialize the BillingClient.
   private val billingClient = BillingClient.newBuilder(context)
@@ -937,8 +937,8 @@ class BillingClientWrapper(context: Context) : PurchasesUpdatedListener {
 }
 ```
 
-Example 2 (javascript):
-```javascript
+Example 2 (php):
+```php
 class BillingClientWrapper(context: Context) : PurchasesUpdatedListener {
   // Initialize the BillingClient.
   private val billingClient = BillingClient.newBuilder(context)
@@ -997,8 +997,8 @@ class BillingClientWrapper(context: Context) : PurchasesUpdatedListener {
 }
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (typescript):
+```typescript
 private fun acknowledge(purchaseToken: String): BillingResult {
   val params = AcknowledgePurchaseParams.newBuilder()
     .setPurchaseToken(purchaseToken)
@@ -1113,8 +1113,8 @@ private suspend fun <T> exponentialRetry(
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (typescript):
+```typescript
 private fun acknowledge(purchaseToken: String): BillingResult {
   val params = AcknowledgePurchaseParams.newBuilder()
     .setPurchaseToken(purchaseToken)
@@ -1331,8 +1331,8 @@ UserChoiceBillingListener 应执行以下操作：
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (php):
+```php
 val purchasesUpdatedListener =
    PurchasesUpdatedListener { billingResult, purchases ->
        // Handle new Google Play purchase.
@@ -1350,8 +1350,8 @@ val billingClient = BillingClient.newBuilder(context)
    .build()
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (php):
+```php
 val purchasesUpdatedListener =
    PurchasesUpdatedListener { billingResult, purchases ->
        // Handle new Google Play purchase.
@@ -1369,8 +1369,8 @@ val billingClient = BillingClient.newBuilder(context)
    .build()
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (java):
+```java
 private PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
     @Override
     public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
@@ -1393,8 +1393,8 @@ private BillingClient billingClient = BillingClient.newBuilder(context)
     .build();
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 private PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
     @Override
     public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
@@ -1435,7 +1435,7 @@ private BillingClient billingClient = BillingClient.newBuilder(context)
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -1563,12 +1563,12 @@ Google Play 的电子邮件包含一份列表，其中列出了所有价格上�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-06。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (sql):
+```sql
 BillingClient billingClient = …;
 
     // ProductDetails obtained from queryProductDetailsAsync().
@@ -1585,8 +1585,8 @@ BillingClient billingClient = …;
     billingClient.launchBillingFlow(billingFlowParams);
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (sql):
+```sql
 BillingClient billingClient = …;
 
 int replacementMode =…;
@@ -1623,17 +1623,25 @@ billingClient.launchBillingFlow(billingFlowParams);
 
 **Contents:**
 - Google Play 结算库版本说明 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- Google Play 结算库 8.3.0 版 (2025-12-23)
+  - 变更摘要
+- Google Play 结算库 8.2.1 版 (2025-12-15)
+  - 问题修复
+- Google Play 结算库 8.2.0 版 (2025-12-09)
+  - 变更摘要
 - Google Play 结算库 8.1.0 版 (2025-11-06)
   - 变更摘要
 - Google Play 结算库 8.0.0 版 (2025-06-30)
-  - 变更摘要
-- Google Play 结算库 7.1.1 版 (2024-10-03)
-  - 问题修复
-- Google Play 结算库 7.1.0 版 (2024-09-19)
-  - 变更摘要
-- Google Play 结算库 7.0.0 版 (2024-05-14)
 
 本文档包含 Google Play 结算库的版本说明。
+
+8.3.0 版 Google Play 结算库和 Kotlin 扩展现已推出。
+
+8.2.1 版 Google Play 结算库和 Kotlin 扩展现已推出。
+
+8.2.0 版 Google Play 结算库和 Kotlin 扩展现已推出。
+
+适用于外部内容链接和外部优惠的新 API：
 
 8.1.0 版 Google Play 结算库和 Kotlin 扩展现已推出。
 
@@ -1655,7 +1663,7 @@ Google Play 结算库现在支持 Kotlin 版本 2.2.0。
 
 8.0.0 版 Google Play 结算库和 Kotlin 扩展现已推出。
 
-现在，您可以为一次性商品设置多个购买选项和优惠。这样，您就可以灵活地销售商品，并降低管理商品的复杂性。
+您现在可以为一次性商品提供多个购买选项和优惠。这样，您就可以灵活地销售商品，并降低管理商品的复杂性。
 
 改进了 queryProductDetailsAsync() 方法。
 
@@ -1665,7 +1673,7 @@ Google Play 结算库现在支持 Kotlin 版本 2.2.0。
 
 launchBillingFlow() 方法的子响应代码。
 
-从 launchBillingFlow() 返回的 BillingResult 现在将包含一个子响应代码字段。此字段仅在某些情况下填充，以提供更具体的失败原因。在 PBL 8.0.0 中，如果用户资金不足以支付其尝试购买的商品的价款，系统会返回 PAYMENT_DECLINED_DUE_TO_INSUFFICIENT_FUNDS 子代码。
+从 launchBillingFlow() 返回的 BillingResult 现在将包含一个子响应代码字段。此字段仅在某些情况下填充，以提供更具体的失败原因。子响应字段可具有以下值：
 
 移除了 queryPurchaseHistory() 方法。
 
@@ -1763,7 +1771,7 @@ Play 结算库 6 版包含额外的日志记录，可让您深入了解 API 的�
 
 更新了 Javadoc 和实现，用于指明可在哪个线程上调用方法以及发布哪些线程结果。
 
-添加了 BillingFlowParams.Builder.setSubscriptionUpdateParams() 作为发起订阅更新的新方式。用于替换已移除的 BillingFlowParams#getReplaceSkusProrationMode、BillingFlowParams#getOldSkuPurchaseToken、BillingFlowParams#getOldSku、BillingFlowParams.Builder#setReplaceSkusProrationMode 和 BillingFlowParams.Builder#setOldSku。
+添加了 BillingFlowParams.Builder.setSubscriptionUpdateParams() 作为发起订阅更新的新方式，用于替换已移除的 BillingFlowParams#getReplaceSkusProrationMode、BillingFlowParams#getOldSkuPurchaseToken、BillingFlowParams#getOldSku、BillingFlowParams.Builder#setReplaceSkusProrationMode 和 BillingFlowParams.Builder#setOldSku。
 
 添加了 Purchase.getQuantity() 和 PurchaseHistoryRecord.getQuantity()。
 
@@ -1781,7 +1789,7 @@ Play 结算库 6 版包含额外的日志记录，可让您深入了解 API 的�
 
 Google Play 结算库 2.2.1 版现已推出。
 
-Google Play 结算服务 2.2.0 版提供的功能可帮助开发者确保将购买交易归因于正确的用户。这些更改消除了基于开发者载荷构建自定义解决方案的需求。在此次更新中，开发者载荷功能现已弃用并将在未来的版本中移除。如需了解更多信息（包括推荐的替代方法），请参阅开发者载荷。
+Google Play 结算服务 2.2.0 版提供的功能可帮助开发者确保将购买交易归因于正确的用户。这些更改消除了基于开发者载荷构建自定义解决方案的需求。在此次更新中，开发者载荷功能已弃用，并将在未来的版本中移除。如需了解更多信息（包括推荐的替代方法），请参阅开发者载荷。
 
 除了当前的 Java 和 Kotlin 版 Google Play 结算库 2 之外，我们还发布了一个适用于 Unity 的库版本。使用 Unity 内购 API 的游戏开发者可以立即升级，以便充分利用 Google Play 结算库 2 的所有功能，并方便以后升级到 Google Play 结算库的更高版本。
 
@@ -1891,7 +1899,7 @@ queryPurchaseHistoryAsync() 和 querySkuDetailsAsync() 方法的参数已封装�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-06。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
@@ -1910,8 +1918,8 @@ billingClient.launchPriceChangeConfirmationFlow(activity,
         })
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (java):
+```java
 PriceChangeFlowParams priceChangeFlowParams =
         PriceChangeFlowParams.newBuilder()
     .setSkuDetails(skuDetailsOfThePriceChangedSubscription)
@@ -1927,8 +1935,8 @@ billingClient.launchPriceChangeConfirmationFlow(activity,
         });
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (typescript):
+```typescript
 private lateinit var mBillingClient: BillingClient
 private val mSkuDetailsMap = HashMap<String, SkuDetails>()
 
@@ -1951,8 +1959,8 @@ private fun startPurchase(skuId: String) {
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 private BillingClient mBillingClient;
 private Map<String, SkuDetails> mSkuDetailsMap = new HashMap<>();
 
@@ -1988,17 +1996,25 @@ private void startPurchase(String skuId) {
 
 **Contents:**
 - Google Play 结算库版本说明 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- Google Play 结算库 8.3.0 版 (2025-12-23)
+  - 变更摘要
+- Google Play 结算库 8.2.1 版 (2025-12-15)
+  - 问题修复
+- Google Play 结算库 8.2.0 版 (2025-12-09)
+  - 变更摘要
 - Google Play 结算库 8.1.0 版 (2025-11-06)
   - 变更摘要
 - Google Play 结算库 8.0.0 版 (2025-06-30)
-  - 变更摘要
-- Google Play 结算库 7.1.1 版 (2024-10-03)
-  - 问题修复
-- Google Play 结算库 7.1.0 版 (2024-09-19)
-  - 变更摘要
-- Google Play 结算库 7.0.0 版 (2024-05-14)
 
 本文档包含 Google Play 结算库的版本说明。
+
+8.3.0 版 Google Play 结算库和 Kotlin 扩展现已推出。
+
+8.2.1 版 Google Play 结算库和 Kotlin 扩展现已推出。
+
+8.2.0 版 Google Play 结算库和 Kotlin 扩展现已推出。
+
+适用于外部内容链接和外部优惠的新 API：
 
 8.1.0 版 Google Play 结算库和 Kotlin 扩展现已推出。
 
@@ -2020,7 +2036,7 @@ Google Play 结算库现在支持 Kotlin 版本 2.2.0。
 
 8.0.0 版 Google Play 结算库和 Kotlin 扩展现已推出。
 
-现在，您可以为一次性商品设置多个购买选项和优惠。这样，您就可以灵活地销售商品，并降低管理商品的复杂性。
+您现在可以为一次性商品提供多个购买选项和优惠。这样，您就可以灵活地销售商品，并降低管理商品的复杂性。
 
 改进了 queryProductDetailsAsync() 方法。
 
@@ -2030,7 +2046,7 @@ Google Play 结算库现在支持 Kotlin 版本 2.2.0。
 
 launchBillingFlow() 方法的子响应代码。
 
-从 launchBillingFlow() 返回的 BillingResult 现在将包含一个子响应代码字段。此字段仅在某些情况下填充，以提供更具体的失败原因。在 PBL 8.0.0 中，如果用户资金不足以支付其尝试购买的商品的价款，系统会返回 PAYMENT_DECLINED_DUE_TO_INSUFFICIENT_FUNDS 子代码。
+从 launchBillingFlow() 返回的 BillingResult 现在将包含一个子响应代码字段。此字段仅在某些情况下填充，以提供更具体的失败原因。子响应字段可具有以下值：
 
 移除了 queryPurchaseHistory() 方法。
 
@@ -2128,7 +2144,7 @@ Play 结算库 6 版包含额外的日志记录，可让您深入了解 API 的�
 
 更新了 Javadoc 和实现，用于指明可在哪个线程上调用方法以及发布哪些线程结果。
 
-添加了 BillingFlowParams.Builder.setSubscriptionUpdateParams() 作为发起订阅更新的新方式。用于替换已移除的 BillingFlowParams#getReplaceSkusProrationMode、BillingFlowParams#getOldSkuPurchaseToken、BillingFlowParams#getOldSku、BillingFlowParams.Builder#setReplaceSkusProrationMode 和 BillingFlowParams.Builder#setOldSku。
+添加了 BillingFlowParams.Builder.setSubscriptionUpdateParams() 作为发起订阅更新的新方式，用于替换已移除的 BillingFlowParams#getReplaceSkusProrationMode、BillingFlowParams#getOldSkuPurchaseToken、BillingFlowParams#getOldSku、BillingFlowParams.Builder#setReplaceSkusProrationMode 和 BillingFlowParams.Builder#setOldSku。
 
 添加了 Purchase.getQuantity() 和 PurchaseHistoryRecord.getQuantity()。
 
@@ -2146,7 +2162,7 @@ Play 结算库 6 版包含额外的日志记录，可让您深入了解 API 的�
 
 Google Play 结算库 2.2.1 版现已推出。
 
-Google Play 结算服务 2.2.0 版提供的功能可帮助开发者确保将购买交易归因于正确的用户。这些更改消除了基于开发者载荷构建自定义解决方案的需求。在此次更新中，开发者载荷功能现已弃用并将在未来的版本中移除。如需了解更多信息（包括推荐的替代方法），请参阅开发者载荷。
+Google Play 结算服务 2.2.0 版提供的功能可帮助开发者确保将购买交易归因于正确的用户。这些更改消除了基于开发者载荷构建自定义解决方案的需求。在此次更新中，开发者载荷功能已弃用，并将在未来的版本中移除。如需了解更多信息（包括推荐的替代方法），请参阅开发者载荷。
 
 除了当前的 Java 和 Kotlin 版 Google Play 结算库 2 之外，我们还发布了一个适用于 Unity 的库版本。使用 Unity 内购 API 的游戏开发者可以立即升级，以便充分利用 Google Play 结算库 2 的所有功能，并方便以后升级到 Google Play 结算库的更高版本。
 
@@ -2256,7 +2272,7 @@ queryPurchaseHistoryAsync() 和 querySkuDetailsAsync() 方法的参数已封装�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-06。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
@@ -2275,8 +2291,8 @@ billingClient.launchPriceChangeConfirmationFlow(activity,
         })
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (java):
+```java
 PriceChangeFlowParams priceChangeFlowParams =
         PriceChangeFlowParams.newBuilder()
     .setSkuDetails(skuDetailsOfThePriceChangedSubscription)
@@ -2292,8 +2308,8 @@ billingClient.launchPriceChangeConfirmationFlow(activity,
         });
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (typescript):
+```typescript
 private lateinit var mBillingClient: BillingClient
 private val mSkuDetailsMap = HashMap<String, SkuDetails>()
 
@@ -2316,8 +2332,8 @@ private fun startPurchase(skuId: String) {
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 private BillingClient mBillingClient;
 private Map<String, SkuDetails> mSkuDetailsMap = new HashMap<>();
 
@@ -2369,7 +2385,7 @@ queryPurchaseHistory() 已在 Play 结算库 7 中废弃。本页介绍了针对
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -2491,12 +2507,12 @@ Google Play 会通过从您设置的最大允许数量中减去用户拥有的�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-29。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (sql):
+```sql
 // An activity reference from which the billing flow will launch.
 Activity activity = ...;
 ImmutableList<ProductDetailsParams> productDetailsParamsList =
@@ -2517,8 +2533,8 @@ BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
 BillingResult billingResult = billingClient.launchBillingFlow(activity, billingFlowParams);
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (csharp):
+```csharp
 billingClient.queryProductDetailsAsync(
 queryProductDetailsParams,
 new ProductDetailsResponseListener() {
@@ -2554,8 +2570,8 @@ new ProductDetailsResponseListener() {
 });
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (typescript):
+```typescript
 // An activity reference from which the billing flow will be launched.
 val activity : Activity = ...;
 
@@ -2580,8 +2596,8 @@ val billingFlowParams = BillingFlowParams.newBuilder()
 val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (sql):
+```sql
 // An activity reference from which the billing flow will be launched.
 Activity activity = ...;
 
@@ -2727,12 +2743,12 @@ Google Play 会通过从您设置的最大允许数量中减去用户拥有的�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-29。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (sql):
+```sql
 // An activity reference from which the billing flow will launch.
 Activity activity = ...;
 ImmutableList<ProductDetailsParams> productDetailsParamsList =
@@ -2753,8 +2769,8 @@ BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
 BillingResult billingResult = billingClient.launchBillingFlow(activity, billingFlowParams);
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (csharp):
+```csharp
 billingClient.queryProductDetailsAsync(
 queryProductDetailsParams,
 new ProductDetailsResponseListener() {
@@ -2790,8 +2806,8 @@ new ProductDetailsResponseListener() {
 });
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (typescript):
+```typescript
 // An activity reference from which the billing flow will be launched.
 val activity : Activity = ...;
 
@@ -2816,8 +2832,8 @@ val billingFlowParams = BillingFlowParams.newBuilder()
 val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (sql):
+```sql
 // An activity reference from which the billing flow will be launched.
 Activity activity = ...;
 
@@ -2893,12 +2909,12 @@ BillingResult billingResult = billingClient.launchBillingFlow(activity, billingF
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (java):
+```java
 billingClient.queryProductDetailsAsync(
 queryProductDetailsParams,
 new ProductDetailsResponseListener() {
@@ -2918,8 +2934,8 @@ new ProductDetailsResponseListener() {
 });
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (sql):
+```sql
 BillingClient billingClient =
    BillingClient.newBuilder()
     // set other options
@@ -2961,7 +2977,7 @@ queryPurchaseHistory() 已在 Play 结算库 7 中废弃。本页介绍了针对
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -3089,12 +3105,12 @@ Google Play 的电子邮件包含一份列表，其中列出了所有价格上�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-06。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (sql):
+```sql
 BillingClient billingClient = …;
 
     // ProductDetails obtained from queryProductDetailsAsync().
@@ -3111,8 +3127,8 @@ BillingClient billingClient = …;
     billingClient.launchBillingFlow(billingFlowParams);
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (sql):
+```sql
 BillingClient billingClient = …;
 
 int replacementMode =…;

@@ -316,27 +316,27 @@ queryPurchasesAsync() 会立即返回带有新购买令牌的购买交易以及�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-19。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions?sku=your-sub-product-id&package=your-app-package
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions?sku=your-sub-product-id&package=your-app-package
 ```
 
@@ -654,27 +654,27 @@ queryPurchasesAsync() 会立即返回带有新购买令牌的购买交易以及�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-19。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions?sku=your-sub-product-id&package=your-app-package
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions?sku=your-sub-product-id&package=your-app-package
 ```
 
@@ -724,9 +724,9 @@ Play 会在宽限期内通知用户付款遭拒，并提示他们在 Play 商店
 
 图 2 展示了订阅进入宽限期、然后在用户解决付款方式问题后恢复订阅的时间线。宽限期结束后，用户应失去订阅权益并进入账号保留状态。
 
-您可以将宽限期设置为 0 天，但 Play 至少会等待 1 天，以确保有足够的时间重试付款。此静默宽限期可为付款处理提供安全保障。在此 24 小时内，相应订阅会保持 ACTIVE 状态。
+您可以将宽限期设置为 0 天，但 Play 至少会等待 1 天，以确保有足够的时间重试付款。此无提示宽限期可为付款处理提供安全保障。在此 24 小时内，订阅会保持 ACTIVE 状态。
 
-若要及时了解订阅状态变化，最好的方式是监听实时开发者通知 (RTDN) 并做出相应反应。在 RTDN 时间（而非到期时间）调用 purchases.subscriptionsv2.get() 方法，以获取更准确的订阅状态。
+如需及时了解订阅状态变化，最好的方式是监听实时开发者通知 (RTDN) 并做出相应反应。在 RTDN 时间（而非到期时间）调用 purchases.subscriptionsv2.get() 方法，以获取更准确的订阅状态。
 
 根据 24 小时的静默宽限期过后订阅的状态，您应该会收到以下通知之一：
 
@@ -788,13 +788,13 @@ Play 会在宽限期内通知用户付款遭拒，并提示他们在 Play 商店
 
 对于预付费方案，您可以使用推迟结算 API 来推迟到期时间。
 
-您可以通过让用户能够暂停订阅来防止主动取消订阅的用户流失。在您启用暂停功能后，用户可以选择暂停订阅一段时间（介于一周到三个月之间），具体取决于订阅的续订周期。
+您可以通过让用户能够暂停订阅来防止主动取消订阅的用户流失。在您启用暂停功能后，用户可以选择暂停订阅一段时间（介于一周到三个月之间），具体取决于订阅的续订周期。这会暂时中止订阅。
 
 只有在当前结算周期结束后，订阅暂停才会生效。订阅暂停后，用户将无法访问订阅，也无需支付续订费用。在暂停期结束时，订阅将恢复，并且 Google 会尝试续订订阅。如果恢复成功，订阅将再次变为活动状态。如果由于付款问题导致恢复失败，用户将进入账号保留状态，如图 5 和图 6 所示：
 
 用户也可以选择在暂停期内随时手动恢复订阅，如图 6 所示。当用户手动恢复订阅时，结算日期将更改为手动恢复日期。
 
-用户的订阅暂停后，除非将相应订阅的 isSuspended 参数设置为 true，否则 Play 结算库不会通过 queryPurchasesAsync() 方法返回订阅。如果恢复了订阅，queryPurchasesAsync() 方法会再次返回订阅。
+用户的订阅暂停后，除非在 QueryPurchasesParams 中将 includeSuspendedSubscriptions 参数设置为 true，否则 Play 结算库不会通过 queryPurchasesAsync() 方法返回订阅。如果恢复了订阅，queryPurchasesAsync() 方法会再次返回订阅。
 
 监听 RTDN，了解用户何时暂停订阅。利用这些通知，还可以在您的应用中通知用户他们已暂停订阅，因而无法访问订阅。您还应使用 Google Play 深层链接来为用户提供一种随时手动恢复订阅的方法。
 
@@ -860,7 +860,7 @@ Play 会在宽限期内通知用户付款遭拒，并提示他们在 Play 商店
 
 当同意期限开始或用户已提供同意声明时，您将收到类型为 SUBSCRIPTION_PRICE_STEP_UP_CONSENT_UPDATED 的 SubscriptionNotification 消息。
 
-price step-up是指因从一个优惠阶段过渡到另一个优惠阶段而导致的订阅价格上涨。例如，订阅从免费试用期过渡到正常价格。
+price step-up是指由于从一个优惠阶段过渡到另一个优惠阶段而导致的订阅价格上涨。例如，订阅从免费试用期过渡到正常价格。
 
 不过，price change是指您（开发者）针对订阅的基础方案价格发起的价格更新。例如，用户接受才生效的价格上调或用户拒绝才无效的价格上调。
 
@@ -882,12 +882,12 @@ price step-up是指因从一个优惠阶段过渡到另一个优惠阶段而导�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-19。
+最后更新时间 (UTC)：2025-12-01。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (json):
+```json
 {
   "kind": "androidpublisher#subscriptionPurchaseV2",
   "startTime": "2022-04-22T18:39:58.270Z",
@@ -907,8 +907,8 @@ Example 1 (unknown):
 }
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (json):
+```json
 {
   "kind": "androidpublisher#subscriptionPurchaseV2",
   "startTime": "2022-04-22T18:39:58.270Z",
@@ -928,8 +928,8 @@ Example 2 (unknown):
 }
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (json):
+```json
 {
   "kind": "androidpublisher#subscriptionPurchaseV2",
   "startTime": "2022-04-22T18:39:58.270Z",
@@ -949,8 +949,8 @@ Example 3 (unknown):
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (json):
+```json
 {
   "kind": "androidpublisher#subscriptionPurchaseV2",
   "startTime": "2022-04-22T18:39:58.270Z",
@@ -1284,27 +1284,27 @@ queryPurchasesAsync() 会立即返回带有新购买令牌的购买交易以及�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-19。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions?sku=your-sub-product-id&package=your-app-package
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions?sku=your-sub-product-id&package=your-app-package
 ```
 
@@ -1354,9 +1354,9 @@ Play 会在宽限期内通知用户付款遭拒，并提示他们在 Play 商店
 
 图 2 展示了订阅进入宽限期、然后在用户解决付款方式问题后恢复订阅的时间线。宽限期结束后，用户应失去订阅权益并进入账号保留状态。
 
-您可以将宽限期设置为 0 天，但 Play 至少会等待 1 天，以确保有足够的时间重试付款。此静默宽限期可为付款处理提供安全保障。在此 24 小时内，相应订阅会保持 ACTIVE 状态。
+您可以将宽限期设置为 0 天，但 Play 至少会等待 1 天，以确保有足够的时间重试付款。此无提示宽限期可为付款处理提供安全保障。在此 24 小时内，订阅会保持 ACTIVE 状态。
 
-若要及时了解订阅状态变化，最好的方式是监听实时开发者通知 (RTDN) 并做出相应反应。在 RTDN 时间（而非到期时间）调用 purchases.subscriptionsv2.get() 方法，以获取更准确的订阅状态。
+如需及时了解订阅状态变化，最好的方式是监听实时开发者通知 (RTDN) 并做出相应反应。在 RTDN 时间（而非到期时间）调用 purchases.subscriptionsv2.get() 方法，以获取更准确的订阅状态。
 
 根据 24 小时的静默宽限期过后订阅的状态，您应该会收到以下通知之一：
 
@@ -1418,13 +1418,13 @@ Play 会在宽限期内通知用户付款遭拒，并提示他们在 Play 商店
 
 对于预付费方案，您可以使用推迟结算 API 来推迟到期时间。
 
-您可以通过让用户能够暂停订阅来防止主动取消订阅的用户流失。在您启用暂停功能后，用户可以选择暂停订阅一段时间（介于一周到三个月之间），具体取决于订阅的续订周期。
+您可以通过让用户能够暂停订阅来防止主动取消订阅的用户流失。在您启用暂停功能后，用户可以选择暂停订阅一段时间（介于一周到三个月之间），具体取决于订阅的续订周期。这会暂时中止订阅。
 
 只有在当前结算周期结束后，订阅暂停才会生效。订阅暂停后，用户将无法访问订阅，也无需支付续订费用。在暂停期结束时，订阅将恢复，并且 Google 会尝试续订订阅。如果恢复成功，订阅将再次变为活动状态。如果由于付款问题导致恢复失败，用户将进入账号保留状态，如图 5 和图 6 所示：
 
 用户也可以选择在暂停期内随时手动恢复订阅，如图 6 所示。当用户手动恢复订阅时，结算日期将更改为手动恢复日期。
 
-用户的订阅暂停后，除非将相应订阅的 isSuspended 参数设置为 true，否则 Play 结算库不会通过 queryPurchasesAsync() 方法返回订阅。如果恢复了订阅，queryPurchasesAsync() 方法会再次返回订阅。
+用户的订阅暂停后，除非在 QueryPurchasesParams 中将 includeSuspendedSubscriptions 参数设置为 true，否则 Play 结算库不会通过 queryPurchasesAsync() 方法返回订阅。如果恢复了订阅，queryPurchasesAsync() 方法会再次返回订阅。
 
 监听 RTDN，了解用户何时暂停订阅。利用这些通知，还可以在您的应用中通知用户他们已暂停订阅，因而无法访问订阅。您还应使用 Google Play 深层链接来为用户提供一种随时手动恢复订阅的方法。
 
@@ -1490,7 +1490,7 @@ Play 会在宽限期内通知用户付款遭拒，并提示他们在 Play 商店
 
 当同意期限开始或用户已提供同意声明时，您将收到类型为 SUBSCRIPTION_PRICE_STEP_UP_CONSENT_UPDATED 的 SubscriptionNotification 消息。
 
-price step-up是指因从一个优惠阶段过渡到另一个优惠阶段而导致的订阅价格上涨。例如，订阅从免费试用期过渡到正常价格。
+price step-up是指由于从一个优惠阶段过渡到另一个优惠阶段而导致的订阅价格上涨。例如，订阅从免费试用期过渡到正常价格。
 
 不过，price change是指您（开发者）针对订阅的基础方案价格发起的价格更新。例如，用户接受才生效的价格上调或用户拒绝才无效的价格上调。
 
@@ -1512,12 +1512,12 @@ price step-up是指因从一个优惠阶段过渡到另一个优惠阶段而导�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-19。
+最后更新时间 (UTC)：2025-12-01。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (json):
+```json
 {
   "kind": "androidpublisher#subscriptionPurchaseV2",
   "startTime": "2022-04-22T18:39:58.270Z",
@@ -1537,8 +1537,8 @@ Example 1 (unknown):
 }
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (json):
+```json
 {
   "kind": "androidpublisher#subscriptionPurchaseV2",
   "startTime": "2022-04-22T18:39:58.270Z",
@@ -1558,8 +1558,8 @@ Example 2 (unknown):
 }
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (json):
+```json
 {
   "kind": "androidpublisher#subscriptionPurchaseV2",
   "startTime": "2022-04-22T18:39:58.270Z",
@@ -1579,8 +1579,8 @@ Example 3 (unknown):
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (json):
+```json
 {
   "kind": "androidpublisher#subscriptionPurchaseV2",
   "startTime": "2022-04-22T18:39:58.270Z",

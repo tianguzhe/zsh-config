@@ -1,123 +1,155 @@
 ---
 name: google-play-billing
-description: Google Play Billing Library for Android in-app purchases and subscriptions. Use for implementing IAP, managing products, handling purchases, validating transactions, and subscription management.
+description: "Google Play Billing Library (PBL 8.x) for Android in-app purchases and subscriptions. Use when: (1) implementing IAP in Android apps, (2) setting up subscriptions, (3) handling purchase flows, (4) validating transactions, (5) managing subscription lifecycle, (6) migrating between PBL versions, (7) testing billing implementations."
 ---
 
-# Google-Play-Billing Skill
+# Google Play Billing
 
-Comprehensive assistance with google-play-billing development, generated from official documentation.
+Android 应用内购买和订阅的 Google Play 结算库集成指南。
 
-## When to Use This Skill
+## 添加依赖 (PBL 8.x)
 
-This skill should be triggered when:
-- Working with google-play-billing
-- Asking about google-play-billing features or APIs
-- Implementing google-play-billing solutions
-- Debugging google-play-billing code
-- Learning google-play-billing best practices
-
-## Quick Reference
-
-### Common Patterns
-
-*Quick reference patterns will be added as you use the skill.*
-
-### Example Code Patterns
-
-**Example 1** (python):
-```python
+```kotlin
+// build.gradle.kts
 dependencies {
-    def billing_version = "8.0.0"
-
-    implementation "com.android.billingclient:billing:$billing_version"
+    val billing_version = "8.3.0"
+    implementation("com.android.billingclient:billing:$billing_version")
+    // Kotlin 扩展（可选）
+    implementation("com.android.billingclient:billing-ktx:$billing_version")
 }
 ```
 
-**Example 2** (python):
-```python
-dependencies {
-    def billing_version = "8.0.0"
+## 初始化 BillingClient
 
-    implementation "com.android.billingclient:billing:$billing_version"
+```kotlin
+private lateinit var billingClient: BillingClient
+
+billingClient = BillingClient.newBuilder(context)
+    .setListener(purchasesUpdatedListener)
+    .enablePendingPurchases(
+        PendingPurchasesParams.newBuilder()
+            .enableOneTimeProducts()
+            .enablePrepaidPlans()
+            .build()
+    )
+    .build()
+
+// 连接 Google Play
+billingClient.startConnection(object : BillingClientStateListener {
+    override fun onBillingSetupFinished(billingResult: BillingResult) {
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+            // Ready to query purchases and products
+        }
+    }
+    override fun onBillingServiceDisconnected() {
+        // Retry connection
+    }
+})
+```
+
+## 核心流程
+
+### 1. 查询商品
+
+```kotlin
+val productList = listOf(
+    QueryProductDetailsParams.Product.newBuilder()
+        .setProductId("premium_upgrade")
+        .setProductType(BillingClient.ProductType.INAPP) // or SUBS
+        .build()
+)
+
+billingClient.queryProductDetailsAsync(
+    QueryProductDetailsParams.newBuilder().setProductList(productList).build()
+) { billingResult, productDetailsList ->
+    // Process result
 }
 ```
 
-**Example 3** (python):
-```python
-dependencies {
-    def billing_version = "8.0.0"
+### 2. 发起购买
 
-    implementation "com.android.billingclient:billing:$billing_version"
+```kotlin
+val billingFlowParams = BillingFlowParams.newBuilder()
+    .setProductDetailsParamsList(listOf(
+        BillingFlowParams.ProductDetailsParams.newBuilder()
+            .setProductDetails(productDetails)
+            .build()
+    ))
+    .build()
+
+billingClient.launchBillingFlow(activity, billingFlowParams)
+```
+
+### 3. 处理购买结果
+
+```kotlin
+private val purchasesUpdatedListener = PurchasesUpdatedListener { billingResult, purchases ->
+    when (billingResult.responseCode) {
+        BillingClient.BillingResponseCode.OK -> purchases?.forEach { handlePurchase(it) }
+        BillingClient.BillingResponseCode.USER_CANCELED -> { /* User canceled */ }
+        else -> { /* Handle error */ }
+    }
 }
 ```
 
-**Example 4** (python):
-```python
-dependencies {
-    def billingVersion = 7.0.0
+### 4. 确认购买（必须！）
 
-    implementation "com.android.billingclient:billing:$billingVersion"
+```kotlin
+// 3 天内必须确认，否则自动退款
+if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED && !purchase.isAcknowledged) {
+    billingClient.acknowledgePurchase(
+        AcknowledgePurchaseParams.newBuilder()
+            .setPurchaseToken(purchase.purchaseToken)
+            .build()
+    ) { /* Handle result */ }
 }
 ```
 
-**Example 5** (python):
-```python
-dependencies {
-    def billingVersion = 7.0.0
+### 5. 消耗商品（消耗型）
 
-    implementation "com.android.billingclient:billing:$billingVersion"
-}
+```kotlin
+billingClient.consumeAsync(
+    ConsumeParams.newBuilder()
+        .setPurchaseToken(purchase.purchaseToken)
+        .build()
+) { billingResult, purchaseToken -> /* Handle result */ }
 ```
 
-## Reference Files
+## 关键概念
 
-This skill includes comprehensive documentation in `references/`:
+| 概念 | 说明 |
+|------|------|
+| **INAPP** | 一次性购买（消耗型/非消耗型） |
+| **SUBS** | 订阅（自动续订/预付费） |
+| **PENDING** | 待处理（如现金支付） |
+| **PURCHASED** | 已完成 |
 
-- **getting_started.md** - Getting Started documentation
-- **library.md** - Library documentation
-- **other.md** - Other documentation
-- **products.md** - Products documentation
-- **purchases.md** - Purchases documentation
-- **subscriptions.md** - Subscriptions documentation
-- **testing.md** - Testing documentation
+## 重要规则
 
-Use `view` to read specific reference files when detailed information is needed.
+1. **3 天内确认购买**，否则自动退款
+2. **消耗型商品**授权后必须消耗
+3. **后端验证购买**确保安全
+4. **处理待处理购买**支持延迟付款地区
 
-## Working with This Skill
+## 响应码速查
 
-### For Beginners
-Start with the getting_started or tutorials reference files for foundational concepts.
+| Code | 含义 |
+|------|------|
+| OK (0) | 成功 |
+| USER_CANCELED (1) | 用户取消 |
+| SERVICE_UNAVAILABLE (2) | 网络问题 |
+| BILLING_UNAVAILABLE (3) | 结算 API 不可用 |
+| ITEM_ALREADY_OWNED (7) | 已购买 |
+| NETWORK_ERROR (12) | 网络连接问题 |
 
-### For Specific Features
-Use the appropriate category reference file (api, guides, etc.) for detailed information.
+## 参考文档
 
-### For Code Examples
-The quick reference section above contains common patterns extracted from the official docs.
+详细文档按主题组织在 `references/` 目录：
 
-## Resources
-
-### references/
-Organized documentation extracted from official sources. These files contain:
-- Detailed explanations
-- Code examples with language annotations
-- Links to original documentation
-- Table of contents for quick navigation
-
-### scripts/
-Add helper scripts here for common automation tasks.
-
-### assets/
-Add templates, boilerplate, or example projects here.
-
-## Notes
-
-- This skill was automatically generated from official documentation
-- Reference files preserve the structure and examples from source docs
-- Code examples include language detection for better syntax highlighting
-- Quick reference patterns are extracted from common usage examples in the docs
-
-## Updating
-
-To refresh this skill with updated documentation:
-1. Re-run the scraper with the same configuration
-2. The skill will be rebuilt with the latest information
+- **getting_started.md** - 设置、依赖、初始配置
+- **library.md** - 版本迁移指南 (PBL 5→6→7→8)
+- **products.md** - 一次性商品配置
+- **subscriptions.md** - 订阅设置、基础方案、优惠
+- **purchases.md** - 购买处理、安全、防欺诈
+- **testing.md** - 测试购买、许可测试
+- **other.md** - 替代结算、外部优惠、高级主题

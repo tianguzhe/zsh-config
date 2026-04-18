@@ -1,6 +1,46 @@
 # Google-Play-Billing - Other
 
-**Pages:** 43
+**Pages:** 52
+
+---
+
+## 计划简介 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+
+**URL:** https://developer.android.google.cn/google/play/billing/externalpaymentlinks?hl=zh-cn
+
+**Contents:**
+- 计划简介 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- 术语词汇表
+- 支持外部支付
+- 在 Play 管理中心内进行配置
+- 用户体验
+    - 用户选择界面
+    - 外部支付选项剖析
+  - 付款方式的图片素材资源
+  - 付款方式变体版本
+  - 卡片规范
+
+加入外部支付计划后，您可以将日本境内的用户（通过外部支付链接）引导至您的应用内数字功能或服务，这些功能或服务可在您的应用之外购买。在将用户与购买交易相关联时，必须让用户并排选择是通过 Google Play 结算服务进行购买，还是在开发者的网站上完成购买交易。本指南介绍了启用外部付款所需的 API。如需了解更多详情，请参阅计划要求。
+
+如果您想在应用中添加外部付款，则必须满足以下条件：
+
+如需在 Play 管理中心内配置外部支付，请按照计划要求中所述的步骤操作
+
+用户选择界面会向用户提供选项，以便其选用开发者的结算系统或 Google Play 结算系统。
+
+用户选择界面上的外部支付选项包括以下界面元素：
+
+单个图片素材资源由多张付款方式卡片组成，且必须遵循下方准则中定义的规范。
+
+开发者可以选择希望在图片素材资源中包含的可用付款方式图标数量，最多 5 个。
+
+图片素材资源中包含的付款方式卡片必须遵循以下关于大小、间距和样式的准则。
+
+如需开始集成外部付款 API，请遵循应用内集成和后端集成的深度指南。
+
+本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
+
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -34,7 +74,7 @@ Google 建议您将有关购买交易的元数据存储在您维护的安全后�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -114,23 +154,23 @@ Google 建议您将有关购买交易的元数据存储在您维护的安全后�
 - 外部优惠 API 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
 - 术语词汇表
 - 支持外部优惠
-  - 在 Play 管理中心内配置
+  - 在 Play 管理中心内进行配置
   - 面向用户的信息界面
   - 后续步骤
 
-在某些国家/地区，符合条件的开发者可以将用户引导到应用以外，包括宣传应用内数字功能和服务的相关优惠。本指南将介绍用于启用外部优惠的 API。您应该先查看计划要求并加入外部优惠计划，然后再使用这些 API。
+在某些国家/地区，符合条件的开发者可以将用户引导至应用之外进行一些操作，包括通过这种方式来推广应用内数字功能和服务的优惠活动。本指南介绍了用于启用外部优惠的 API。在使用这些 API 之前，您应先查看计划要求并加入外部优惠计划。
 
-本部分介绍如何支持外部商品。 使用这些 API 之前，请确保以下几点：
+本部分介绍了如何支持外部优惠。在使用这些 API 之前，请完成以下前提条件：
 
-如需在 Play 管理中心内配置外部优惠，请按照计划要求中列出的步骤操作。
+如需在 Play 管理中心内配置外部优惠，请按照计划要求中所述的步骤操作。
 
-信息界面有助于用户了解他们将要访问一个外部网站。系统每次都会向用户显示信息界面，然后才会使用外部优惠 API 将用户定向到应用之外。
+信息屏幕可以帮助用户了解他们即将访问外部网站。每次在用户通过外部优惠 API 被引导到应用外部之前，系统都会向用户显示此信息界面。
 
 如需开始集成外部优惠 API，请遵循应用内集成和后端集成的深度指南。
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-07-27。
+最后更新时间 (UTC)：2025-12-16。
 
 ---
 
@@ -140,64 +180,78 @@ Google 建议您将有关购买交易的元数据存储在您维护的安全后�
 
 **Contents:**
 - 有关 Google Play 结算服务之外的变现的后端集成指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- 术语词汇表
 - 向 Google Play 报告新的外部交易
   - 外部交易报告
-  - 报告新购买交易
+  - 报告初始交易
+    - 外部优惠
   - 报告购买交易的后续交易
   - 报告升级或降级
-  - 停止手动报告备选结算系统交易
-  - 举报 Play 合作伙伴计划
-- 向 Google Play 报告购买交易退款
-- API 配额
+  - 报告应用下载
+  - 从手动报告备选结算系统交易迁移
 
-Google Play Developer API 现在包含 报告来自备选结算系统的交易，或 外部优惠系统。本指南将介绍如何报告替代性数据， 结算或外部优惠交易。
+Google Play Developer API 包含额外的功能，可报告来自结算和关联计划的交易。本指南介绍了如何报告这些结算计划中的交易。
 
-从后端处理应用内购买交易时，可能需要用到一些组件。如需构建这些组件，您需要按照配置 Google Play Developer API 中的说明设置后端集成。对于 所有不特定于备选结算系统的开发者后端功能 或外部优惠 API 的说明， Google Play 结算系统文档适用。
+从后端处理外部交易时，可能需要用到一些组件。如需构建这些组件，您需要按照配置 Google Play Developer API 中的说明设置后端集成。如需构建并非特定于结算和关联计划的开发者后端功能，请参阅 Google Play 结算系统。
 
-与 Externaltransactions APIs 集成 报告 Google Play 结算系统以外发生的交易， 支持的国家/地区，包括通过免费试用产生的 0 美元交易 购买。通过备选结算系统或外部优惠系统进行的交易 仅在系统允许的情况下，才应针对符合条件的用户所在国家/地区启动和报告 在备选结算系统下，或者 外部优惠计划，否则，API 调用将 已被拒绝。这适用于所有交易，包括新购买、续订 充值、升级、降级等操作。
+与 externaltransactions API 集成后，您可报告在支持的国家/地区 Google Play 结算系统以外发生的交易，包括金额为 0 美元的交易（源自免费试用购买交易和应用安装）。只有在备选结算系统、外部优惠或外部付款指南允许的情况下，才应针对符合条件的用户国家/地区启动和报告结算和链接计划中的交易；否则，API 调用将被拒绝。此限制适用于所有交易，包括新的购买交易、续订、充值、升级、降级和应用下载。
 
-您应该调用 Externaltransactions API 来报告外部交易 在通过备选结算系统获得授权后，或者 外部优惠系统这适用于所有交易，包括 扣款、续订、退款等。所有交易都必须 会在交易发生 24 小时内报告。
+一笔外部交易的付款通过结算和关联计划获得授权后，您应调用 externaltransactions API 来报告此交易。这适用于所有交易，包括初始扣款、续订、退款等。如需了解报告要求，请参阅相应结算和链接计划的准则。
 
-系统会为每一笔外部交易报告一个外部交易 ID。对于周期性购买交易（例如自动续订型订阅），您需要发送与这笔周期性购买交易中的第一笔交易相关联的外部交易 ID，以用作后续所有交易（包括退款）的参数。这样就能记录相应购买交易的一系列交易。如果商品发生变化（例如升级或降级），或者周期性交易被取消或过期且之后同一商品再次被购买，您就需要针对相应交易发送新的外部交易 ID。您不得添加任何个人身份信息 这些信息、专有信息或机密信息， 交易 ID。
+系统会为每一笔外部交易报告一个外部交易 ID。对于周期性购买交易（例如自动续订型订阅），您需要发送与这笔周期性购买交易中的第一笔交易相关联的外部交易 ID，以用作后续所有交易（包括退款）的参数。这样就能记录相应购买交易的一系列交易。如果商品发生变化（例如升级或降级），或者周期性交易被取消或过期且之后同一商品再次被购买，您就需要针对相应交易发送新的外部交易 ID。您不得在此外部交易 ID 中包含任何个人身份信息、专有信息或机密信息。
 
-每当通过备选结算系统完成新购买交易时 或外部优惠系统，对 Externaltransactions API 的调用会 必填字段。对于这些新的购买交易，您需要提供唯一 externalTransactionId 以查询的形式与后端中的购买交易相关联 参数。此externalTransactionId不能在同一应用的 软件包 ID。
+每当结算和关联计划中有新的购买交易或应用下载成功时，您都必须调用 externaltransactions API。
 
-应用通过externalTransactionToken UserChoiceBillingListener、AlternativeBillingOnlyReportingDetailsListener、 或 ExternalOfferReportingDetailsListener 回调作为 一次性购买和首次交易的请求正文 周期性购买（例如订阅）。无论是哪种情况，都称为 初始交易。完成初始交易后， externalTransactionToken 不再需要，您后续报告 通过提供新的唯一身份 externalTransactionId。请参阅报告购买交易的后续交易 ，详细了解如何报告后续交易。
+对于应用下载、一次性购买交易和周期性购买交易（例如订阅）中的首次交易，请求正文中必须包含应用通过 Google Play 结算库收到的 externalTransactionToken。这称为初始交易。完成初始交易后，您可以通过提供新的唯一 externalTransactionId 来报告后续交易（例如续订）。如需了解详情，请参阅报告购买交易的后续交易。
 
-如果与印度境内的用户进行交易，由于该国税费因用户所在的行政区（例如州或省）而异，请务必在 userTaxAddress 下包含该行政区。如需了解适用的行政区，请参阅 API 参考指南中的预定义字符串列表。
+如果您与印度境内的用户进行交易，由于该国税费因用户所在的行政区（例如州或省）而异，请在 userTaxAddress 下包含该行政区。如需了解适用的行政区，请参阅 API 参考指南中的预定义字符串列表。
 
-在某些情况下，同一外部购买交易有多笔相关联的用户付款（例如，续订或预付费方案充值）。您可以在 Externaltransactions 中使用同一 API 报告这些后续交易。如报告新购买交易中所述，后续交易不需要 externalTransactionToken。不过，系统会为每笔续订或充值交易发送新的唯一 externalTransactionId 作为查询参数，并将初始交易的 ID 包含在 initialExternalTransactionId 字段中。
+如果所报告的交易属于外部优惠计划，则必须设置 externalOfferDetails 字段（如果交易是一次性交易或周期性系列交易中的第一笔交易）：
+
+通过外部优惠下载的外部应用中交易的请求示例：
+
+如需了解不同交易类型的 Play 服务费更新详情，请参阅面向欧洲经济区 (EEA) 用户的外部优惠计划的变更。
+
+在某些情况下，同一外部购买交易有多笔相关联的用户付款，例如续订或预付费方案充值。 您可以在 Externaltransactions 中使用同一 API 报告这些后续交易。如报告新购买交易中所述，后续交易不需要 externalTransactionToken。不过，系统会为每笔续订或充值交易发送新的唯一 externalTransactionId 作为查询参数，并将初始交易的 ID 包含在 initialExternalTransactionId 字段中。
 
 若要当用户拥有一项订阅的情况下在备选结算系统中报告升级或降级，您可在 Externaltransactions API 中使用相同的端点和函数，发送为升级或降级交易而提供给应用的 externalTransactionToken。这与报告新购买交易类似。
 
+若要在外部优惠结算系统中报告应用安装，您必须调用 Externaltransactions.createexternaltransaction，并发送提供给应用的 externalTransactionToken。请将此报告为零费用的一次性交易；此流程类似于报告初始交易。请务必在请求正文中添加 ExternalOfferDetails。
+
 如需迁移您以非自动化报告方式提供备选结算系统期间开始的有效订阅，请使用 migratedTransactionProgram 字段（而不是指定 initialExternalTransactionId 或 externalTransactionToken）创建一笔新的 0 费用交易。将每项有效订阅的 transactionTime 设置为用户最初注册该订阅的时间。之后，照常通过 API 报告这些订阅的每一笔后续交易，并提供之前使用的 initialExternalTransactionId 创建续订交易。迁移订阅后，您无需再手动报告订阅的后续交易，但前提是这些交易是通过本页介绍的自动化方式报告的。
 
-迁移订阅时，请留意当前的配额限制，以确保迁移不会用尽配额。如果有很多订阅需要 分几天进行迁移，或申请提高配额 配额 ，了解所有最新动态。
+迁移订阅时，请留意当前的配额限制，以验证迁移不会用尽配额。如果有许多订阅需要迁移，可以分几天进行，也可申请增加配额。
 
 只有在从手动报告迁移时，才可以使用 migratedTransactionProgram 字段。当手动报告不再受支持后，该字段将被废弃。
 
-参与合作伙伴计划（例如 Play 媒体体验计划必须提供 transaction_program_code（报告外部交易时）。如果您 如果您是符合条件的开发者，请与您的业务发展经理联系以了解详情 了解如何设置此字段。
+参与合作伙伴计划（例如 Play 媒体体验计划）的开发者在报告外部交易时必须提供 transaction_program_code。如果您是符合条件的开发者，请与您的业务发展经理联系，详细了解如何设置此字段。
 
-与 Externaltransactions API 集成后，您可报告在 Google Play 结算系统以外向用户退款的交易。为了让 Play 正确识别哪一笔交易已退款，您应将之前所报告交易的相应 externalTransactionId 添加为网址参数的一部分。
+与 externaltransactions API 集成后，您可报告在 Google Play 结算系统以外向用户退款的交易。为了让 Play 正确识别哪一笔交易已退款，您应将之前所报告交易的相应 externalTransactionId 添加为网址参数的一部分。
 
 报告订阅购买交易的退款时，请引用被退款订阅的具体周期性交易的 externalTransactionId。
 
+外部交易 ID 为 ABC.1234-5678-9012-34567 的初始交易
+
+外部交易 ID 为 ABC.1234-5678-9012-34567..0 的首笔周期性交易
+
+第二笔周期性交易的外部交易 ID 为 ABC.1234-5678-9012-34567..1
+
 如需报告该订阅所有交易的退款，您需要发出三个单独的退款请求：一个针对初始交易，两个针对后续交易。
 
-此方法接受全额退款 （其中金额与用户在原始外部 交易）和部分退款 （金额小于用户在原始外部 交易）。对于部分退款，您需要指定退还的税前金额。
+此方法既接受全额退款（金额与用户在原始外部交易中支付的金额相同），又接受部分退款（金额小于用户在原始外部交易中支付的金额）。对于部分退款，您需要指定退还的税前金额。
 
-Externaltransactions API 受每日 API 配额限制 就像 Google Play Developer API 中的任何其他端点一样。
+与 Google Play Developer API 中的任何其他端点一样，Externaltransactions API 需遵循针对所有调用的 API 配额。
 
 此外，在调用 Externaltransactions.createexternaltransaction 或 Externaltransactions.refundexternaltransaction 时，Externaltransactions API 的每分钟查询数量 (QPM) 上限为 1,200 个。对 Externaltransactions.getexternaltransaction 的调用不会计入此 1,200 QPM 的限额。
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-07-27。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (json):
+```json
 POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
 
 Body
@@ -223,8 +277,8 @@ Body
 }
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (json):
+```json
 POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
 
 Body
@@ -250,8 +304,8 @@ Body
 }
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (json):
+```json
 POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
 
 Body
@@ -280,8 +334,8 @@ Body
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (json):
+```json
 POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
 
 Body
@@ -347,7 +401,7 @@ Google Play 的后端可充当 RTDN 的发布端。如需为您的应用设置 R
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -471,6 +525,46 @@ Google Play 的后端可充当 RTDN 的发布端。如需为您的应用设置 R
 
 ---
 
+## 计划简介 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+
+**URL:** https://developer.android.google.cn/google/play/billing/externalpaymentlinks
+
+**Contents:**
+- 计划简介 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- 术语词汇表
+- 支持外部支付
+- 在 Play 管理中心内进行配置
+- 用户体验
+    - 用户选择界面
+    - 外部支付选项剖析
+  - 付款方式的图片素材资源
+  - 付款方式变体版本
+  - 卡片规范
+
+加入外部支付计划后，您可以将日本境内的用户（通过外部支付链接）引导至您的应用内数字功能或服务，这些功能或服务可在您的应用之外购买。在将用户与购买交易相关联时，必须让用户并排选择是通过 Google Play 结算服务进行购买，还是在开发者的网站上完成购买交易。本指南介绍了启用外部付款所需的 API。如需了解更多详情，请参阅计划要求。
+
+如果您想在应用中添加外部付款，则必须满足以下条件：
+
+如需在 Play 管理中心内配置外部支付，请按照计划要求中所述的步骤操作
+
+用户选择界面会向用户提供选项，以便其选用开发者的结算系统或 Google Play 结算系统。
+
+用户选择界面上的外部支付选项包括以下界面元素：
+
+单个图片素材资源由多张付款方式卡片组成，且必须遵循下方准则中定义的规范。
+
+开发者可以选择希望在图片素材资源中包含的可用付款方式图标数量，最多 5 个。
+
+图片素材资源中包含的付款方式卡片必须遵循以下关于大小、间距和样式的准则。
+
+如需开始集成外部付款 API，请遵循应用内集成和后端集成的深度指南。
+
+本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
+
+最后更新时间 (UTC)：2025-12-23。
+
+---
+
 ## 有关用户自选结算方式试行计划的临时用户体验指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
 
 **URL:** https://developer.android.google.cn/google/play/billing/alternative/interim-ux/user-choice
@@ -577,7 +671,35 @@ Google Play 结算系统会为这两类购买交易发送实时开发者通知 (
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
+
+---
+
+## 计划简介 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+
+**URL:** https://developer.android.google.cn/google/play/billing/externalcontentlinks?hl=zh-cn
+
+**Contents:**
+- 计划简介 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- 术语词汇表
+- 支持外部内容链接
+- 在 Play 管理中心内进行配置
+- 链接到外部内容
+- 后续步骤
+
+通过外部内容链接计划，您可以将美国境内的用户链接到 Google Play 分发的应用之外的外部内容。通过这些外部链接，应用用户可以购买应用内数字商品或下载不受 Google Play 商店管理的应用。如需了解更多详情，请参阅计划要求。
+
+如果您想在应用中添加外部内容链接，则必须满足以下条件：
+
+如需在 Play 管理中心内配置外部内容链接，请按照计划要求中所述的步骤操作。指向外部应用下载页面的链接以及可在着陆页上下载的应用都需要在 Play 管理中心内注册并获得批准，然后才能使用。
+
+在链接到数字内容优惠或应用下载之前，系统会显示一个信息屏幕，帮助用户了解他们即将链接到您的应用之外的内容。
+
+如需开始集成外部优惠 API，请遵循深度应用内集成指南。
+
+本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
+
+最后更新时间 (UTC)：2025-12-16。
 
 ---
 
@@ -587,174 +709,482 @@ Google Play 结算系统会为这两类购买交易发送实时开发者通知 (
 
 **Contents:**
 - 有关 Google Play 结算服务之外的变现的后端集成指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- 术语词汇表
 - 向 Google Play 报告新的外部交易
   - 外部交易报告
-  - 报告新购买交易
+  - 报告初始交易
+    - 外部优惠
   - 报告购买交易的后续交易
   - 报告升级或降级
-  - 停止手动报告备选结算系统交易
-  - 举报 Play 合作伙伴计划
-- 向 Google Play 报告购买交易退款
-- API 配额
+  - 报告应用下载
+  - 从手动报告备选结算系统交易迁移
 
-Google Play Developer API 现在包含 报告来自备选结算系统的交易，或 外部优惠系统。本指南将介绍如何报告替代性数据， 结算或外部优惠交易。
+Google Play Developer API 包含额外的功能，可报告来自结算和关联计划的交易。本指南介绍了如何报告这些结算计划中的交易。
 
-从后端处理应用内购买交易时，可能需要用到一些组件。如需构建这些组件，您需要按照配置 Google Play Developer API 中的说明设置后端集成。对于 所有不特定于备选结算系统的开发者后端功能 或外部优惠 API 的说明， Google Play 结算系统文档适用。
+从后端处理外部交易时，可能需要用到一些组件。如需构建这些组件，您需要按照配置 Google Play Developer API 中的说明设置后端集成。如需构建并非特定于结算和关联计划的开发者后端功能，请参阅 Google Play 结算系统。
 
-与 Externaltransactions APIs 集成 报告 Google Play 结算系统以外发生的交易， 支持的国家/地区，包括通过免费试用产生的 0 美元交易 购买。通过备选结算系统或外部优惠系统进行的交易 仅在系统允许的情况下，才应针对符合条件的用户所在国家/地区启动和报告 在备选结算系统下，或者 外部优惠计划，否则，API 调用将 已被拒绝。这适用于所有交易，包括新购买、续订 充值、升级、降级等操作。
+与 externaltransactions API 集成后，您可报告在支持的国家/地区 Google Play 结算系统以外发生的交易，包括金额为 0 美元的交易（源自免费试用购买交易和应用安装）。只有在备选结算系统、外部优惠或外部付款指南允许的情况下，才应针对符合条件的用户国家/地区启动和报告结算和链接计划中的交易；否则，API 调用将被拒绝。此限制适用于所有交易，包括新的购买交易、续订、充值、升级、降级和应用下载。
 
-您应该调用 Externaltransactions API 来报告外部交易 在通过备选结算系统获得授权后，或者 外部优惠系统这适用于所有交易，包括 扣款、续订、退款等。所有交易都必须 会在交易发生 24 小时内报告。
+一笔外部交易的付款通过结算和关联计划获得授权后，您应调用 externaltransactions API 来报告此交易。这适用于所有交易，包括初始扣款、续订、退款等。如需了解报告要求，请参阅相应结算和链接计划的准则。
 
-系统会为每一笔外部交易报告一个外部交易 ID。对于周期性购买交易（例如自动续订型订阅），您需要发送与这笔周期性购买交易中的第一笔交易相关联的外部交易 ID，以用作后续所有交易（包括退款）的参数。这样就能记录相应购买交易的一系列交易。如果商品发生变化（例如升级或降级），或者周期性交易被取消或过期且之后同一商品再次被购买，您就需要针对相应交易发送新的外部交易 ID。您不得添加任何个人身份信息 这些信息、专有信息或机密信息， 交易 ID。
+系统会为每一笔外部交易报告一个外部交易 ID。对于周期性购买交易（例如自动续订型订阅），您需要发送与这笔周期性购买交易中的第一笔交易相关联的外部交易 ID，以用作后续所有交易（包括退款）的参数。这样就能记录相应购买交易的一系列交易。如果商品发生变化（例如升级或降级），或者周期性交易被取消或过期且之后同一商品再次被购买，您就需要针对相应交易发送新的外部交易 ID。您不得在此外部交易 ID 中包含任何个人身份信息、专有信息或机密信息。
 
-每当通过备选结算系统完成新购买交易时 或外部优惠系统，对 Externaltransactions API 的调用会 必填字段。对于这些新的购买交易，您需要提供唯一 externalTransactionId 以查询的形式与后端中的购买交易相关联 参数。此externalTransactionId不能在同一应用的 软件包 ID。
+每当结算和关联计划中有新的购买交易或应用下载成功时，您都必须调用 externaltransactions API。
 
-应用通过externalTransactionToken UserChoiceBillingListener、AlternativeBillingOnlyReportingDetailsListener、 或 ExternalOfferReportingDetailsListener 回调作为 一次性购买和首次交易的请求正文 周期性购买（例如订阅）。无论是哪种情况，都称为 初始交易。完成初始交易后， externalTransactionToken 不再需要，您后续报告 通过提供新的唯一身份 externalTransactionId。请参阅报告购买交易的后续交易 ，详细了解如何报告后续交易。
+对于应用下载、一次性购买交易和周期性购买交易（例如订阅）中的首次交易，请求正文中必须包含应用通过 Google Play 结算库收到的 externalTransactionToken。这称为初始交易。完成初始交易后，您可以通过提供新的唯一 externalTransactionId 来报告后续交易（例如续订）。如需了解详情，请参阅报告购买交易的后续交易。
 
-如果与印度境内的用户进行交易，由于该国税费因用户所在的行政区（例如州或省）而异，请务必在 userTaxAddress 下包含该行政区。如需了解适用的行政区，请参阅 API 参考指南中的预定义字符串列表。
+如果您与印度境内的用户进行交易，由于该国税费因用户所在的行政区（例如州或省）而异，请在 userTaxAddress 下包含该行政区。如需了解适用的行政区，请参阅 API 参考指南中的预定义字符串列表。
 
-在某些情况下，同一外部购买交易有多笔相关联的用户付款（例如，续订或预付费方案充值）。您可以在 Externaltransactions 中使用同一 API 报告这些后续交易。如报告新购买交易中所述，后续交易不需要 externalTransactionToken。不过，系统会为每笔续订或充值交易发送新的唯一 externalTransactionId 作为查询参数，并将初始交易的 ID 包含在 initialExternalTransactionId 字段中。
+如果所报告的交易属于外部优惠计划，则必须设置 externalOfferDetails 字段（如果交易是一次性交易或周期性系列交易中的第一笔交易）：
+
+通过外部优惠下载的外部应用中交易的请求示例：
+
+如需了解不同交易类型的 Play 服务费更新详情，请参阅面向欧洲经济区 (EEA) 用户的外部优惠计划的变更。
+
+在某些情况下，同一外部购买交易有多笔相关联的用户付款，例如续订或预付费方案充值。 您可以在 Externaltransactions 中使用同一 API 报告这些后续交易。如报告新购买交易中所述，后续交易不需要 externalTransactionToken。不过，系统会为每笔续订或充值交易发送新的唯一 externalTransactionId 作为查询参数，并将初始交易的 ID 包含在 initialExternalTransactionId 字段中。
 
 若要当用户拥有一项订阅的情况下在备选结算系统中报告升级或降级，您可在 Externaltransactions API 中使用相同的端点和函数，发送为升级或降级交易而提供给应用的 externalTransactionToken。这与报告新购买交易类似。
 
+若要在外部优惠结算系统中报告应用安装，您必须调用 Externaltransactions.createexternaltransaction，并发送提供给应用的 externalTransactionToken。请将此报告为零费用的一次性交易；此流程类似于报告初始交易。请务必在请求正文中添加 ExternalOfferDetails。
+
 如需迁移您以非自动化报告方式提供备选结算系统期间开始的有效订阅，请使用 migratedTransactionProgram 字段（而不是指定 initialExternalTransactionId 或 externalTransactionToken）创建一笔新的 0 费用交易。将每项有效订阅的 transactionTime 设置为用户最初注册该订阅的时间。之后，照常通过 API 报告这些订阅的每一笔后续交易，并提供之前使用的 initialExternalTransactionId 创建续订交易。迁移订阅后，您无需再手动报告订阅的后续交易，但前提是这些交易是通过本页介绍的自动化方式报告的。
 
-迁移订阅时，请留意当前的配额限制，以确保迁移不会用尽配额。如果有很多订阅需要 分几天进行迁移，或申请提高配额 配额 ，了解所有最新动态。
+迁移订阅时，请留意当前的配额限制，以验证迁移不会用尽配额。如果有许多订阅需要迁移，可以分几天进行，也可申请增加配额。
 
 只有在从手动报告迁移时，才可以使用 migratedTransactionProgram 字段。当手动报告不再受支持后，该字段将被废弃。
 
-参与合作伙伴计划（例如 Play 媒体体验计划必须提供 transaction_program_code（报告外部交易时）。如果您 如果您是符合条件的开发者，请与您的业务发展经理联系以了解详情 了解如何设置此字段。
+参与合作伙伴计划（例如 Play 媒体体验计划）的开发者在报告外部交易时必须提供 transaction_program_code。如果您是符合条件的开发者，请与您的业务发展经理联系，详细了解如何设置此字段。
 
-与 Externaltransactions API 集成后，您可报告在 Google Play 结算系统以外向用户退款的交易。为了让 Play 正确识别哪一笔交易已退款，您应将之前所报告交易的相应 externalTransactionId 添加为网址参数的一部分。
+与 externaltransactions API 集成后，您可报告在 Google Play 结算系统以外向用户退款的交易。为了让 Play 正确识别哪一笔交易已退款，您应将之前所报告交易的相应 externalTransactionId 添加为网址参数的一部分。
 
 报告订阅购买交易的退款时，请引用被退款订阅的具体周期性交易的 externalTransactionId。
 
+外部交易 ID 为 ABC.1234-5678-9012-34567 的初始交易
+
+外部交易 ID 为 ABC.1234-5678-9012-34567..0 的首笔周期性交易
+
+第二笔周期性交易的外部交易 ID 为 ABC.1234-5678-9012-34567..1
+
 如需报告该订阅所有交易的退款，您需要发出三个单独的退款请求：一个针对初始交易，两个针对后续交易。
 
-此方法接受全额退款 （其中金额与用户在原始外部 交易）和部分退款 （金额小于用户在原始外部 交易）。对于部分退款，您需要指定退还的税前金额。
+此方法既接受全额退款（金额与用户在原始外部交易中支付的金额相同），又接受部分退款（金额小于用户在原始外部交易中支付的金额）。对于部分退款，您需要指定退还的税前金额。
 
-Externaltransactions API 受每日 API 配额限制 就像 Google Play Developer API 中的任何其他端点一样。
+与 Google Play Developer API 中的任何其他端点一样，Externaltransactions API 需遵循针对所有调用的 API 配额。
 
 此外，在调用 Externaltransactions.createexternaltransaction 或 Externaltransactions.refundexternaltransaction 时，Externaltransactions API 的每分钟查询数量 (QPM) 上限为 1,200 个。对 Externaltransactions.getexternaltransaction 的调用不会计入此 1,200 QPM 的限额。
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-07-27。
+最后更新时间 (UTC)：2025-12-23。
+
+**Examples:**
+
+Example 1 (json):
+```json
+POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
+
+Body
+ {
+"originalPreTaxAmount" : {
+   "priceMicros": "0",
+   "currency": "KRW"
+ },
+ "originalTaxAmount" : {
+   "priceMicros": "0",
+   "currency": "KRW"
+ },
+"transactionTime" : "2022-02-22T12:45:00Z",
+ "recurringTransaction" : {
+   "externalTransactionToken": "my_token",
+   "externalSubscription" {
+     "subscriptionType": "RECURRING"
+   }
+ },
+ "userTaxAddress" : {
+   "regionCode": "KR"
+ }
+}
+```
+
+Example 2 (json):
+```json
+POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
+
+Body
+ {
+"originalPreTaxAmount" : {
+   "priceMicros": "0",
+   "currency": "KRW"
+ },
+ "originalTaxAmount" : {
+   "priceMicros": "0",
+   "currency": "KRW"
+ },
+"transactionTime" : "2022-02-22T12:45:00Z",
+ "recurringTransaction" : {
+   "externalTransactionToken": "my_token",
+   "externalSubscription" {
+     "subscriptionType": "RECURRING"
+   }
+ },
+ "userTaxAddress" : {
+   "regionCode": "KR"
+ }
+}
+```
+
+Example 3 (json):
+```json
+POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
+
+Body
+ {
+"originalPreTaxAmount" : {
+   "priceMicros": "0",
+   "currency": "INR"
+ },
+ "originalTaxAmount" : {
+   "priceMicros": "0",
+   "currency": "INR"
+ },
+"transactionTime" : "2023-11-01T12:45:00Z",
+ "recurringTransaction" : {
+   "externalTransactionToken": "my_token",
+   "externalSubscription" {
+     "subscriptionType": "RECURRING"
+   }
+ },
+ "userTaxAddress" : {
+   # Tax varies in India based on state, so include that information in
+   # administrativeArea
+   "regionCode": "IN"
+   "administrativeArea": "KERALA"
+ }
+}
+```
+
+Example 4 (json):
+```json
+POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
+
+Body
+ {
+"originalPreTaxAmount" : {
+   "priceMicros": "0",
+   "currency": "INR"
+ },
+ "originalTaxAmount" : {
+   "priceMicros": "0",
+   "currency": "INR"
+ },
+"transactionTime" : "2023-11-01T12:45:00Z",
+ "recurringTransaction" : {
+   "externalTransactionToken": "my_token",
+   "externalSubscription" {
+     "subscriptionType": "RECURRING"
+   }
+ },
+ "userTaxAddress" : {
+   # Tax varies in India based on state, so include that information in
+   # administrativeArea
+   "regionCode": "IN"
+   "administrativeArea": "KERALA"
+ }
+}
+```
+
+---
+
+## 应用内集成指南（适用于外部支付） 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+
+**URL:** https://developer.android.google.cn/google/play/billing/externalpaymentlinks/integration?hl=zh-cn
+
+**Contents:**
+- 应用内集成指南（适用于外部支付） 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- Play 结算库设置
+- 初始化结算客户端
+  - Kotlin
+  - Java
+- 连接到 Google Play
+- 检查用户资格
+  - Kotlin
+  - Java
+- 显示可购买的商品
+
+本文档介绍了如何集成 Play 结算库 API，以便在符合条件的应用中提供外部付款方式。如需详细了解此计划，请参阅计划要求。
+
+向您的 Android 应用添加 Play 结算库依赖项。如需使用外部付款 API，您需要使用 8.3 或更高版本。如果您需要从较早版本迁移，请先按照迁移指南中的说明升级，然后再开始集成。
+
+集成流程的最初步骤与 Google Play 结算服务集成指南中所述的一些步骤相同，在初始化您的 BillingClient 时需进行一些调整：
+
+以下示例演示了如何通过这些调整来初始化 BillingClient：
+
+初始化 BillingClient 后，请按照与 Google Play 建立连接中的说明与 Google Play 建立连接。
+
+连接到 Google Play 后，您可以通过调用 isBillingProgramAvailableAsync() 方法来检查用户是否符合外部付款计划的条件。如果用户符合条件，此方法会返回 BillingResponseCode.OK。以下示例演示了如何检查资格条件：
+
+如需详细了解您的应用应如何响应其他响应代码，请参阅响应处理部分。如果您使用 Kotlin 扩展，则可以使用 Kotlin 协程，因此无需定义单独的监听器。
+
+您可以采用集成 Google Play 结算系统的相同方式向用户显示可购买的商品。当用户看到可供购买的商品并选择购买时，请启动外部付款流程（如启动外部付款流程部分中所述）。
+
+如需向 Google Play 报告外部交易，您必须拥有通过 Play 结算库生成的外部交易令牌。每次用户通过外部支付 API 访问外部网站或应用时，都必须生成新的外部交易令牌。您可以通过调用 createBillingProgramReportingDetailsAsync API 来完成此操作。令牌应在调用 launchBillingFlow 之前立即生成。
+
+如果您使用 Kotlin 扩展，则可以使用 Kotlin 协程，因此无需定义单独的监听器。
+
+通过调用 launchBillingFlow() 启动外部付款流程，这与通过集成 Google Play 结算系统来启动购买流程类似，但需要额外提供一个参数 DeveloperBillingOptionParams，用于指明您的应用希望为此购买交易启用外部付款流程。
+
+DeveloperBillingOptionParams 必须包含以下内容：
+
+当您的应用调用 launchBillingFlow() 并提供 DeveloperBillingOptionParams 时，Google Play 结算系统会执行以下检查：
+
+已启用外部支付（BillingClient 设置和 launchBillingFlow）
+
+用户会看到标准的 Google Play 结算系统用户体验
+
+未启用外部付款（在 BillingClient 设置期间未启用，或未向 launchBillingFlow 提供 DeveloperBillingOptionParams）
+
+用户会看到标准的 Google Play 结算系统用户体验
+
+用户会看到标准的 Google Play 结算系统用户体验
+
+以下代码段演示了如何构造 DeveloperBillingOptionParams：
+
+购买流程其余部分的处理方式不尽相同，具体取决于用户选择的是 Google Play 结算系统还是在您的网站上付款。
+
+如果用户选择在您的网站上付款，Google Play 会调用 DeveloperProvidedBillingListener 来通知应用用户选择在您的网站上或在付款应用中付款。具体来说，系统会调用 onUserSelectedDeveloperBilling() 方法。
+
+如果您的应用将 launchMode 设置为 LAUNCH_IN_EXTERNAL_BROWSER_OR_APP，则 Google Play 将启动该链接。如果 launchMode 设置为 CALLER_WILL_LAUNCH_LINK，则您的应用负责启动链接。 将用户链接到付款应用时，您有责任检查用户是否已在其设备上安装付款应用。
+
+如后端集成指南中所述，使用此令牌可报告这一选择产生的任何交易。
+
+如果用户选择 Google Play 结算系统，则可以继续通过 Google Play 进行购买交易。
+
+如果开发者使用外部付款方式，则需要通过 Google Play 结算系统处理购买交易或使用 externalTransactionId 报告购买交易，具体取决于用户的选择。在订阅到期之前，通过开发者网站来处理的对现有订阅的变更可通过同一结算系统实现。
+
+本部分介绍了如何处理一些常见的订阅变更场景。
+
+订阅方案变更（包括升级和降级流程）的处理方式应有所不同，具体取决于订阅最初是通过 Google Play 结算系统购买的，还是通过开发者的网站购买的。
+
+依赖于现有订阅、共用相同付款方式且定期扣款时间一致的加购项将作为升级处理。对于其他加购项，用户应该能够选择要使用的结算系统。使用 launchBillingFlow() 启动新的购买体验，如启动外部付款流程中所述。
+
+对于最初在用户选择后通过开发者的网站或支付应用购买的订阅，请求升级或降级的用户应通过开发者的网站或支付应用继续操作，无需用户再次选择。
+
+为此，当用户请求升级或降级时，请调用 launchBillingFlow()。请使用 setOriginalExternalTransactionId() 提供原始购买交易的外部交易 ID，而不是在 SubscriptionUpdateParams 对象下指定其他参数。
+
+在此调用中，还必须提供 DeveloperBillingOptionParams。采用这种方式不会显示用户选择界面，因为系统会保留原始购买交易的相关用户选择以用于升级和降级。您必须为此交易生成新的外部交易令牌，如此处所述。
+
+当用户使用开发者的网站或付款应用完成升级或降级后，您需要使用通过之前针对新订阅购买交易的调用所获得的外部交易令牌来报告新交易。
+
+同样，如果用户选择通过 Google Play 结算系统购买其当前订阅，系统应向该用户显示标准 Google Play 结算流程。不得在对 launchBillingFlow 的调用中设置 DeveloperBillingOptionParams。
+
+用户应该能够随时取消订阅。用户取消订阅后，使用权可能直到付费期结束才会终止。例如，如果用户在月中取消了月度订阅，可以在剩下的大约 2 周内继续使用该服务，直到其使用权限被撤消为止。在此期间，订阅在技术层面上仍处于有效状态，因此用户可以使用该服务。
+
+在这一活跃期内，用户决定撤消取消订阅操作的情况并不少见。在本指南中，此情况称为“恢复”。以下部分介绍了如何在外部付款 API 集成中处理恢复场景。
+
+如果您有一项已取消的订阅的外部交易 ID，则无需调用 launchBillingFlow() 即可恢复该订阅，因此它不应被用于此类激活。如果用户在已取消的订阅的有效期内恢复订阅，则不会发生任何交易；如果当前周期到期后发生下次续订，您只需继续报告续订即可。这包括以下情形：用户在恢复期间会收到赠送金额或获享特殊续订价格（例如，一项旨在鼓励用户继续订阅的促销活动）。
+
+通常，用户可以在 Google Play 结算系统中恢复订阅。 对于最初通过 Google Play 结算系统购买的订阅，用户可以在订阅处于有效状态时通过 Google Play 的重新订阅功能选择撤消之前的取消操作。在这种情况下，您会在后端收到 SUBSCRIPTION_RESTARTED 实时开发者通知，并且系统不会发放新的购买令牌，而会使用原始令牌来继续订阅。如需了解如何管理 Google Play 结算系统中的恢复，请参阅订阅管理指南中的恢复。
+
+您还可以通过调用 launchBillingFlow()，从应用中触发 Google Play 结算系统中的恢复订阅流程。如需了解实现方法，请参阅订阅到期之前 - 应用内。如果用户完成了原始购买交易的用户选择流程（已取消，但仍处于有效状态），系统会自动检测用户的选择，并显示用于恢复这些购买交易的界面。系统会提示用户通过 Google Play 确认重新购买相应订阅，但用户无需再次经历用户选择流程。在这种情况下，系统会为用户发放新的购买令牌。您的后端会收到 SUBSCRIPTION_PURCHASED 实时开发者通知，并且新购买交易状态的 linkedPurchaseToken 值会设为升级或降级情形下的状态，采用被取消的订阅之前所用的购买令牌。
+
+如果订阅完全过期，无论是由于被取消还是未恢复且付款遭拒（账号保留期已过），如果用户想要重获使用权，必须重新订阅。
+
+也可通过该应用来实现重新订阅，处理方法与标准订阅方式类似。用户应该能够选择要使用的结算系统。在这种情况下，系统可能会调用 launchBillingFlow()，如启动外部支付流程中所述。
+
+发生错误时，方法 isBillingProgramAvailableAsync()、createBillingProgramReportingDetailsAsync()、launchBillingFlow() 可能会提供除 BillingResponseCode.OK 之外的 BillingResponseCode。请考虑按如下方式处理这些响应代码：
+
+许可测试人员应用于测试外部付款集成。 您不会收到许可测试账号发起的交易的账单。如需详细了解如何配置许可测试人员，请参阅使用应用许可来测试应用内购结算功能。
+
+本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
+
+最后更新时间 (UTC)：2025-12-23。
+
+**Examples:**
+
+Example 1 (php):
+```php
+val purchasesUpdatedListener =
+    PurchasesUpdatedListener { billingResult, purchases ->
+        // Handle new Google Play purchase.
+    }
+
+val developerProvidedBillingListener =
+    DeveloperProvidedBillingListener { details ->
+        // Handle user selection for developer provided billing option.
+    }
+
+val billingClient = BillingClient.newBuilder(context)
+    .setListener(purchasesUpdatedListener)
+    .enablePendingPurchases()
+    .enableBillingProgram(
+        EnableBillingProgramParams.newBuilder()
+            .setBillingProgram(BillingProgram.EXTERNAL_PAYMENTS)
+            .setDeveloperProvidedBillingListener(developerProvidedBillingListener)
+            .build())
+    .build()
+```
+
+Example 2 (php):
+```php
+val purchasesUpdatedListener =
+    PurchasesUpdatedListener { billingResult, purchases ->
+        // Handle new Google Play purchase.
+    }
+
+val developerProvidedBillingListener =
+    DeveloperProvidedBillingListener { details ->
+        // Handle user selection for developer provided billing option.
+    }
+
+val billingClient = BillingClient.newBuilder(context)
+    .setListener(purchasesUpdatedListener)
+    .enablePendingPurchases()
+    .enableBillingProgram(
+        EnableBillingProgramParams.newBuilder()
+            .setBillingProgram(BillingProgram.EXTERNAL_PAYMENTS)
+            .setDeveloperProvidedBillingListener(developerProvidedBillingListener)
+            .build())
+    .build()
+```
+
+Example 3 (java):
+```java
+private PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
+    @Override
+    public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+        // Handle new Google Play purchase.
+    }
+};
+
+private DeveloperProvidedBillingListener developerProvidedBillingListener =
+    new DeveloperProvidedBillingListener() {
+        @Override
+        public void onUserSelectedDeveloperBilling(
+            DeveloperProvidedBillingDetails details) {
+            // Handle user selection for developer provided billing option.
+        }
+    };
+
+private BillingClient billingClient = BillingClient.newBuilder(context)
+    .setListener(purchasesUpdatedListener)
+    .enablePendingPurchases()
+    .enableBillingProgram(
+        EnableBillingProgramParams.newBuilder()
+            .setBillingProgram(BillingProgram.EXTERNAL_PAYMENTS)
+            .setDeveloperProvidedBillingListener(developerProvidedBillingListener)
+            .build())
+    .build();
+```
+
+Example 4 (java):
+```java
+private PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
+    @Override
+    public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+        // Handle new Google Play purchase.
+    }
+};
+
+private DeveloperProvidedBillingListener developerProvidedBillingListener =
+    new DeveloperProvidedBillingListener() {
+        @Override
+        public void onUserSelectedDeveloperBilling(
+            DeveloperProvidedBillingDetails details) {
+            // Handle user selection for developer provided billing option.
+        }
+    };
+
+private BillingClient billingClient = BillingClient.newBuilder(context)
+    .setListener(purchasesUpdatedListener)
+    .enablePendingPurchases()
+    .enableBillingProgram(
+        EnableBillingProgramParams.newBuilder()
+            .setBillingProgram(BillingProgram.EXTERNAL_PAYMENTS)
+            .setDeveloperProvidedBillingListener(developerProvidedBillingListener)
+            .build())
+    .build();
+```
+
+---
+
+## 外部内容链接的应用内集成指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+
+**URL:** https://developer.android.google.cn/google/play/billing/externalcontentlinks/integration
+
+**Contents:**
+- 外部内容链接的应用内集成指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- Play 结算库设置
+- 初始化结算客户端
+  - Kotlin
+  - Java
+- 连接到 Google Play
+- 检查用户资格
+  - Kotlin
+  - Java
+- 准备外部交易令牌
+
+本文档介绍了如何集成 Play 结算库 API，以便在符合条件的应用中提供外部内容链接。这包括能够将美国境内的用户引导至 Play 应用之外，以便向用户提供应用内数字内容和应用下载的优惠。如需详细了解此计划，请参阅计划要求。
+
+向您的 Android 应用添加 Play 结算库依赖项。如需使用外部链接 API，您需要使用 8.2.1 或更高版本。如果您需要从较早版本迁移，请先按照迁移指南中的说明操作，然后再添加外部内容链接。
+
+如需初始化结算客户端，请按照初始化 BillingClient 中所述的步骤操作，但需进行以下修改：
+
+以下示例演示了如何通过这些调整来初始化 BillingClient：
+
+初始化 BillingClient 后，请按照连接到 Google Play 中的说明连接到 Google Play。
+
+连接到 Google Play 后，您必须通过调用 isBillingProgramAvailableAsync() 方法来检查用户是否符合外部内容链接计划的条件。如果用户符合外部内容链接计划的条件，此方法会返回 BillingResponseCode.OK。以下示例展示了如何检查用户是否符合外部内容链接的条件：
+
+如需详细了解您的应用应如何响应其他响应代码，请参阅响应处理部分。如果您使用 Kotlin 扩展，则可以使用 Kotlin 协程，因此无需定义单独的监听器。
+
+接下来，您必须从 Play Billing 库生成外部交易令牌。每次用户通过外部链接 API 访问外部网站时，都必须生成新的外部交易令牌。您可以通过调用 createBillingProgramReportingDetailsAsync API 来完成此操作。令牌应在用户链接出去之前立即生成。
+
+注意：外部交易令牌绝不应缓存，并且每次用户链接出去时都应生成新令牌。
+
+如果您使用 Kotlin 扩展，则可以使用 Kotlin 协程，因此无需定义单独的监听器。
+
+外部交易令牌准备就绪后，用户可以通过调用 launchExternalLink 方法在应用外部链接到数字内容优惠或应用下载。当您调用此 API 时，Google Play 可能会根据用户的用户设置向用户呈现其他信息对话框。
+
+调用 launchExternalLink 方法时，必须通过 LaunchExternalLinkParams 提供外部链接的详细信息。此类包含以下参数：
+
+结算计划 - 将此项设置为 BillingProgram.EXTERNAL_CONTENT_LINK。
+
+发生错误时，方法 isBillingProgramAvailableAsync()、createBillingProgramReportingDetailsAsync() 和 onLaunchExternalLinkResponse() 可能会提供除 BillingResponseCode.OK 之外的 BillingResponseCode。请考虑按如下方式处理这些响应代码：
+
+许可测试人员应用于测试外部优惠集成。您不会收到许可测试人员账号发起的交易的账单。如需详细了解如何配置许可测试人员，请参阅使用应用许可来测试应用内购结算功能。
+
+本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
+
+最后更新时间 (UTC)：2025-12-16。
 
 **Examples:**
 
 Example 1 (unknown):
 ```unknown
-POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
-
-Body
- {
-"originalPreTaxAmount" : {
-   "priceMicros": "0",
-   "currency": "KRW"
- },
- "originalTaxAmount" : {
-   "priceMicros": "0",
-   "currency": "KRW"
- },
-"transactionTime" : "2022-02-22T12:45:00Z",
- "recurringTransaction" : {
-   "externalTransactionToken": "my_token",
-   "externalSubscription" {
-     "subscriptionType": "RECURRING"
-   }
- },
- "userTaxAddress" : {
-   "regionCode": "KR"
- }
-}
+val billingClient = BillingClient.newBuilder(context)
+  .enableBillingProgram(BillingProgram.EXTERNAL_CONTENT_LINK)
+  .build()
 ```
 
 Example 2 (unknown):
 ```unknown
-POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
-
-Body
- {
-"originalPreTaxAmount" : {
-   "priceMicros": "0",
-   "currency": "KRW"
- },
- "originalTaxAmount" : {
-   "priceMicros": "0",
-   "currency": "KRW"
- },
-"transactionTime" : "2022-02-22T12:45:00Z",
- "recurringTransaction" : {
-   "externalTransactionToken": "my_token",
-   "externalSubscription" {
-     "subscriptionType": "RECURRING"
-   }
- },
- "userTaxAddress" : {
-   "regionCode": "KR"
- }
-}
+val billingClient = BillingClient.newBuilder(context)
+  .enableBillingProgram(BillingProgram.EXTERNAL_CONTENT_LINK)
+  .build()
 ```
 
-Example 3 (unknown):
-```unknown
-POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
-
-Body
- {
-"originalPreTaxAmount" : {
-   "priceMicros": "0",
-   "currency": "INR"
- },
- "originalTaxAmount" : {
-   "priceMicros": "0",
-   "currency": "INR"
- },
-"transactionTime" : "2023-11-01T12:45:00Z",
- "recurringTransaction" : {
-   "externalTransactionToken": "my_token",
-   "externalSubscription" {
-     "subscriptionType": "RECURRING"
-   }
- },
- "userTaxAddress" : {
-   # Tax varies in India based on state, so include that information in
-   # administrativeArea
-   "regionCode": "IN"
-   "administrativeArea": "KERALA"
- }
-}
+Example 3 (java):
+```java
+private BillingClient billingClient = BillingClient.newBuilder(context)
+    .enableBillingProgram(BillingProgram.EXTERNAL_CONTENT_LINK)
+    .build();
 ```
 
-Example 4 (unknown):
-```unknown
-POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
-
-Body
- {
-"originalPreTaxAmount" : {
-   "priceMicros": "0",
-   "currency": "INR"
- },
- "originalTaxAmount" : {
-   "priceMicros": "0",
-   "currency": "INR"
- },
-"transactionTime" : "2023-11-01T12:45:00Z",
- "recurringTransaction" : {
-   "externalTransactionToken": "my_token",
-   "externalSubscription" {
-     "subscriptionType": "RECURRING"
-   }
- },
- "userTaxAddress" : {
-   # Tax varies in India based on state, so include that information in
-   # administrativeArea
-   "regionCode": "IN"
-   "administrativeArea": "KERALA"
- }
-}
+Example 4 (java):
+```java
+private BillingClient billingClient = BillingClient.newBuilder(context)
+    .enableBillingProgram(BillingProgram.EXTERNAL_CONTENT_LINK)
+    .build();
 ```
 
 ---
@@ -805,29 +1235,29 @@ Body
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (gdscript):
+```gdscript
 var billingClient = BillingClient.newBuilder(context)
     .enableAlternativeBillingOnly()
     .build()
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (gdscript):
+```gdscript
 var billingClient = BillingClient.newBuilder(context)
     .enableAlternativeBillingOnly()
     .build()
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (java):
+```java
 private BillingClient billingClient = BillingClient.newBuilder(context)
     .enableAlternativeBillingOnly()
     .build();
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 private BillingClient billingClient = BillingClient.newBuilder(context)
     .enableAlternativeBillingOnly()
     .build();
@@ -934,7 +1364,35 @@ purchases.subscriptionv2 包含一些新字段，用于提供有关新订阅对�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
+
+---
+
+## 计划简介 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+
+**URL:** https://developer.android.google.cn/google/play/billing/externalcontentlinks
+
+**Contents:**
+- 计划简介 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- 术语词汇表
+- 支持外部内容链接
+- 在 Play 管理中心内进行配置
+- 链接到外部内容
+- 后续步骤
+
+通过外部内容链接计划，您可以将美国境内的用户链接到 Google Play 分发的应用之外的外部内容。通过这些外部链接，应用用户可以购买应用内数字商品或下载不受 Google Play 商店管理的应用。如需了解更多详情，请参阅计划要求。
+
+如果您想在应用中添加外部内容链接，则必须满足以下条件：
+
+如需在 Play 管理中心内配置外部内容链接，请按照计划要求中所述的步骤操作。指向外部应用下载页面的链接以及可在着陆页上下载的应用都需要在 Play 管理中心内注册并获得批准，然后才能使用。
+
+在链接到数字内容优惠或应用下载之前，系统会显示一个信息屏幕，帮助用户了解他们即将链接到您的应用之外的内容。
+
+如需开始集成外部优惠 API，请遵循深度应用内集成指南。
+
+本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
+
+最后更新时间 (UTC)：2025-12-16。
 
 ---
 
@@ -978,7 +1436,7 @@ Orders API 现在提供 get 和 batchGet 方法。
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-19。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -1119,7 +1577,7 @@ purchases.subscriptionv2 包含一些新字段，用于提供有关新订阅对�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -1223,8 +1681,8 @@ Google Play Developer API 提供以下方法来帮助您弃用商品：
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (json):
+```json
 {
   "code" : 403,
   "errors" : [ {
@@ -1237,8 +1695,8 @@ Example 1 (unknown):
 }
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (json):
+```json
 {
   "code" : 403,
   "errors" : [ {
@@ -1331,69 +1789,73 @@ Example 2 (unknown):
 - 连接到 Google Play
   - Kotlin
   - Java
-- 查看空房情况
+- 查看适用范围
   - Kotlin
   - Java
 - 准备外部交易令牌
   - Kotlin
 
-本指南介绍了如何集成 API 以支持外部优惠 在符合条件的应用和地区推出。详细了解外部优惠计划 包括资格要求和地理范围，请参阅 计划要求。
+本指南介绍了如何与相关 API 集成，以便在符合条件的应用和地区中支持外部优惠。如需详细了解外部优惠计划（包括资格要求和地理范围），请参阅计划要求。
 
-如需使用外部优惠 API，请执行以下操作： 添加 6.2.1 版或更高版本的 Play 结算库依赖项 您的 Android 应用如果您需要从早期版本迁移，请按照 请参阅迁移指南中的说明，然后再尝试实施 外部优惠。
+如需使用外部优惠 API，请向您的 Android 应用添加 Play 结算库依赖项（版本 8.2.1 或更高版本）。如果您需要从较早版本迁移，请先按照迁移指南中的说明操作，然后再尝试实现外部优惠。
 
-集成流程的最初步骤与 结算集成指南中有一些建议， 初始化 BillingClient：
+集成流程的最初步骤与结算服务集成指南中所述的一些步骤相同，但您必须在初始化 BillingClient 时调用 enableBillingProgram 来指明您要使用外部优惠：
 
 以下示例演示了如何通过这些调整来初始化 BillingClient：
 
 初始化 BillingClient 后，您需要按照集成指南中的说明与 Google Play 建立连接。
 
-您的应用应通过调用 isExternalOfferAvailableAsync。
+如需确认当前用户是否可享受外部优惠，请调用 isBillingProgramAvailableAsync。
 
-如果有外部优惠，此 API 会返回 BillingResponseCode.OK。 如需详细了解您的应用应如何处理，请参阅响应处理 对其他响应代码进行响应。
+如果有外部优惠，此 API 会返回 BillingResponseCode.OK。 如需详细了解您的应用应如何响应其他响应代码，请参阅响应处理部分。
 
-要向 Google Play 报告外部交易，您必须拥有一个外部 Play 结算库生成的交易令牌。新的外部 每次用户访问外部 通过外部优惠 API 访问网站。这可以通过调用 createExternalOfferReportingDetailsAsync API。此令牌应为 系统会在用户被定向到应用外部紧接着生成它应该 永不缓存，并且每次引导用户时都应生成一个新的密钥 。
+如需向 Google Play 报告外部交易，您必须拥有通过 Play 结算库生成的外部交易令牌。您可以通过调用 createBillingProgramReportingDetailsAsync API 来获取此令牌。在将用户引导到应用外部之前，必须立即为每个外部优惠生成新令牌。不得跨交易缓存令牌。
 
-如需与外部优惠集成，符合条件的应用必须显示相关信息 这个界面可以帮助用户了解 将应用关联到外部网站信息屏幕必须通过 先调用 showExternalOfferInformationDialog API，然后再链接到 每次外部优惠
+或者，您可以使用 Kotlin 扩展查询挂起函数 createBillingProgramReportingDetailsAsync，这样您就无需定义监听器：
 
-如果此方法返回 BillingResponseCode.OK，您的应用可以继续 将用户定向到外部网站。如果该方法返回 BillingResponseCode.USER_CANCELED，您的应用不得继续打开 网站。
+如需启动外部优惠流程，符合条件的应用必须从应用的主线程调用 launchExternalLink() API。此 API 接受 LaunchExternalLinkParams 对象作为输入。如需创建 LaunchExternalLinkParams 对象，请使用 LaunchExternalLinkParams.Builder 类。此类包含以下参数：
 
-所有外部交易都必须报告给 Google Play 从后端调用 Google Play Developer API。外部交易 同时提供 externalTransactionToken 通过 createExternalOfferReportingDetailsAsync API。如果用户多次提交 购买时，您可以使用 externalTransactionToken来报告每笔购买交易。要了解如何举报 请参阅后端集成指南。
+当您调用 launchExternalLink() 时，系统可能会根据用户的设置向用户显示其他信息对话框。Play 会根据 launchMode 参数在外部浏览器中启动链接 URI，或者将流程返回到您的应用以启动该 URI。在大多数情况下，您可以使用 LAUNCH_IN_EXTERNAL_BROWSER_OR_APP 模式，让 Play 为您启动 URI。如果您想实现更自定义的行为，例如在 WebView 中启动 URI 或在特定浏览器中打开 URI，可以使用 CALLER_WILL_LAUNCH_LINK 模式。为保护用户隐私，请确保 URI 中未传递任何个人身份信息 (PII)。
 
-发生错误时，isExternalOfferAvailableAsync 方法、 createExternalOfferReportingDetailsAsync和 showExternalOfferInformationDialog 可能会返回 BillingResponseCode.OK。请考虑按如下方式处理这些响应代码：
+如果您将 LaunchMode 设置为 CALLER_WILL_LAUNCH_LINK，则仅当 onLaunchExternalLinkResponse 提供 BillingResponseCode.OK 时，才应将用户引导至应用外部。
 
-许可测试人员应该用于测试外部优惠集成。您 对于许可测试人员发起的交易，系统不会开具账单 账号。如需了解详情，请参阅使用应用许可测试应用内购结算功能 了解如何配置许可测试人员
+您必须从后端调用 Google Play Developer API，向 Google Play 报告所有外部交易。报告交易时，您必须提供从 createBillingProgramReportingDetailsAsync API 获取的 externalTransactionToken。如果用户进行多次购买，您可以使用同一 externalTransactionToken 来报告每次购买。如需了解如何报告交易，请参阅后端集成指南。
+
+如果发生错误，方法 isBillingProgramAvailableAsync()、createBillingProgramReportingDetailsAsync() 和 launchExternalLink() 可能会返回除 BillingResponseCode.OK 之外的响应。建议按如下方式处理这些响应代码：
+
+许可测试人员应用于测试外部优惠集成。您不会收到许可测试人员账号发起的交易的账单。如需详细了解如何配置许可测试人员，请参阅使用应用许可来测试应用内购结算功能。
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-07-27。
+最后更新时间 (UTC)：2025-12-16。
 
 **Examples:**
 
 Example 1 (unknown):
 ```unknown
-var billingClient = BillingClient.newBuilder(context)
-  .enableExternalOffer()
+val billingClient = BillingClient.newBuilder(context)
+  .enableBillingProgram(BillingProgram.EXTERNAL_OFFER)
   .build()
 ```
 
 Example 2 (unknown):
 ```unknown
-var billingClient = BillingClient.newBuilder(context)
-  .enableExternalOffer()
+val billingClient = BillingClient.newBuilder(context)
+  .enableBillingProgram(BillingProgram.EXTERNAL_OFFER)
   .build()
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (java):
+```java
 private BillingClient billingClient = BillingClient.newBuilder(context)
-    .enableExternalOffer()
+    .enableBillingProgram(BillingProgram.EXTERNAL_OFFER)
     .build();
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 private BillingClient billingClient = BillingClient.newBuilder(context)
-    .enableExternalOffer()
+    .enableBillingProgram(BillingProgram.EXTERNAL_OFFER)
     .build();
 ```
 
@@ -1711,27 +2173,27 @@ queryPurchasesAsync() 会立即返回带有新购买令牌的购买交易以及�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-19。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions?sku=your-sub-product-id&package=your-app-package
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (yaml):
+```yaml
 https://play.google.com/store/account/subscriptions?sku=your-sub-product-id&package=your-app-package
 ```
 
@@ -1761,7 +2223,7 @@ https://play.google.com/store/account/subscriptions?sku=your-sub-product-id&pack
 
 Google Play 结算服务集成推荐模块的其余部分与开发者当前集成中所含的内容相同。
 
-此外，我们建议您完成 Google Play Developer API 集成设置，因为后端集成将用到它。
+此外，建议您完成 Google Play Developer API 集成设置，因为后端集成将用到它。
 
 如果开发者已完成相应需用户自选的备选结算系统计划的注册流程，并集成了备选结算系统 API，则可以通过 Play 管理中心来管理其备选结算系统设置：
 
@@ -1777,9 +2239,9 @@ Google Play 结算服务集成推荐模块的其余部分与开发者当前集�
 
 如需开始集成备选结算系统 API（需用户自选），请遵循应用内集成和后端集成的深度指南。
 
-本部分介绍了在不提供 Google Play 结算系统这一选项的情况下，如何为用户提供备选结算系统。使用这些 API 之前，请确保以下几点：
+本部分介绍了如何为用户提供备选结算系统。使用这些 API 之前，请完成以下前提条件：
 
-建议您完成 Google Play Developer API 集成设置，因为后端集成将用到它。
+建议您完成 Google Play Developer API 集成设置，因为后端集成将基于它构建。
 
 如果开发者已完成注册流程，并集成了备选结算系统 API，则可以通过 Play 管理中心来管理其备选结算系统设置：
 
@@ -1789,7 +2251,89 @@ Google Play 结算服务集成推荐模块的其余部分与开发者当前集�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-07-27。
+最后更新时间 (UTC)：2025-12-09。
+
+---
+
+## 外部内容链接的应用内集成指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+
+**URL:** https://developer.android.google.cn/google/play/billing/externalcontentlinks/integration?hl=zh-cn
+
+**Contents:**
+- 外部内容链接的应用内集成指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- Play 结算库设置
+- 初始化结算客户端
+  - Kotlin
+  - Java
+- 连接到 Google Play
+- 检查用户资格
+  - Kotlin
+  - Java
+- 准备外部交易令牌
+
+本文档介绍了如何集成 Play 结算库 API，以便在符合条件的应用中提供外部内容链接。这包括能够将美国境内的用户引导至 Play 应用之外，以便向用户提供应用内数字内容和应用下载的优惠。如需详细了解此计划，请参阅计划要求。
+
+向您的 Android 应用添加 Play 结算库依赖项。如需使用外部链接 API，您需要使用 8.2.1 或更高版本。如果您需要从较早版本迁移，请先按照迁移指南中的说明操作，然后再添加外部内容链接。
+
+如需初始化结算客户端，请按照初始化 BillingClient 中所述的步骤操作，但需进行以下修改：
+
+以下示例演示了如何通过这些调整来初始化 BillingClient：
+
+初始化 BillingClient 后，请按照连接到 Google Play 中的说明连接到 Google Play。
+
+连接到 Google Play 后，您必须通过调用 isBillingProgramAvailableAsync() 方法来检查用户是否符合外部内容链接计划的条件。如果用户符合外部内容链接计划的条件，此方法会返回 BillingResponseCode.OK。以下示例展示了如何检查用户是否符合外部内容链接的条件：
+
+如需详细了解您的应用应如何响应其他响应代码，请参阅响应处理部分。如果您使用 Kotlin 扩展，则可以使用 Kotlin 协程，因此无需定义单独的监听器。
+
+接下来，您必须从 Play Billing 库生成外部交易令牌。每次用户通过外部链接 API 访问外部网站时，都必须生成新的外部交易令牌。您可以通过调用 createBillingProgramReportingDetailsAsync API 来完成此操作。令牌应在用户链接出去之前立即生成。
+
+注意：外部交易令牌绝不应缓存，并且每次用户链接出去时都应生成新令牌。
+
+如果您使用 Kotlin 扩展，则可以使用 Kotlin 协程，因此无需定义单独的监听器。
+
+外部交易令牌准备就绪后，用户可以通过调用 launchExternalLink 方法在应用外部链接到数字内容优惠或应用下载。当您调用此 API 时，Google Play 可能会根据用户的用户设置向用户呈现其他信息对话框。
+
+调用 launchExternalLink 方法时，必须通过 LaunchExternalLinkParams 提供外部链接的详细信息。此类包含以下参数：
+
+结算计划 - 将此项设置为 BillingProgram.EXTERNAL_CONTENT_LINK。
+
+发生错误时，方法 isBillingProgramAvailableAsync()、createBillingProgramReportingDetailsAsync() 和 onLaunchExternalLinkResponse() 可能会提供除 BillingResponseCode.OK 之外的 BillingResponseCode。请考虑按如下方式处理这些响应代码：
+
+许可测试人员应用于测试外部优惠集成。您不会收到许可测试人员账号发起的交易的账单。如需详细了解如何配置许可测试人员，请参阅使用应用许可来测试应用内购结算功能。
+
+本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
+
+最后更新时间 (UTC)：2025-12-16。
+
+**Examples:**
+
+Example 1 (unknown):
+```unknown
+val billingClient = BillingClient.newBuilder(context)
+  .enableBillingProgram(BillingProgram.EXTERNAL_CONTENT_LINK)
+  .build()
+```
+
+Example 2 (unknown):
+```unknown
+val billingClient = BillingClient.newBuilder(context)
+  .enableBillingProgram(BillingProgram.EXTERNAL_CONTENT_LINK)
+  .build()
+```
+
+Example 3 (java):
+```java
+private BillingClient billingClient = BillingClient.newBuilder(context)
+    .enableBillingProgram(BillingProgram.EXTERNAL_CONTENT_LINK)
+    .build();
+```
+
+Example 4 (java):
+```java
+private BillingClient billingClient = BillingClient.newBuilder(context)
+    .enableBillingProgram(BillingProgram.EXTERNAL_CONTENT_LINK)
+    .build();
+```
 
 ---
 
@@ -1865,29 +2409,29 @@ Google Play 结算服务集成推荐模块的其余部分与开发者当前集�
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (gdscript):
+```gdscript
 var billingClient = BillingClient.newBuilder(context)
     .enableAlternativeBillingOnly()
     .build()
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (gdscript):
+```gdscript
 var billingClient = BillingClient.newBuilder(context)
     .enableAlternativeBillingOnly()
     .build()
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (java):
+```java
 private BillingClient billingClient = BillingClient.newBuilder(context)
     .enableAlternativeBillingOnly()
     .build();
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 private BillingClient billingClient = BillingClient.newBuilder(context)
     .enableAlternativeBillingOnly()
     .build();
@@ -1930,7 +2474,7 @@ Google Play 的后端可充当 RTDN 的发布端。如需为您的应用设置 R
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -1944,69 +2488,73 @@ Google Play 的后端可充当 RTDN 的发布端。如需为您的应用设置 R
 - 连接到 Google Play
   - Kotlin
   - Java
-- 查看空房情况
+- 查看适用范围
   - Kotlin
   - Java
 - 准备外部交易令牌
   - Kotlin
 
-本指南介绍了如何集成 API 以支持外部优惠 在符合条件的应用和地区推出。详细了解外部优惠计划 包括资格要求和地理范围，请参阅 计划要求。
+本指南介绍了如何与相关 API 集成，以便在符合条件的应用和地区中支持外部优惠。如需详细了解外部优惠计划（包括资格要求和地理范围），请参阅计划要求。
 
-如需使用外部优惠 API，请执行以下操作： 添加 6.2.1 版或更高版本的 Play 结算库依赖项 您的 Android 应用如果您需要从早期版本迁移，请按照 请参阅迁移指南中的说明，然后再尝试实施 外部优惠。
+如需使用外部优惠 API，请向您的 Android 应用添加 Play 结算库依赖项（版本 8.2.1 或更高版本）。如果您需要从较早版本迁移，请先按照迁移指南中的说明操作，然后再尝试实现外部优惠。
 
-集成流程的最初步骤与 结算集成指南中有一些建议， 初始化 BillingClient：
+集成流程的最初步骤与结算服务集成指南中所述的一些步骤相同，但您必须在初始化 BillingClient 时调用 enableBillingProgram 来指明您要使用外部优惠：
 
 以下示例演示了如何通过这些调整来初始化 BillingClient：
 
 初始化 BillingClient 后，您需要按照集成指南中的说明与 Google Play 建立连接。
 
-您的应用应通过调用 isExternalOfferAvailableAsync。
+如需确认当前用户是否可享受外部优惠，请调用 isBillingProgramAvailableAsync。
 
-如果有外部优惠，此 API 会返回 BillingResponseCode.OK。 如需详细了解您的应用应如何处理，请参阅响应处理 对其他响应代码进行响应。
+如果有外部优惠，此 API 会返回 BillingResponseCode.OK。 如需详细了解您的应用应如何响应其他响应代码，请参阅响应处理部分。
 
-要向 Google Play 报告外部交易，您必须拥有一个外部 Play 结算库生成的交易令牌。新的外部 每次用户访问外部 通过外部优惠 API 访问网站。这可以通过调用 createExternalOfferReportingDetailsAsync API。此令牌应为 系统会在用户被定向到应用外部紧接着生成它应该 永不缓存，并且每次引导用户时都应生成一个新的密钥 。
+如需向 Google Play 报告外部交易，您必须拥有通过 Play 结算库生成的外部交易令牌。您可以通过调用 createBillingProgramReportingDetailsAsync API 来获取此令牌。在将用户引导到应用外部之前，必须立即为每个外部优惠生成新令牌。不得跨交易缓存令牌。
 
-如需与外部优惠集成，符合条件的应用必须显示相关信息 这个界面可以帮助用户了解 将应用关联到外部网站信息屏幕必须通过 先调用 showExternalOfferInformationDialog API，然后再链接到 每次外部优惠
+或者，您可以使用 Kotlin 扩展查询挂起函数 createBillingProgramReportingDetailsAsync，这样您就无需定义监听器：
 
-如果此方法返回 BillingResponseCode.OK，您的应用可以继续 将用户定向到外部网站。如果该方法返回 BillingResponseCode.USER_CANCELED，您的应用不得继续打开 网站。
+如需启动外部优惠流程，符合条件的应用必须从应用的主线程调用 launchExternalLink() API。此 API 接受 LaunchExternalLinkParams 对象作为输入。如需创建 LaunchExternalLinkParams 对象，请使用 LaunchExternalLinkParams.Builder 类。此类包含以下参数：
 
-所有外部交易都必须报告给 Google Play 从后端调用 Google Play Developer API。外部交易 同时提供 externalTransactionToken 通过 createExternalOfferReportingDetailsAsync API。如果用户多次提交 购买时，您可以使用 externalTransactionToken来报告每笔购买交易。要了解如何举报 请参阅后端集成指南。
+当您调用 launchExternalLink() 时，系统可能会根据用户的设置向用户显示其他信息对话框。Play 会根据 launchMode 参数在外部浏览器中启动链接 URI，或者将流程返回到您的应用以启动该 URI。在大多数情况下，您可以使用 LAUNCH_IN_EXTERNAL_BROWSER_OR_APP 模式，让 Play 为您启动 URI。如果您想实现更自定义的行为，例如在 WebView 中启动 URI 或在特定浏览器中打开 URI，可以使用 CALLER_WILL_LAUNCH_LINK 模式。为保护用户隐私，请确保 URI 中未传递任何个人身份信息 (PII)。
 
-发生错误时，isExternalOfferAvailableAsync 方法、 createExternalOfferReportingDetailsAsync和 showExternalOfferInformationDialog 可能会返回 BillingResponseCode.OK。请考虑按如下方式处理这些响应代码：
+如果您将 LaunchMode 设置为 CALLER_WILL_LAUNCH_LINK，则仅当 onLaunchExternalLinkResponse 提供 BillingResponseCode.OK 时，才应将用户引导至应用外部。
 
-许可测试人员应该用于测试外部优惠集成。您 对于许可测试人员发起的交易，系统不会开具账单 账号。如需了解详情，请参阅使用应用许可测试应用内购结算功能 了解如何配置许可测试人员
+您必须从后端调用 Google Play Developer API，向 Google Play 报告所有外部交易。报告交易时，您必须提供从 createBillingProgramReportingDetailsAsync API 获取的 externalTransactionToken。如果用户进行多次购买，您可以使用同一 externalTransactionToken 来报告每次购买。如需了解如何报告交易，请参阅后端集成指南。
+
+如果发生错误，方法 isBillingProgramAvailableAsync()、createBillingProgramReportingDetailsAsync() 和 launchExternalLink() 可能会返回除 BillingResponseCode.OK 之外的响应。建议按如下方式处理这些响应代码：
+
+许可测试人员应用于测试外部优惠集成。您不会收到许可测试人员账号发起的交易的账单。如需详细了解如何配置许可测试人员，请参阅使用应用许可来测试应用内购结算功能。
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-07-27。
+最后更新时间 (UTC)：2025-12-16。
 
 **Examples:**
 
 Example 1 (unknown):
 ```unknown
-var billingClient = BillingClient.newBuilder(context)
-  .enableExternalOffer()
+val billingClient = BillingClient.newBuilder(context)
+  .enableBillingProgram(BillingProgram.EXTERNAL_OFFER)
   .build()
 ```
 
 Example 2 (unknown):
 ```unknown
-var billingClient = BillingClient.newBuilder(context)
-  .enableExternalOffer()
+val billingClient = BillingClient.newBuilder(context)
+  .enableBillingProgram(BillingProgram.EXTERNAL_OFFER)
   .build()
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (java):
+```java
 private BillingClient billingClient = BillingClient.newBuilder(context)
-    .enableExternalOffer()
+    .enableBillingProgram(BillingProgram.EXTERNAL_OFFER)
     .build();
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 private BillingClient billingClient = BillingClient.newBuilder(context)
-    .enableExternalOffer()
+    .enableBillingProgram(BillingProgram.EXTERNAL_OFFER)
     .build();
 ```
 
@@ -2054,13 +2602,13 @@ private BillingClient billingClient = BillingClient.newBuilder(context)
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (yaml):
+```yaml
 https://play.google.com/redeem?code=promo_code
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (yaml):
+```yaml
 https://play.google.com/redeem?code=promo_code
 ```
 
@@ -2255,6 +2803,322 @@ Play 结算库中还提供了购买交易确认和消耗方法，可让您通过
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
 最后更新时间 (UTC)：2025-07-27。
+
+---
+
+## 实时开发者通知参考指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+
+**URL:** https://developer.android.google.cn/google/play/billing/rtdn-reference?hl=zh-cn
+
+**Contents:**
+- 实时开发者通知参考指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- 编码
+- SubscriptionNotification
+  - 示例
+- OneTimeProductNotification
+  - 示例
+- VoidedPurchaseNotification
+  - 示例
+  - 使用 VoidedPurchaseNotification
+- TestNotification
+
+本文档列出并描述了您可以从 Google Play 收到的 实时开发者通知的类型。
+
+发布到 Cloud Pub/Sub 主题的每条消息都包含一个以 base64 编码的数据字段。
+
+对以 base64 编码的数据字段进行解码后，DeveloperNotification 包含以下字段：
+
+SubscriptionNotification 包含以下字段：
+
+OneTimeProductNotification 包含以下字段：
+
+VoidedPurchaseNotification 包含以下字段：
+
+与作废的购买交易关联的令牌。当有新的购买交易发生时，系统会向开发者提供此信息。
+
+与作废的交易关联的唯一订单 ID。对于一次性购买，此字段代表了为这笔购买交易生成的唯一订单 ID。对于自动续订型订阅，系统会为每笔续订交易生成一个新的订单 ID。
+
+作废的购买交易的 productType 可以具有以下值：
+
+作废的购买交易的 refundType 可以具有以下值：
+
+请注意，当多数量购买交易的剩余总数量得到退款时，refundType 将为 REFUND_TYPE_FULL_REFUND。
+
+当您的 RTDN 客户端收到 VoidedPurchaseNotification 时，请注意以下信息：
+
+TestNotification 包含以下字段：
+
+本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
+
+最后更新时间 (UTC)：2025-12-23。
+
+**Examples:**
+
+Example 1 (json):
+```json
+{
+  "message": {
+    "attributes": {
+      "key": "value"
+    },
+    "data": "eyAidmVyc2lvbiI6IHN0cmluZywgInBhY2thZ2VOYW1lIjogc3RyaW5nLCAiZXZlbnRUaW1lTWlsbGlzIjogbG9uZywgIm9uZVRpbWVQcm9kdWN0Tm90aWZpY2F0aW9uIjogT25lVGltZVByb2R1Y3ROb3RpZmljYXRpb24sICJzdWJzY3JpcHRpb25Ob3RpZmljYXRpb24iOiBTdWJzY3JpcHRpb25Ob3RpZmljYXRpb24sICJ0ZXN0Tm90aWZpY2F0aW9uIjogVGVzdE5vdGlmaWNhdGlvbiB9",
+    "messageId": "136969346945"
+  },
+  "subscription": "projects/myproject/subscriptions/mysubscription"
+}
+```
+
+Example 2 (json):
+```json
+{
+  "message": {
+    "attributes": {
+      "key": "value"
+    },
+    "data": "eyAidmVyc2lvbiI6IHN0cmluZywgInBhY2thZ2VOYW1lIjogc3RyaW5nLCAiZXZlbnRUaW1lTWlsbGlzIjogbG9uZywgIm9uZVRpbWVQcm9kdWN0Tm90aWZpY2F0aW9uIjogT25lVGltZVByb2R1Y3ROb3RpZmljYXRpb24sICJzdWJzY3JpcHRpb25Ob3RpZmljYXRpb24iOiBTdWJzY3JpcHRpb25Ob3RpZmljYXRpb24sICJ0ZXN0Tm90aWZpY2F0aW9uIjogVGVzdE5vdGlmaWNhdGlvbiB9",
+    "messageId": "136969346945"
+  },
+  "subscription": "projects/myproject/subscriptions/mysubscription"
+}
+```
+
+Example 3 (json):
+```json
+{
+  "version": string,
+  "packageName": string,
+  "eventTimeMillis": long,
+  "oneTimeProductNotification": OneTimeProductNotification,
+  "subscriptionNotification": SubscriptionNotification,
+  "voidedPurchaseNotification": VoidedPurchaseNotification,
+  "testNotification": TestNotification
+}
+```
+
+Example 4 (json):
+```json
+{
+  "version": string,
+  "packageName": string,
+  "eventTimeMillis": long,
+  "oneTimeProductNotification": OneTimeProductNotification,
+  "subscriptionNotification": SubscriptionNotification,
+  "voidedPurchaseNotification": VoidedPurchaseNotification,
+  "testNotification": TestNotification
+}
+```
+
+---
+
+## 应用内集成指南（适用于外部支付） 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+
+**URL:** https://developer.android.google.cn/google/play/billing/externalpaymentlinks/integration
+
+**Contents:**
+- 应用内集成指南（适用于外部支付） 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- Play 结算库设置
+- 初始化结算客户端
+  - Kotlin
+  - Java
+- 连接到 Google Play
+- 检查用户资格
+  - Kotlin
+  - Java
+- 显示可购买的商品
+
+本文档介绍了如何集成 Play 结算库 API，以便在符合条件的应用中提供外部付款方式。如需详细了解此计划，请参阅计划要求。
+
+向您的 Android 应用添加 Play 结算库依赖项。如需使用外部付款 API，您需要使用 8.3 或更高版本。如果您需要从较早版本迁移，请先按照迁移指南中的说明升级，然后再开始集成。
+
+集成流程的最初步骤与 Google Play 结算服务集成指南中所述的一些步骤相同，在初始化您的 BillingClient 时需进行一些调整：
+
+以下示例演示了如何通过这些调整来初始化 BillingClient：
+
+初始化 BillingClient 后，请按照与 Google Play 建立连接中的说明与 Google Play 建立连接。
+
+连接到 Google Play 后，您可以通过调用 isBillingProgramAvailableAsync() 方法来检查用户是否符合外部付款计划的条件。如果用户符合条件，此方法会返回 BillingResponseCode.OK。以下示例演示了如何检查资格条件：
+
+如需详细了解您的应用应如何响应其他响应代码，请参阅响应处理部分。如果您使用 Kotlin 扩展，则可以使用 Kotlin 协程，因此无需定义单独的监听器。
+
+您可以采用集成 Google Play 结算系统的相同方式向用户显示可购买的商品。当用户看到可供购买的商品并选择购买时，请启动外部付款流程（如启动外部付款流程部分中所述）。
+
+如需向 Google Play 报告外部交易，您必须拥有通过 Play 结算库生成的外部交易令牌。每次用户通过外部支付 API 访问外部网站或应用时，都必须生成新的外部交易令牌。您可以通过调用 createBillingProgramReportingDetailsAsync API 来完成此操作。令牌应在调用 launchBillingFlow 之前立即生成。
+
+如果您使用 Kotlin 扩展，则可以使用 Kotlin 协程，因此无需定义单独的监听器。
+
+通过调用 launchBillingFlow() 启动外部付款流程，这与通过集成 Google Play 结算系统来启动购买流程类似，但需要额外提供一个参数 DeveloperBillingOptionParams，用于指明您的应用希望为此购买交易启用外部付款流程。
+
+DeveloperBillingOptionParams 必须包含以下内容：
+
+当您的应用调用 launchBillingFlow() 并提供 DeveloperBillingOptionParams 时，Google Play 结算系统会执行以下检查：
+
+已启用外部支付（BillingClient 设置和 launchBillingFlow）
+
+用户会看到标准的 Google Play 结算系统用户体验
+
+未启用外部付款（在 BillingClient 设置期间未启用，或未向 launchBillingFlow 提供 DeveloperBillingOptionParams）
+
+用户会看到标准的 Google Play 结算系统用户体验
+
+用户会看到标准的 Google Play 结算系统用户体验
+
+以下代码段演示了如何构造 DeveloperBillingOptionParams：
+
+购买流程其余部分的处理方式不尽相同，具体取决于用户选择的是 Google Play 结算系统还是在您的网站上付款。
+
+如果用户选择在您的网站上付款，Google Play 会调用 DeveloperProvidedBillingListener 来通知应用用户选择在您的网站上或在付款应用中付款。具体来说，系统会调用 onUserSelectedDeveloperBilling() 方法。
+
+如果您的应用将 launchMode 设置为 LAUNCH_IN_EXTERNAL_BROWSER_OR_APP，则 Google Play 将启动该链接。如果 launchMode 设置为 CALLER_WILL_LAUNCH_LINK，则您的应用负责启动链接。 将用户链接到付款应用时，您有责任检查用户是否已在其设备上安装付款应用。
+
+如后端集成指南中所述，使用此令牌可报告这一选择产生的任何交易。
+
+如果用户选择 Google Play 结算系统，则可以继续通过 Google Play 进行购买交易。
+
+如果开发者使用外部付款方式，则需要通过 Google Play 结算系统处理购买交易或使用 externalTransactionId 报告购买交易，具体取决于用户的选择。在订阅到期之前，通过开发者网站来处理的对现有订阅的变更可通过同一结算系统实现。
+
+本部分介绍了如何处理一些常见的订阅变更场景。
+
+订阅方案变更（包括升级和降级流程）的处理方式应有所不同，具体取决于订阅最初是通过 Google Play 结算系统购买的，还是通过开发者的网站购买的。
+
+依赖于现有订阅、共用相同付款方式且定期扣款时间一致的加购项将作为升级处理。对于其他加购项，用户应该能够选择要使用的结算系统。使用 launchBillingFlow() 启动新的购买体验，如启动外部付款流程中所述。
+
+对于最初在用户选择后通过开发者的网站或支付应用购买的订阅，请求升级或降级的用户应通过开发者的网站或支付应用继续操作，无需用户再次选择。
+
+为此，当用户请求升级或降级时，请调用 launchBillingFlow()。请使用 setOriginalExternalTransactionId() 提供原始购买交易的外部交易 ID，而不是在 SubscriptionUpdateParams 对象下指定其他参数。
+
+在此调用中，还必须提供 DeveloperBillingOptionParams。采用这种方式不会显示用户选择界面，因为系统会保留原始购买交易的相关用户选择以用于升级和降级。您必须为此交易生成新的外部交易令牌，如此处所述。
+
+当用户使用开发者的网站或付款应用完成升级或降级后，您需要使用通过之前针对新订阅购买交易的调用所获得的外部交易令牌来报告新交易。
+
+同样，如果用户选择通过 Google Play 结算系统购买其当前订阅，系统应向该用户显示标准 Google Play 结算流程。不得在对 launchBillingFlow 的调用中设置 DeveloperBillingOptionParams。
+
+用户应该能够随时取消订阅。用户取消订阅后，使用权可能直到付费期结束才会终止。例如，如果用户在月中取消了月度订阅，可以在剩下的大约 2 周内继续使用该服务，直到其使用权限被撤消为止。在此期间，订阅在技术层面上仍处于有效状态，因此用户可以使用该服务。
+
+在这一活跃期内，用户决定撤消取消订阅操作的情况并不少见。在本指南中，此情况称为“恢复”。以下部分介绍了如何在外部付款 API 集成中处理恢复场景。
+
+如果您有一项已取消的订阅的外部交易 ID，则无需调用 launchBillingFlow() 即可恢复该订阅，因此它不应被用于此类激活。如果用户在已取消的订阅的有效期内恢复订阅，则不会发生任何交易；如果当前周期到期后发生下次续订，您只需继续报告续订即可。这包括以下情形：用户在恢复期间会收到赠送金额或获享特殊续订价格（例如，一项旨在鼓励用户继续订阅的促销活动）。
+
+通常，用户可以在 Google Play 结算系统中恢复订阅。 对于最初通过 Google Play 结算系统购买的订阅，用户可以在订阅处于有效状态时通过 Google Play 的重新订阅功能选择撤消之前的取消操作。在这种情况下，您会在后端收到 SUBSCRIPTION_RESTARTED 实时开发者通知，并且系统不会发放新的购买令牌，而会使用原始令牌来继续订阅。如需了解如何管理 Google Play 结算系统中的恢复，请参阅订阅管理指南中的恢复。
+
+您还可以通过调用 launchBillingFlow()，从应用中触发 Google Play 结算系统中的恢复订阅流程。如需了解实现方法，请参阅订阅到期之前 - 应用内。如果用户完成了原始购买交易的用户选择流程（已取消，但仍处于有效状态），系统会自动检测用户的选择，并显示用于恢复这些购买交易的界面。系统会提示用户通过 Google Play 确认重新购买相应订阅，但用户无需再次经历用户选择流程。在这种情况下，系统会为用户发放新的购买令牌。您的后端会收到 SUBSCRIPTION_PURCHASED 实时开发者通知，并且新购买交易状态的 linkedPurchaseToken 值会设为升级或降级情形下的状态，采用被取消的订阅之前所用的购买令牌。
+
+如果订阅完全过期，无论是由于被取消还是未恢复且付款遭拒（账号保留期已过），如果用户想要重获使用权，必须重新订阅。
+
+也可通过该应用来实现重新订阅，处理方法与标准订阅方式类似。用户应该能够选择要使用的结算系统。在这种情况下，系统可能会调用 launchBillingFlow()，如启动外部支付流程中所述。
+
+发生错误时，方法 isBillingProgramAvailableAsync()、createBillingProgramReportingDetailsAsync()、launchBillingFlow() 可能会提供除 BillingResponseCode.OK 之外的 BillingResponseCode。请考虑按如下方式处理这些响应代码：
+
+许可测试人员应用于测试外部付款集成。 您不会收到许可测试账号发起的交易的账单。如需详细了解如何配置许可测试人员，请参阅使用应用许可来测试应用内购结算功能。
+
+本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
+
+最后更新时间 (UTC)：2025-12-23。
+
+**Examples:**
+
+Example 1 (php):
+```php
+val purchasesUpdatedListener =
+    PurchasesUpdatedListener { billingResult, purchases ->
+        // Handle new Google Play purchase.
+    }
+
+val developerProvidedBillingListener =
+    DeveloperProvidedBillingListener { details ->
+        // Handle user selection for developer provided billing option.
+    }
+
+val billingClient = BillingClient.newBuilder(context)
+    .setListener(purchasesUpdatedListener)
+    .enablePendingPurchases()
+    .enableBillingProgram(
+        EnableBillingProgramParams.newBuilder()
+            .setBillingProgram(BillingProgram.EXTERNAL_PAYMENTS)
+            .setDeveloperProvidedBillingListener(developerProvidedBillingListener)
+            .build())
+    .build()
+```
+
+Example 2 (php):
+```php
+val purchasesUpdatedListener =
+    PurchasesUpdatedListener { billingResult, purchases ->
+        // Handle new Google Play purchase.
+    }
+
+val developerProvidedBillingListener =
+    DeveloperProvidedBillingListener { details ->
+        // Handle user selection for developer provided billing option.
+    }
+
+val billingClient = BillingClient.newBuilder(context)
+    .setListener(purchasesUpdatedListener)
+    .enablePendingPurchases()
+    .enableBillingProgram(
+        EnableBillingProgramParams.newBuilder()
+            .setBillingProgram(BillingProgram.EXTERNAL_PAYMENTS)
+            .setDeveloperProvidedBillingListener(developerProvidedBillingListener)
+            .build())
+    .build()
+```
+
+Example 3 (java):
+```java
+private PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
+    @Override
+    public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+        // Handle new Google Play purchase.
+    }
+};
+
+private DeveloperProvidedBillingListener developerProvidedBillingListener =
+    new DeveloperProvidedBillingListener() {
+        @Override
+        public void onUserSelectedDeveloperBilling(
+            DeveloperProvidedBillingDetails details) {
+            // Handle user selection for developer provided billing option.
+        }
+    };
+
+private BillingClient billingClient = BillingClient.newBuilder(context)
+    .setListener(purchasesUpdatedListener)
+    .enablePendingPurchases()
+    .enableBillingProgram(
+        EnableBillingProgramParams.newBuilder()
+            .setBillingProgram(BillingProgram.EXTERNAL_PAYMENTS)
+            .setDeveloperProvidedBillingListener(developerProvidedBillingListener)
+            .build())
+    .build();
+```
+
+Example 4 (java):
+```java
+private PurchasesUpdatedListener purchasesUpdatedListener = new PurchasesUpdatedListener() {
+    @Override
+    public void onPurchasesUpdated(BillingResult billingResult, List<Purchase> purchases) {
+        // Handle new Google Play purchase.
+    }
+};
+
+private DeveloperProvidedBillingListener developerProvidedBillingListener =
+    new DeveloperProvidedBillingListener() {
+        @Override
+        public void onUserSelectedDeveloperBilling(
+            DeveloperProvidedBillingDetails details) {
+            // Handle user selection for developer provided billing option.
+        }
+    };
+
+private BillingClient billingClient = BillingClient.newBuilder(context)
+    .setListener(purchasesUpdatedListener)
+    .enablePendingPurchases()
+    .enableBillingProgram(
+        EnableBillingProgramParams.newBuilder()
+            .setBillingProgram(BillingProgram.EXTERNAL_PAYMENTS)
+            .setDeveloperProvidedBillingListener(developerProvidedBillingListener)
+            .build())
+    .build();
+```
 
 ---
 
@@ -2492,26 +3356,26 @@ Google Play 结算库提供了一个替代 API 来代替这些方法。如需升
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-11-10。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (julia):
+```julia
 // Create a builder using the GooglePlayStoreModule.
 var configurationBuilder =
     ConfigurationBuilder.Instance(Google.Play.Billing.GooglePlayStoreModule.Instance());
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (julia):
+```julia
 // Create a builder using the GooglePlayStoreModule.
 var configurationBuilder =
     ConfigurationBuilder.Instance(Google.Play.Billing.GooglePlayStoreModule.Instance());
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (json):
+```json
 ConfigurationBuilder builder;
 if (Application.platform == RuntimePlatform.Android)
 {
@@ -2524,8 +3388,8 @@ else
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (json):
+```json
 ConfigurationBuilder builder;
 if (Application.platform == RuntimePlatform.Android)
 {
@@ -2600,12 +3464,12 @@ TestNotification 包含以下字段：
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (json):
+```json
 {
   "message": {
     "attributes": {
@@ -2618,8 +3482,8 @@ Example 1 (unknown):
 }
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (json):
+```json
 {
   "message": {
     "attributes": {
@@ -2632,8 +3496,8 @@ Example 2 (unknown):
 }
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (json):
+```json
 {
   "version": string,
   "packageName": string,
@@ -2645,8 +3509,8 @@ Example 3 (unknown):
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (json):
+```json
 {
   "version": string,
   "packageName": string,
@@ -2736,7 +3600,7 @@ Example 4 (unknown):
 
 Google Play 结算服务集成推荐模块的其余部分与开发者当前集成中所含的内容相同。
 
-此外，我们建议您完成 Google Play Developer API 集成设置，因为后端集成将用到它。
+此外，建议您完成 Google Play Developer API 集成设置，因为后端集成将用到它。
 
 如果开发者已完成相应需用户自选的备选结算系统计划的注册流程，并集成了备选结算系统 API，则可以通过 Play 管理中心来管理其备选结算系统设置：
 
@@ -2752,9 +3616,9 @@ Google Play 结算服务集成推荐模块的其余部分与开发者当前集�
 
 如需开始集成备选结算系统 API（需用户自选），请遵循应用内集成和后端集成的深度指南。
 
-本部分介绍了在不提供 Google Play 结算系统这一选项的情况下，如何为用户提供备选结算系统。使用这些 API 之前，请确保以下几点：
+本部分介绍了如何为用户提供备选结算系统。使用这些 API 之前，请完成以下前提条件：
 
-建议您完成 Google Play Developer API 集成设置，因为后端集成将用到它。
+建议您完成 Google Play Developer API 集成设置，因为后端集成将基于它构建。
 
 如果开发者已完成注册流程，并集成了备选结算系统 API，则可以通过 Play 管理中心来管理其备选结算系统设置：
 
@@ -2764,7 +3628,7 @@ Google Play 结算服务集成推荐模块的其余部分与开发者当前集�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-07-27。
+最后更新时间 (UTC)：2025-12-09。
 
 ---
 
@@ -2878,7 +3742,7 @@ purchases.subscriptionv2 包含一些新字段，用于提供有关新订阅对�
 
 以下示例演示了如何启动连接并测试它是否已准备就绪可供使用：
 
-随着版本 8.0.0 中引入了 BillingClient.Builder 中的 enableAutoServiceReconnection() 方法，如果服务断开连接时进行了 API 调用，Play 结算库现在可以自动重新建立服务连接。由于在进行 API 调用之前，系统会在内部处理重新连接，因此这可能会导致 SERVICE_DISCONNECTED 响应减少。
+随着版本 8.0.0 中引入了 BillingClient.Builder 中的 enableAutoServiceReconnection() 方法，如果服务断开连接时进行了 API 调用，Play 结算库现在可以自动重新建立服务连接。由于在进行 API 调用之前，系统会在内部处理重新连接，因此这可能会减少 SERVICE_DISCONNECTED 响应。
 
 构建 BillingClient 实例时，请使用 BillingClient.Builder 中的 enableAutoServiceReconnection() 方法来启用自动重新连接。
 
@@ -2886,7 +3750,7 @@ purchases.subscriptionv2 包含一些新字段，用于提供有关新订阅对�
 
 在将商品展示给用户之前，查询商品详情是非常重要的一步，因为查询会返回本地化的商品信息。对于订阅，请验证您的商品展示符合所有 Play 政策。
 
-如需查询一次性商品详情，请调用 queryProductDetailsAsync 方法。此方法可以根据您的一次性商品配置返回多个优惠。如需了解详情，请参阅一次性商品的多项购买选项和优惠。
+如需查询一次性商品详情，请调用 queryProductDetailsAsync 方法。此方法可以根据您的一次性商品配置返回多个优惠。如需了解详情，请参阅一次性商品的多种购买选项和优惠。
 
 为了处理该异步操作的结果，您还必须指定实现 ProductDetailsResponseListener 接口的监听器。然后，您可以替换 onProductDetailsResponse，该方法会在查询完成时通知监听器，如以下示例所示：
 
@@ -2898,7 +3762,7 @@ queryProductDetails() 会利用 Kotlin 协程，因此您无需定义单独的�
 
 在极少数情况下，某些设备无法支持 ProductDetails 和 queryProductDetailsAsync()，这通常是因为 Google Play 服务版本已过时。为确保对此场景提供适当的支持，请参阅 Play 结算库版本 7 迁移指南，了解如何使用向后兼容的功能。
 
-Google Play 结算库会将查询结果存储在 QueryProductDetailsResult 对象中。QueryProductDetailsResult 包含 ProductDetails 对象的 List。您随后可以对该列表中的每个 ProductDetails 对象调用各种方法，以查看成功提取的一次性商品的相关信息，如其价格或说明。如需查看可用的商品详情，请参阅 ProductDetails 类中的方法列表。
+Google Play 结算库会将查询结果存储在 QueryProductDetailsResult 对象中。QueryProductDetailsResult 包含 List 个 ProductDetails 对象。您随后可以对该列表中的每个 ProductDetails 对象调用各种方法，以查看成功提取的一次性商品的相关信息，如其价格或说明。如需查看可用的商品详情，请参阅 ProductDetails 类中的方法列表。
 
 QueryProductDetailsResult 还包含 UnfetchedProduct 对象的 List。然后，您可以查询每个 UnfetchedProduct，以获取与提取失败原因对应的状态代码。如需查看可用的未提取商品信息，请参阅 UnfetchedProduct 类中的方法列表。
 
@@ -2940,9 +3804,9 @@ setIsOfferPersonalized() 接受布尔值输入。当该值为 true 时，Play �
 
 对于第 1 步，只要您的应用正在运行并具有有效的 Google Play 结算库连接，系统就会自动针对新购买交易或已完成的购买交易调用 onPurchasesUpdated。如果您的应用未运行，或者您的应用没有有效的 Google Play 结算库连接，则不会调用 onPurchasesUpdated。请注意，建议您的应用在前台运行时，尽可能保持有效连接，以便及时获取购买交易更新。
 
-对于第 2 步，您必须调用 BillingClient.queryPurchasesAsync()，以确保您的应用处理所有购买交易。建议您在应用成功与 Google Play 结算库建立连接时执行此操作（建议在应用启动或进入前台时执行此操作，如初始化 BillingClient 中所述）。为此，您可以在收到 onServiceConnected 的成功结果时调用 queryPurchasesAsync。遵循此建议对于处理以下事件和情况至关重要：
+对于第 2 点，您必须调用 BillingClient.queryPurchasesAsync()，以确保您的应用处理所有购买交易。建议您在应用成功与 Google Play 结算库建立连接时执行此操作（建议在应用启动或进入前台时执行此操作，如初始化 BillingClient 中所述）。为此，您可以在收到 onServiceConnected 的成功结果时调用 queryPurchasesAsync。遵循此建议对于处理以下事件和情况至关重要：
 
-一旦应用检测到新的购买交易或已完成的购买交易，就应执行以下操作：
+一旦应用检测到新的或已完成的购买交易，就应执行以下操作：
 
 以下各部分将详细讨论这些步骤，最后一部分将总结所有步骤。
 
@@ -2952,13 +3816,13 @@ setIsOfferPersonalized() 接受布尔值输入。当该值为 true 时，Play �
 
 如果您已按照附加用户标识符中所述将用户标识符附加到购买交易，则可以检索并使用这些标识符在您的系统中归因给正确的用户。当您的应用可能丢失了有关购买交易是为哪个用户进行的上下文信息时，此方法在协调购买交易方面非常有用。请注意，在您的应用外进行的购买交易不会设置这些标识符。在这种情况下，您的应用可以向已登录的用户授予使用权，也可以提示用户选择首选账号。
 
-对于预订，在到达发布时间之前，购买交易处于“待处理”状态。预订购买交易将在发布时完成，并将状态更改为“已购买”，无需执行其他操作。
+对于预订，在发布时间到达之前，购买交易处于“待处理”状态。预订购买交易将在发布时间完成，并将状态更改为“已购买”，无需执行其他操作。
 
-在向用户授予使用权后，您的应用应显示一条通知，确认购买交易已成功完成。由于有通知，用户不会对购买交易是否成功完成感到困惑，否则可能会导致用户停止使用您的应用、与用户支持团队联系，或在社交媒体上抱怨。请注意，您的应用可能会在应用生命周期的任何时间检测到购买交易更新。例如，家长在另一部设备上批准了待处理的购买交易，在这种情况下，您的应用可能希望延迟向用户发送通知，直到合适的时间再发送。以下是一些适合使用延迟的示例：
+在向用户授予使用权后，您的应用应显示一条通知，确认购买交易已成功完成。由于有此通知，用户不会对购买交易是否成功完成感到困惑，否则可能会导致用户停止使用您的应用、与用户支持团队联系，或在社交媒体上抱怨。请注意，您的应用可能会在应用生命周期的任何时间检测到购买更新。例如，家长在另一部设备上批准了待处理的购买交易，在这种情况下，您的应用可能希望延迟向用户发送通知，直到合适的时间再发送。以下是一些适合使用延迟的示例：
 
 在通知用户有关购买交易时，Google Play 建议采用以下机制：
 
-通知应告知用户其获得的福利。例如，“您购买了 100 个金币！”。此外，如果购买交易是因 Play Pass 等计划的福利而产生的，您的应用会将此信息传达给用户。例如，“已收到商品！您刚刚使用 Play Pass 兑换了 100 颗宝石。 继续。”。每个计划都可能会提供有关向用户显示哪些推荐文本来传达福利的指南。
+通知应告知用户其获得的福利。例如，“您购买了 100 个金币！”。此外，如果购买交易是因 Play Pass 等计划的福利而产生的，您的应用会向用户传达此信息。例如：“已收到商品！您刚刚使用 Play Pass 兑换了 100 颗宝石。 继续。”。每个计划可能都有关于向用户显示哪些推荐文本来传达福利的指南。
 
 在您的应用向用户授予使用权并通知用户交易成功后，您的应用需要通知 Google 购买交易已成功处理。为此，您需要确认购买交易，并且必须在三天内完成此操作，以免系统自动退款并撤消相应授权。以下部分介绍了确认不同类型购买交易的流程。
 
@@ -2984,9 +3848,9 @@ Google Play 支持待处理的交易，即从用户发起购买交易到购买�
 
 当应用通过 PurchasesUpdatedListener 或由于调用 queryPurchasesAsync 而收到新的购买交易时，使用 getPurchaseState() 方法确定购买交易的状态是 PURCHASED 还是 PENDING。只有在状态为 PURCHASED 时，您才能授予使用权。
 
-如果您的应用在用户完成购买交易时正在运行，并且您拥有有效的 Play 结算库连接，系统会再次调用 PurchasesUpdatedListener，并且 PurchaseState 现在为 PURCHASED。此时，您的应用可以使用检测和处理购买交易的标准方法处理购买交易。此外，应用还应在其 onResume() 方法中调用 queryPurchasesAsync()，以处理在应用未运行时已转换为 PURCHASED 状态的购买交易。
+如果您的应用在用户完成购买交易时正在运行，并且您已建立有效的 Play 结算库连接，系统会再次调用 PurchasesUpdatedListener，并且 PurchaseState 现在为 PURCHASED。此时，您的应用可以使用检测和处理购买交易的标准方法处理购买交易。此外，应用还应在其 onResume() 方法中调用 queryPurchasesAsync()，以处理在应用未运行时已转换为 PURCHASED 状态的购买交易。
 
-当购买交易从 PENDING 过渡到 PURCHASED 时，real_time_developer_notifications 客户端会收到 ONE_TIME_PRODUCT_PURCHASED 或 SUBSCRIPTION_PURCHASED 通知。如果购买交易被取消，您会收到 ONE_TIME_PRODUCT_CANCELED 或 SUBSCRIPTION_PENDING_PURCHASE_CANCELED 通知。如果客户没有在规定的时间范围内完成付款，就会发生这种情况。请注意，您始终可以使用 Google Play Developer API 检查购买交易的当前状态。
+当购买交易从 PENDING 过渡到 PURCHASED 时，您的 real_time_developer_notifications 客户端会收到 ONE_TIME_PRODUCT_PURCHASED 或 SUBSCRIPTION_PURCHASED 通知。如果购买交易被取消，您会收到 ONE_TIME_PRODUCT_CANCELED 或 SUBSCRIPTION_PENDING_PURCHASE_CANCELED 通知。如果客户没有在规定的时间范围内完成付款，就会发生这种情况。请注意，您始终可以使用 Google Play Developer API 来检查购买交易的当前状态。
 
 Google Play 允许客户在一笔交易中购买多件相同的一次性商品，只需在购物车中指定商品数量即可（4.0 及更高版本的 Google Play 结算库支持该功能）。应用应根据指定的购买数量来处理多件购买交易并授予使用权。
 
@@ -3000,49 +3864,49 @@ getBillingConfigAsync() 提供用户在 Google Play 中使用的国家/地区设
 
 如果返回的 BillingResult 不含错误，您可以查看 BillingConfig 对象中的 countryCode 字段，以获取用户的 Play 国家/地区信息。
 
-对于通过一次性商品创收的游戏开发者，在 Google Play 管理中心内处于有效状态的库存单位 (SKU) 可在您的应用之外销售，方法是使用“弃购提醒”功能，该功能会在用户浏览 Google Play 商店时提醒他们完成之前放弃的购买交易。这些购买交易发生在您的应用之外，即在 Google Play 商店的 Google Play Games 首页中。
+对于通过一次性商品创收的游戏开发者来说，在 Google Play 管理中心内处于有效状态的库存单位 (SKU) 可在您的应用之外销售，方法之一是使用“弃购提醒”功能，该功能会在用户浏览 Google Play 商店时提醒他们完成之前放弃的购买交易。这些购买交易是在您的应用之外进行的，即在 Google Play 商店的 Google Play Games 主页中进行。
 
-此功能默认处于启用状态，可帮助用户从上次中断的地方继续观看，并帮助开发者最大限度地提高销售额。不过，您可以提交“弃购提醒”功能停用表单，为您的应用停用此功能。 如需了解在 Google Play 管理中心内管理 SKU 的最佳实践，请参阅创建应用内商品。
+此功能默认处于启用状态，可帮助用户从上次中断的地方继续，并帮助开发者最大限度地提高销售额。不过，您可以提交“弃购提醒”功能停用表单，为您的应用停用此功能。 如需了解有关在 Google Play 管理中心内管理 SKU 的最佳实践，请参阅创建应用内商品。
 
 以下图片展示了在 Google Play 商店中显示的购物车遗弃提醒：
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (python):
-```python
+Example 1 (bash):
+```bash
 dependencies {
-    def billing_version = "8.0.0"
+    def billing_version = "8.3.0"
 
     implementation "com.android.billingclient:billing:$billing_version"
 }
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (bash):
+```bash
 dependencies {
-    val billing_version = "8.0.0"
+    val billing_version = "8.3.0"
 
     implementation("com.android.billingclient:billing:$billing_version")
 }
 ```
 
-Example 3 (python):
-```python
+Example 3 (bash):
+```bash
 dependencies {
-    def billing_version = "8.0.0"
+    def billing_version = "8.3.0"
 
     implementation "com.android.billingclient:billing-ktx:$billing_version"
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (bash):
+```bash
 dependencies {
-    val billing_version = "8.0.0"
+    val billing_version = "8.3.0"
 
     implementation("com.android.billingclient:billing-ktx:$billing_version")
 }
@@ -3166,13 +4030,13 @@ dependencies {
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (yaml):
+```yaml
 https://play.google.com/redeem?code=promo_code
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (yaml):
+```yaml
 https://play.google.com/redeem?code=promo_code
 ```
 
@@ -3208,7 +4072,7 @@ Google 建议您将有关购买交易的元数据存储在您维护的安全后�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -3220,23 +4084,23 @@ Google 建议您将有关购买交易的元数据存储在您维护的安全后�
 - 外部优惠 API 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
 - 术语词汇表
 - 支持外部优惠
-  - 在 Play 管理中心内配置
+  - 在 Play 管理中心内进行配置
   - 面向用户的信息界面
   - 后续步骤
 
-在某些国家/地区，符合条件的开发者可以将用户引导到应用以外，包括宣传应用内数字功能和服务的相关优惠。本指南将介绍用于启用外部优惠的 API。您应该先查看计划要求并加入外部优惠计划，然后再使用这些 API。
+在某些国家/地区，符合条件的开发者可以将用户引导至应用之外进行一些操作，包括通过这种方式来推广应用内数字功能和服务的优惠活动。本指南介绍了用于启用外部优惠的 API。在使用这些 API 之前，您应先查看计划要求并加入外部优惠计划。
 
-本部分介绍如何支持外部商品。 使用这些 API 之前，请确保以下几点：
+本部分介绍了如何支持外部优惠。在使用这些 API 之前，请完成以下前提条件：
 
-如需在 Play 管理中心内配置外部优惠，请按照计划要求中列出的步骤操作。
+如需在 Play 管理中心内配置外部优惠，请按照计划要求中所述的步骤操作。
 
-信息界面有助于用户了解他们将要访问一个外部网站。系统每次都会向用户显示信息界面，然后才会使用外部优惠 API 将用户定向到应用之外。
+信息屏幕可以帮助用户了解他们即将访问外部网站。每次在用户通过外部优惠 API 被引导到应用外部之前，系统都会向用户显示此信息界面。
 
 如需开始集成外部优惠 API，请遵循应用内集成和后端集成的深度指南。
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-07-27。
+最后更新时间 (UTC)：2025-12-16。
 
 ---
 
@@ -3246,64 +4110,78 @@ Google 建议您将有关购买交易的元数据存储在您维护的安全后�
 
 **Contents:**
 - 有关 Google Play 结算服务之外的变现的后端集成指南 使用集合让一切井井有条 根据您的偏好保存内容并对其进行分类。
+- 术语词汇表
 - 向 Google Play 报告新的外部交易
   - 外部交易报告
-  - 报告新购买交易
+  - 报告初始交易
+    - 外部优惠
   - 报告购买交易的后续交易
   - 报告升级或降级
-  - 停止手动报告备选结算系统交易
-  - 举报 Play 合作伙伴计划
-- 向 Google Play 报告购买交易退款
-- API 配额
+  - 报告应用下载
+  - 从手动报告备选结算系统交易迁移
 
-Google Play Developer API 现在包含 报告来自备选结算系统的交易，或 外部优惠系统。本指南将介绍如何报告替代性数据， 结算或外部优惠交易。
+Google Play Developer API 包含额外的功能，可报告来自结算和关联计划的交易。本指南介绍了如何报告这些结算计划中的交易。
 
-从后端处理应用内购买交易时，可能需要用到一些组件。如需构建这些组件，您需要按照配置 Google Play Developer API 中的说明设置后端集成。对于 所有不特定于备选结算系统的开发者后端功能 或外部优惠 API 的说明， Google Play 结算系统文档适用。
+从后端处理外部交易时，可能需要用到一些组件。如需构建这些组件，您需要按照配置 Google Play Developer API 中的说明设置后端集成。如需构建并非特定于结算和关联计划的开发者后端功能，请参阅 Google Play 结算系统。
 
-与 Externaltransactions APIs 集成 报告 Google Play 结算系统以外发生的交易， 支持的国家/地区，包括通过免费试用产生的 0 美元交易 购买。通过备选结算系统或外部优惠系统进行的交易 仅在系统允许的情况下，才应针对符合条件的用户所在国家/地区启动和报告 在备选结算系统下，或者 外部优惠计划，否则，API 调用将 已被拒绝。这适用于所有交易，包括新购买、续订 充值、升级、降级等操作。
+与 externaltransactions API 集成后，您可报告在支持的国家/地区 Google Play 结算系统以外发生的交易，包括金额为 0 美元的交易（源自免费试用购买交易和应用安装）。只有在备选结算系统、外部优惠或外部付款指南允许的情况下，才应针对符合条件的用户国家/地区启动和报告结算和链接计划中的交易；否则，API 调用将被拒绝。此限制适用于所有交易，包括新的购买交易、续订、充值、升级、降级和应用下载。
 
-您应该调用 Externaltransactions API 来报告外部交易 在通过备选结算系统获得授权后，或者 外部优惠系统这适用于所有交易，包括 扣款、续订、退款等。所有交易都必须 会在交易发生 24 小时内报告。
+一笔外部交易的付款通过结算和关联计划获得授权后，您应调用 externaltransactions API 来报告此交易。这适用于所有交易，包括初始扣款、续订、退款等。如需了解报告要求，请参阅相应结算和链接计划的准则。
 
-系统会为每一笔外部交易报告一个外部交易 ID。对于周期性购买交易（例如自动续订型订阅），您需要发送与这笔周期性购买交易中的第一笔交易相关联的外部交易 ID，以用作后续所有交易（包括退款）的参数。这样就能记录相应购买交易的一系列交易。如果商品发生变化（例如升级或降级），或者周期性交易被取消或过期且之后同一商品再次被购买，您就需要针对相应交易发送新的外部交易 ID。您不得添加任何个人身份信息 这些信息、专有信息或机密信息， 交易 ID。
+系统会为每一笔外部交易报告一个外部交易 ID。对于周期性购买交易（例如自动续订型订阅），您需要发送与这笔周期性购买交易中的第一笔交易相关联的外部交易 ID，以用作后续所有交易（包括退款）的参数。这样就能记录相应购买交易的一系列交易。如果商品发生变化（例如升级或降级），或者周期性交易被取消或过期且之后同一商品再次被购买，您就需要针对相应交易发送新的外部交易 ID。您不得在此外部交易 ID 中包含任何个人身份信息、专有信息或机密信息。
 
-每当通过备选结算系统完成新购买交易时 或外部优惠系统，对 Externaltransactions API 的调用会 必填字段。对于这些新的购买交易，您需要提供唯一 externalTransactionId 以查询的形式与后端中的购买交易相关联 参数。此externalTransactionId不能在同一应用的 软件包 ID。
+每当结算和关联计划中有新的购买交易或应用下载成功时，您都必须调用 externaltransactions API。
 
-应用通过externalTransactionToken UserChoiceBillingListener、AlternativeBillingOnlyReportingDetailsListener、 或 ExternalOfferReportingDetailsListener 回调作为 一次性购买和首次交易的请求正文 周期性购买（例如订阅）。无论是哪种情况，都称为 初始交易。完成初始交易后， externalTransactionToken 不再需要，您后续报告 通过提供新的唯一身份 externalTransactionId。请参阅报告购买交易的后续交易 ，详细了解如何报告后续交易。
+对于应用下载、一次性购买交易和周期性购买交易（例如订阅）中的首次交易，请求正文中必须包含应用通过 Google Play 结算库收到的 externalTransactionToken。这称为初始交易。完成初始交易后，您可以通过提供新的唯一 externalTransactionId 来报告后续交易（例如续订）。如需了解详情，请参阅报告购买交易的后续交易。
 
-如果与印度境内的用户进行交易，由于该国税费因用户所在的行政区（例如州或省）而异，请务必在 userTaxAddress 下包含该行政区。如需了解适用的行政区，请参阅 API 参考指南中的预定义字符串列表。
+如果您与印度境内的用户进行交易，由于该国税费因用户所在的行政区（例如州或省）而异，请在 userTaxAddress 下包含该行政区。如需了解适用的行政区，请参阅 API 参考指南中的预定义字符串列表。
 
-在某些情况下，同一外部购买交易有多笔相关联的用户付款（例如，续订或预付费方案充值）。您可以在 Externaltransactions 中使用同一 API 报告这些后续交易。如报告新购买交易中所述，后续交易不需要 externalTransactionToken。不过，系统会为每笔续订或充值交易发送新的唯一 externalTransactionId 作为查询参数，并将初始交易的 ID 包含在 initialExternalTransactionId 字段中。
+如果所报告的交易属于外部优惠计划，则必须设置 externalOfferDetails 字段（如果交易是一次性交易或周期性系列交易中的第一笔交易）：
+
+通过外部优惠下载的外部应用中交易的请求示例：
+
+如需了解不同交易类型的 Play 服务费更新详情，请参阅面向欧洲经济区 (EEA) 用户的外部优惠计划的变更。
+
+在某些情况下，同一外部购买交易有多笔相关联的用户付款，例如续订或预付费方案充值。 您可以在 Externaltransactions 中使用同一 API 报告这些后续交易。如报告新购买交易中所述，后续交易不需要 externalTransactionToken。不过，系统会为每笔续订或充值交易发送新的唯一 externalTransactionId 作为查询参数，并将初始交易的 ID 包含在 initialExternalTransactionId 字段中。
 
 若要当用户拥有一项订阅的情况下在备选结算系统中报告升级或降级，您可在 Externaltransactions API 中使用相同的端点和函数，发送为升级或降级交易而提供给应用的 externalTransactionToken。这与报告新购买交易类似。
 
+若要在外部优惠结算系统中报告应用安装，您必须调用 Externaltransactions.createexternaltransaction，并发送提供给应用的 externalTransactionToken。请将此报告为零费用的一次性交易；此流程类似于报告初始交易。请务必在请求正文中添加 ExternalOfferDetails。
+
 如需迁移您以非自动化报告方式提供备选结算系统期间开始的有效订阅，请使用 migratedTransactionProgram 字段（而不是指定 initialExternalTransactionId 或 externalTransactionToken）创建一笔新的 0 费用交易。将每项有效订阅的 transactionTime 设置为用户最初注册该订阅的时间。之后，照常通过 API 报告这些订阅的每一笔后续交易，并提供之前使用的 initialExternalTransactionId 创建续订交易。迁移订阅后，您无需再手动报告订阅的后续交易，但前提是这些交易是通过本页介绍的自动化方式报告的。
 
-迁移订阅时，请留意当前的配额限制，以确保迁移不会用尽配额。如果有很多订阅需要 分几天进行迁移，或申请提高配额 配额 ，了解所有最新动态。
+迁移订阅时，请留意当前的配额限制，以验证迁移不会用尽配额。如果有许多订阅需要迁移，可以分几天进行，也可申请增加配额。
 
 只有在从手动报告迁移时，才可以使用 migratedTransactionProgram 字段。当手动报告不再受支持后，该字段将被废弃。
 
-参与合作伙伴计划（例如 Play 媒体体验计划必须提供 transaction_program_code（报告外部交易时）。如果您 如果您是符合条件的开发者，请与您的业务发展经理联系以了解详情 了解如何设置此字段。
+参与合作伙伴计划（例如 Play 媒体体验计划）的开发者在报告外部交易时必须提供 transaction_program_code。如果您是符合条件的开发者，请与您的业务发展经理联系，详细了解如何设置此字段。
 
-与 Externaltransactions API 集成后，您可报告在 Google Play 结算系统以外向用户退款的交易。为了让 Play 正确识别哪一笔交易已退款，您应将之前所报告交易的相应 externalTransactionId 添加为网址参数的一部分。
+与 externaltransactions API 集成后，您可报告在 Google Play 结算系统以外向用户退款的交易。为了让 Play 正确识别哪一笔交易已退款，您应将之前所报告交易的相应 externalTransactionId 添加为网址参数的一部分。
 
 报告订阅购买交易的退款时，请引用被退款订阅的具体周期性交易的 externalTransactionId。
 
+外部交易 ID 为 ABC.1234-5678-9012-34567 的初始交易
+
+外部交易 ID 为 ABC.1234-5678-9012-34567..0 的首笔周期性交易
+
+第二笔周期性交易的外部交易 ID 为 ABC.1234-5678-9012-34567..1
+
 如需报告该订阅所有交易的退款，您需要发出三个单独的退款请求：一个针对初始交易，两个针对后续交易。
 
-此方法接受全额退款 （其中金额与用户在原始外部 交易）和部分退款 （金额小于用户在原始外部 交易）。对于部分退款，您需要指定退还的税前金额。
+此方法既接受全额退款（金额与用户在原始外部交易中支付的金额相同），又接受部分退款（金额小于用户在原始外部交易中支付的金额）。对于部分退款，您需要指定退还的税前金额。
 
-Externaltransactions API 受每日 API 配额限制 就像 Google Play Developer API 中的任何其他端点一样。
+与 Google Play Developer API 中的任何其他端点一样，Externaltransactions API 需遵循针对所有调用的 API 配额。
 
 此外，在调用 Externaltransactions.createexternaltransaction 或 Externaltransactions.refundexternaltransaction 时，Externaltransactions API 的每分钟查询数量 (QPM) 上限为 1,200 个。对 Externaltransactions.getexternaltransaction 的调用不会计入此 1,200 QPM 的限额。
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-07-27。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (json):
+```json
 POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
 
 Body
@@ -3329,8 +4207,8 @@ Body
 }
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (json):
+```json
 POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
 
 Body
@@ -3356,8 +4234,8 @@ Body
 }
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (json):
+```json
 POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
 
 Body
@@ -3386,8 +4264,8 @@ Body
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (json):
+```json
 POST /androidpublisher/v3/applications/com.myapp.android/externalTransactions?externalTransactionId=123-456-789
 
 Body

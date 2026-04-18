@@ -53,7 +53,7 @@ Google 会使用这些数据检测可疑行为，并在某些类型的欺诈性�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -106,7 +106,7 @@ Google 会使用这些数据检测可疑行为，并在某些类型的欺诈性�
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -200,25 +200,25 @@ Maria 订阅了 SuperMovies 在线影音月度方案，并选择了 30 天自动
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (yaml):
+```yaml
 https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.your.app/purchases/subscriptions/your-subscription-product/tokens/1a2b3c4d5e6f7g8h9i0j:cancel
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (yaml):
+```yaml
 https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.your.app/purchases/subscriptions/your-subscription-product/tokens/1a2b3c4d5e6f7g8h9i0j:cancel
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (json):
+```json
 {
   "cancellationType": "USER_REQUESTED_STOP_RENEWAL"
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (json):
+```json
 {
   "cancellationType": "USER_REQUESTED_STOP_RENEWAL"
 }
@@ -316,25 +316,25 @@ Maria 订阅了 SuperMovies 在线影音月度方案，并选择了 30 天自动
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (yaml):
+```yaml
 https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.your.app/purchases/subscriptions/your-subscription-product/tokens/1a2b3c4d5e6f7g8h9i0j:cancel
 ```
 
-Example 2 (unknown):
-```unknown
+Example 2 (yaml):
+```yaml
 https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.your.app/purchases/subscriptions/your-subscription-product/tokens/1a2b3c4d5e6f7g8h9i0j:cancel
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (json):
+```json
 {
   "cancellationType": "USER_REQUESTED_STOP_RENEWAL"
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (json):
+```json
 {
   "cancellationType": "USER_REQUESTED_STOP_RENEWAL"
 }

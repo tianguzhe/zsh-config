@@ -104,7 +104,7 @@ Play Billing Lab 是一款 Android 应用，可帮助开发者测试其与 Googl
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -148,8 +148,8 @@ Play 结算库会返回 BillingResult 响应，以便您 了解所触发的操�
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (jsx):
+```jsx
 <manifest ... >
   <application ... >
     ...
@@ -265,7 +265,7 @@ Play Billing Lab 是一款 Android 应用，可帮助开发者测试其与 Googl
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---
 
@@ -309,8 +309,8 @@ Play 结算库会返回 BillingResult 响应，以便您 了解所触发的操�
 
 **Examples:**
 
-Example 1 (unknown):
-```unknown
+Example 1 (jsx):
+```jsx
 <manifest ... >
   <application ... >
     ...
@@ -426,6 +426,6 @@ Play Billing Lab 是一款 Android 应用，可帮助开发者测试其与 Googl
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 ---

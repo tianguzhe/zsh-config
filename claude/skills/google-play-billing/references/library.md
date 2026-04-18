@@ -70,12 +70,12 @@ Play 结算库不再为待处理的购买交易创建订单 ID。只有在购买
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (python):
-```python
+Example 1 (bash):
+```bash
 dependencies {
     def billingVersion = 7.0.0
 
@@ -83,8 +83,8 @@ dependencies {
 }
 ```
 
-Example 2 (python):
-```python
+Example 2 (bash):
+```bash
 dependencies {
     def billingVersion = 7.0.0
 
@@ -92,8 +92,8 @@ dependencies {
 }
 ```
 
-Example 3 (python):
-```python
+Example 3 (bash):
+```bash
 dependencies {
     def billingVersion = 7.0.0
 
@@ -101,8 +101,8 @@ dependencies {
 }
 ```
 
-Example 4 (python):
-```python
+Example 4 (bash):
+```bash
 dependencies {
     def billingVersion = 7.0.0
 
@@ -156,20 +156,20 @@ PBL 8 不再支持下表中列出的 API。 如果您的实现使用了任何这
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (python):
-```python
+Example 1 (bash):
+```bash
 dependencies {
   def billingVersion = 8.0.0
   implementation "com.android.billingclient:billing:$billingVersion"
 }
 ```
 
-Example 2 (python):
-```python
+Example 2 (bash):
+```bash
 dependencies {
   def billingVersion = 8.0.0
   implementation "com.android.billingclient:billing:$billingVersion"
@@ -286,8 +286,8 @@ Play 结算库 6 中新增了 NETWORK_ERROR 代码，用于指明用户设备和
 
 **Examples:**
 
-Example 1 (python):
-```python
+Example 1 (bash):
+```bash
 dependencies {
     def billingVersion = "6.0.0"
 
@@ -295,8 +295,8 @@ dependencies {
 }
 ```
 
-Example 2 (python):
-```python
+Example 2 (bash):
+```bash
 dependencies {
     def billingVersion = "6.0.0"
 
@@ -304,8 +304,8 @@ dependencies {
 }
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (typescript):
+```typescript
 val skuList = ArrayList<String>()
 
 skuList.add("up_basic_sub")
@@ -321,8 +321,8 @@ billingClient.querySkuDetailsAsync(params) {
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 List<String> skuList = new ArrayList<>();
 
 skuList.add("up_basic_sub");
@@ -388,20 +388,20 @@ PBL 8 不再支持下表中列出的 API。 如果您的实现使用了任何这
 
 本页面上的内容和代码示例受内容许可部分所述许可的限制。Java 和 OpenJDK 是 Oracle 和/或其关联公司的注册商标。
 
-最后更新时间 (UTC)：2025-10-17。
+最后更新时间 (UTC)：2025-12-23。
 
 **Examples:**
 
-Example 1 (python):
-```python
+Example 1 (bash):
+```bash
 dependencies {
   def billingVersion = 8.0.0
   implementation "com.android.billingclient:billing:$billingVersion"
 }
 ```
 
-Example 2 (python):
-```python
+Example 2 (bash):
+```bash
 dependencies {
   def billingVersion = 8.0.0
   implementation "com.android.billingclient:billing:$billingVersion"
@@ -518,8 +518,8 @@ Play 结算库 6 中新增了 NETWORK_ERROR 代码，用于指明用户设备和
 
 **Examples:**
 
-Example 1 (python):
-```python
+Example 1 (bash):
+```bash
 dependencies {
     def billingVersion = "6.0.0"
 
@@ -527,8 +527,8 @@ dependencies {
 }
 ```
 
-Example 2 (python):
-```python
+Example 2 (bash):
+```bash
 dependencies {
     def billingVersion = "6.0.0"
 
@@ -536,8 +536,8 @@ dependencies {
 }
 ```
 
-Example 3 (unknown):
-```unknown
+Example 3 (typescript):
+```typescript
 val skuList = ArrayList<String>()
 
 skuList.add("up_basic_sub")
@@ -553,8 +553,8 @@ billingClient.querySkuDetailsAsync(params) {
 }
 ```
 
-Example 4 (unknown):
-```unknown
+Example 4 (java):
+```java
 List<String> skuList = new ArrayList<>();
 
 skuList.add("up_basic_sub");
