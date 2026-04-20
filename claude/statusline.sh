@@ -70,34 +70,28 @@ generate_progress_bar() {
 # 核心功能 - 对话信息提取
 # ==============================================================================
 
-# 从转录文件获取对话轮数
-get_message_count() {
-    local transcript_path="$1"
-
-    if [ -n "$transcript_path" ] && [ -f "$transcript_path" ]; then
-        jq -c 'select(has("message"))' "$transcript_path" 2>/dev/null | wc -l | xargs
-    else
-        echo "0"
-    fi
-}
-
-# 从转录文件获取 Token 使用详情
-# 返回格式：context_length|input_tokens|output_tokens|cache_hit_rate
-get_token_details() {
+# 从转录文件一次性获取对话轮数和 Token 使用详情
+# 返回格式：message_count|context_length|input_tokens|output_tokens|cache_hit_rate
+get_transcript_stats() {
     local transcript_path="$1"
 
     if [ -z "$transcript_path" ] || [ ! -f "$transcript_path" ]; then
-        echo "0|0|0|0"
+        echo "0|0|0|0|0"
         return
     fi
 
-    local input_tokens output_tokens cache_read cache_creation
-    read -r input_tokens output_tokens cache_read cache_creation < <(
-        jq -rn '[inputs | select(.message.usage).message.usage] | (last? // {}) |
-            [(.input_tokens // 0), (.output_tokens // 0),
-             (.cache_read_input_tokens // 0), (.cache_creation_input_tokens // 0)] |
+    local cnt input_tokens output_tokens cache_read cache_creation
+    read -r cnt input_tokens output_tokens cache_read cache_creation < <(
+        jq -rn '
+            [inputs] as $all |
+            ($all | map(select(has("message"))) | length) as $cnt |
+            ($all | map(select(.message.usage)) | last? // {}) as $u |
+            [$cnt,
+             ($u.input_tokens // 0), ($u.output_tokens // 0),
+             ($u.cache_read_input_tokens // 0), ($u.cache_creation_input_tokens // 0)] |
             @tsv' "$transcript_path" 2>/dev/null
     )
+    cnt=${cnt:-0}
     input_tokens=${input_tokens:-0}
     output_tokens=${output_tokens:-0}
     cache_read=${cache_read:-0}
@@ -107,7 +101,7 @@ get_token_details() {
     local cache_hit_rate=0
     [ $context_length -gt 0 ] && cache_hit_rate=$((cache_read * 100 / context_length))
 
-    echo "${context_length}|${input_tokens}|${output_tokens}|${cache_hit_rate}"
+    echo "${cnt}|${context_length}|${input_tokens}|${output_tokens}|${cache_hit_rate}"
 }
 
 # ==============================================================================
@@ -147,6 +141,22 @@ get_git_branch() {
     branch=$(git -C "$cwd" rev-parse --abbrev-ref HEAD 2>/dev/null) || return
     git -C "$cwd" status --porcelain 2>/dev/null | grep -q . && dirty="*"
     echo "${branch}${dirty}"
+}
+
+# 获取 Git ahead/behind 和 stash 数量
+# 返回格式：ahead|behind|stash
+get_git_extras() {
+    local cwd="$1"
+
+    if [ -z "$cwd" ] || [ ! -d "$cwd" ]; then
+        echo "0|0|0"
+        return
+    fi
+
+    local ahead=0 behind=0 stash=0
+    read -r ahead behind < <(git -C "$cwd" rev-list --left-right --count HEAD...@{u} 2>/dev/null)
+    stash=$(git -C "$cwd" stash list 2>/dev/null | wc -l | xargs)
+    echo "${ahead:-0}|${behind:-0}|${stash:-0}"
 }
 
 # ==============================================================================
@@ -204,16 +214,6 @@ format_context_display() {
 }
 
 # ==============================================================================
-# 格式化函数 - 对话轮数
-# ==============================================================================
-
-# 格式化对话轮数显示
-format_message_count() {
-    local count="$1"
-    [ "$count" -gt 0 ] && echo "\033[38;2;${COLOR_MEDIUM_PURPLE}m#${count}\033[0m" || echo ""
-}
-
-# ==============================================================================
 # 格式化函数 - 渐变色生成
 # ==============================================================================
 
@@ -252,13 +252,13 @@ if [[ "$model_id" == *"1m"* ]] || [[ "$model_id" == *"-1m-"* ]]; then
 fi
 
 # --- 对话统计 ---
-message_count=$(get_message_count "$transcript_path")
-IFS='|' read -r context_tokens input_tokens output_tokens cache_hit_rate \
-    <<< "$(get_token_details "$transcript_path")"
+IFS='|' read -r message_count context_tokens input_tokens output_tokens cache_hit_rate \
+    <<< "$(get_transcript_stats "$transcript_path")"
 
 # --- 工作目录 + Git ---
 formatted_cwd=$(format_working_directory "$cwd")
 git_branch=$(get_git_branch "$cwd")
+IFS='|' read -r git_ahead git_behind git_stash <<< "$(get_git_extras "$cwd")"
 
 # --- 上下文使用率（优先 stdin 原生百分比，v2.1.6+）---
 context_percentage=0
@@ -276,7 +276,6 @@ formatted_cost=$(printf "%.2f" "$total_cost")
 
 model_display=$(format_model_name "$model_name_display")
 token_info=$(format_token_details "$input_tokens" "$output_tokens" "$cache_hit_rate")
-message_count_display=$(format_message_count "$message_count")
 
 # ==============================================================================
 # 输出状态栏（两行）
@@ -303,6 +302,11 @@ if [ -n "$git_branch" ]; then
     else
         block1="${block1}\033[38;2;${COLOR_GREEN}m⎇ ${git_branch}\033[0m"
     fi
+    # ahead / behind
+    [ "${git_ahead:-0}" -gt 0 ] && block1="${block1} \033[38;2;${COLOR_BLUE}m↑${git_ahead}\033[0m"
+    [ "${git_behind:-0}" -gt 0 ] && block1="${block1} \033[38;2;${COLOR_YELLOW}m↓${git_behind}\033[0m"
+    # stash
+    [ "${git_stash:-0}" -gt 0 ] && block1="${block1} \033[38;2;${COLOR_GRAY}m≡${git_stash}\033[0m"
 fi
 
 # 区块2：模型 + 轮次 + 费用
@@ -317,8 +321,7 @@ fi
 # 区块3：上下文 + token 详情
 effective_max=${context_window_size:-$CONTEXT_MAX_TOKENS}
 capacity_label=$(format_number "$effective_max")
-context_display=$(format_context_display "$context_percentage" "$exceeds_200k" "$capacity_label")
-block3="${context_display}"
+block3=$(format_context_display "$context_percentage" "$exceeds_200k" "$capacity_label")
 [ -n "$token_info" ] && block3="${block3}${sep}${token_info}"
 
 # 拼接三块
