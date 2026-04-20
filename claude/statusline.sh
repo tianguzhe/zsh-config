@@ -75,7 +75,7 @@ get_message_count() {
     local transcript_path="$1"
 
     if [ -n "$transcript_path" ] && [ -f "$transcript_path" ]; then
-        grep -c '"message"' "$transcript_path" 2>/dev/null || echo "0"
+        jq -c 'select(has("message"))' "$transcript_path" 2>/dev/null | wc -l | xargs
     else
         echo "0"
     fi
@@ -91,20 +91,17 @@ get_token_details() {
         return
     fi
 
-    local last_usage
-    last_usage=$(jq -c 'select(.message.usage) | .message.usage' "$transcript_path" 2>/dev/null | tail -1)
-
-    if [ -z "$last_usage" ]; then
-        echo "0|0|0|0"
-        return
-    fi
-
-    eval "$(echo "$last_usage" | jq -r '@sh "
-        input_tokens=\(.input_tokens // 0)
-        output_tokens=\(.output_tokens // 0)
-        cache_read=\(.cache_read_input_tokens // 0)
-        cache_creation=\(.cache_creation_input_tokens // 0)"' \
-        2>/dev/null || echo 'input_tokens=0; output_tokens=0; cache_read=0; cache_creation=0')"
+    local input_tokens output_tokens cache_read cache_creation
+    read -r input_tokens output_tokens cache_read cache_creation < <(
+        jq -rn '[inputs | select(.message.usage).message.usage] | (last? // {}) |
+            [(.input_tokens // 0), (.output_tokens // 0),
+             (.cache_read_input_tokens // 0), (.cache_creation_input_tokens // 0)] |
+            @tsv' "$transcript_path" 2>/dev/null
+    )
+    input_tokens=${input_tokens:-0}
+    output_tokens=${output_tokens:-0}
+    cache_read=${cache_read:-0}
+    cache_creation=${cache_creation:-0}
 
     local context_length=$((input_tokens + cache_read + cache_creation))
     local cache_hit_rate=0
@@ -129,7 +126,7 @@ format_working_directory() {
         echo "$cwd"
     else
         local parent="${cwd%/*}"
-        echo "<</${parent##*/}/${cwd##*/}"
+        echo "…/${parent##*/}/${cwd##*/}"
     fi
 }
 
@@ -179,7 +176,7 @@ format_token_details() {
     # Cache hit rate（紫色，闪电图标）
     if [ "$cache_rate" -gt 0 ]; then
         [ -n "$result" ] && result="${result} "
-        result="${result}\033[38;2;${COLOR_PURPLE}mCache ⚡${cache_rate}%\033[0m"
+        result="${result}\033[38;2;${COLOR_PURPLE}m⚡${cache_rate}%\033[0m"
     fi
 
     echo "$result"
@@ -193,15 +190,17 @@ format_token_details() {
 format_context_display() {
     local percentage="$1"
     local exceeds="$2"
+    local capacity_label="$3"
 
-    # 根据使用率选择颜色（60% 预警，75% 危险，与 claude-hud 一致）
     local color="$COLOR_GREEN"
     [ "$percentage" -ge 60 ] && color="$COLOR_YELLOW"
     [ "$percentage" -ge 75 ] && color="$COLOR_RED"
     [ "$exceeds" = "true" ] && color="$COLOR_RED"
 
     local progress_bar=$(generate_progress_bar "$percentage")
-    echo $'\033[38;2;'"${color}"'m'"Ctx ${percentage}% ${progress_bar}"$'\033[0m'
+    local suffix="${percentage}%"
+    [ -n "$capacity_label" ] && suffix="${suffix}/${capacity_label}"
+    echo $'\033[38;2;'"${color}"'m'"Ctx ${progress_bar} ${suffix}"$'\033[0m'
 }
 
 # ==============================================================================
@@ -309,19 +308,25 @@ fi
 # 区块2：模型 + 轮次 + 费用
 cost_display="\033[38;2;${COLOR_COST}m\$${formatted_cost}\033[0m"
 if [ "$message_count" -gt 0 ]; then
-    count_part="\033[38;2;${COLOR_GRAY}m(\033[0m\033[38;2;${COLOR_MEDIUM_PURPLE}m#${message_count}\033[0m\033[38;2;${COLOR_GRAY}m)\033[0m"
+    count_part="\033[38;2;${COLOR_MEDIUM_PURPLE}m#${message_count}\033[0m"
     block2="${model_display} ${count_part}${sep}${cost_display}"
 else
     block2="${model_display}${sep}${cost_display}"
 fi
 
 # 区块3：上下文 + token 详情
-context_display=$(format_context_display "$context_percentage" "$exceeds_200k")
+effective_max=${context_window_size:-$CONTEXT_MAX_TOKENS}
+capacity_label=$(format_number "$effective_max")
+context_display=$(format_context_display "$context_percentage" "$exceeds_200k" "$capacity_label")
 block3="${context_display}"
 [ -n "$token_info" ] && block3="${block3}${sep}${token_info}"
 
 # 拼接三块
-line1="${block1}${div}${block2}${div}${block3}"
+if [ -n "$block1" ]; then
+    line1="${block1}${div}${block2}${div}${block3}"
+else
+    line1="${block2}${div}${block3}"
+fi
 
 printf "%b\n" "$line1"
 
