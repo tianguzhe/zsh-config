@@ -59,11 +59,9 @@ format_number() {
 
 # 生成进度条（10格宽度）
 generate_progress_bar() {
-    local percentage="$1" bar="" i
-    local filled=$((percentage * 10 / 100))
-    for ((i=0; i<filled; i++));    do bar+="█"; done
-    for ((i=filled; i<10; i++)); do bar+="░"; done
-    echo "$bar"
+    local filled=$(( $1 * 10 / 100 ))
+    local tmpl="██████████░░░░░░░░░░"
+    echo "${tmpl:$((10 - filled)):10}"
 }
 
 # ==============================================================================
@@ -80,17 +78,17 @@ get_transcript_stats() {
         return
     fi
 
-    local cnt input_tokens output_tokens cache_read cache_creation
-    read -r cnt input_tokens output_tokens cache_read cache_creation < <(
-        jq -rn '
+    local cnt input_tokens output_tokens cache_read cache_creation tsv_raw
+    tsv_raw=$(jq -rn '
             [inputs] as $all |
             ($all | map(select(has("message"))) | length) as $cnt |
-            ($all | map(select(.message.usage)) | last? // {}) as $u |
+            ($all | map(select(.message.usage)) | last?.message.usage // {}) as $u |
             [$cnt,
              ($u.input_tokens // 0), ($u.output_tokens // 0),
              ($u.cache_read_input_tokens // 0), ($u.cache_creation_input_tokens // 0)] |
-            @tsv' "$transcript_path" 2>/dev/null
-    )
+            @tsv' "$transcript_path" 2>/dev/null)
+    # Use explicit IFS=$'\t' to avoid caller IFS='|' pollution on tab-separated jq output
+    IFS=$'\t' read -r cnt input_tokens output_tokens cache_read cache_creation <<< "$tsv_raw"
     cnt=${cnt:-0}
     input_tokens=${input_tokens:-0}
     output_tokens=${output_tokens:-0}
@@ -154,7 +152,10 @@ get_git_extras() {
     fi
 
     local ahead=0 behind=0 stash=0
-    read -r ahead behind < <(git -C "$cwd" rev-list --left-right --count HEAD...@{u} 2>/dev/null)
+    local ab_raw
+    ab_raw=$(git -C "$cwd" rev-list --left-right --count HEAD...@{u} 2>/dev/null)
+    # IFS= to avoid tab being treated as delimiter (IFS may be '|' in caller scope)
+    IFS=$'\t' read -r ahead behind <<< "$ab_raw"
     stash=$(git -C "$cwd" stash list 2>/dev/null | wc -l | xargs)
     echo "${ahead:-0}|${behind:-0}|${stash:-0}"
 }
@@ -243,7 +244,9 @@ eval "$(echo "$input" | jq -r '@sh "
     context_window_size=\(.context_window.context_window_size // "")
     five_hour_pct=\(.rate_limits.five_hour.used_percentage // "")
     seven_day_pct=\(.rate_limits.seven_day.used_percentage // "")
-    five_hour_reset=\(.rate_limits.five_hour.resets_at // "")"' 2>/dev/null)"
+    five_hour_reset=\(.rate_limits.five_hour.resets_at // "")
+    effort_level=\(.effort.level // "")
+    thinking_enabled=\(.thinking.enabled // false)"' 2>/dev/null)"
 
 # --- 1M 上下文标注 ---
 model_name_display="$model_name"
@@ -311,11 +314,26 @@ fi
 
 # 区块2：模型 + 轮次 + 费用
 cost_display="\033[38;2;${COLOR_COST}m\$${formatted_cost}\033[0m"
+
+# thinking / effort 标签
+model_tags=""
+if [ "$thinking_enabled" = "true" ]; then
+    model_tags=" \033[38;2;${COLOR_LIGHT_GREEN}m[T]\033[0m"
+else
+    model_tags=" \033[38;2;${COLOR_GRAY}m[N]\033[0m"
+fi
+case "$effort_level" in
+    low)    model_tags="${model_tags} \033[38;2;${COLOR_GRAY}m[low]\033[0m" ;;
+    high)   model_tags="${model_tags} \033[38;2;${COLOR_YELLOW}m[high]\033[0m" ;;
+    xhigh)  model_tags="${model_tags} \033[38;2;${COLOR_PATH}m[xhigh]\033[0m" ;;
+    max)    model_tags="${model_tags} \033[38;2;${COLOR_RED}m[max]\033[0m" ;;
+esac
+
 if [ "$message_count" -gt 0 ]; then
     count_part="\033[38;2;${COLOR_MEDIUM_PURPLE}m#${message_count}\033[0m"
-    block2="${model_display} ${count_part}${sep}${cost_display}"
+    block2="${model_display}${model_tags}${sep}${count_part}${sep}${cost_display}"
 else
-    block2="${model_display}${sep}${cost_display}"
+    block2="${model_display}${model_tags}${sep}${cost_display}"
 fi
 
 # 区块3：上下文 + token 详情
