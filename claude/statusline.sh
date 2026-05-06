@@ -35,6 +35,9 @@ readonly COLOR_DIV="88;91;112"             # 区块分隔 │（Overlay0）
 # 格式化数字为可读单位（k/M）
 format_number() {
     local num="$1"
+    if ! [[ "$num" =~ ^[0-9]+$ ]] || [ "${#num}" -gt 12 ]; then
+        num=0
+    fi
 
     if [ "$num" -lt 1000 ]; then
         echo "$num"
@@ -59,9 +62,98 @@ format_number() {
 
 # 生成进度条（10格宽度）
 generate_progress_bar() {
-    local filled=$(( $1 * 10 / 100 ))
+    local percentage="$1"
+    [[ "$percentage" =~ ^[0-9]+$ ]] || percentage=0
+    [ "${#percentage}" -gt 3 ] && percentage=100
+    [ "$percentage" -lt 0 ] && percentage=0
+    [ "$percentage" -gt 100 ] && percentage=100
+
+    local filled=$((percentage * 10 / 100))
     local tmpl="██████████░░░░░░░░░░"
     echo "${tmpl:$((10 - filled)):10}"
+}
+
+# 判断是否为非负整数
+is_uint() {
+    [[ "$1" =~ ^[0-9]+$ ]]
+}
+
+# 正整数兜底
+positive_int_or_default() {
+    local value="$1"
+    local default="$2"
+    if is_uint "$value" && [ "${#value}" -le 9 ] && [ "$value" -gt 0 ]; then
+        echo "$value"
+    else
+        echo "$default"
+    fi
+}
+
+# 百分比四舍五入并限制到 0-100
+clamp_percentage() {
+    local value="$1"
+    local rounded
+
+    if ! [[ "$value" =~ ^-?[0-9]+([.][0-9]+)?$ ]]; then
+        echo 0
+        return
+    fi
+
+    local integer_part="${value%%.*}"
+    local integer_digits="${integer_part#-}"
+    if [ "${#integer_digits}" -gt 3 ]; then
+        [[ "$integer_part" == -* ]] && echo 0 || echo 100
+        return
+    fi
+
+    rounded=$(LC_ALL=C printf "%.0f" "$value" 2>/dev/null) || rounded=0
+    [[ "$rounded" =~ ^-?[0-9]+$ ]] || rounded=0
+    if [ "${#rounded}" -gt 3 ]; then
+        [[ "$rounded" == -* ]] && rounded=0 || rounded=100
+    fi
+
+    [ "$rounded" -lt 0 ] && rounded=0
+    [ "$rounded" -gt 100 ] && rounded=100
+    echo "$rounded"
+}
+
+# 费用格式化兜底
+format_cost() {
+    local value="$1"
+    local formatted
+
+    formatted=$(LC_ALL=C printf "%.2f" "$value" 2>/dev/null) || formatted="0.00"
+    echo "$formatted"
+}
+
+# 将 reset 时间格式化为剩余时间；异常或过远时间不显示
+format_reset_time() {
+    local reset_epoch="$1"
+    is_uint "$reset_epoch" || return
+    [ "${#reset_epoch}" -gt 13 ] && return
+
+    # 兼容毫秒时间戳
+    if [ "$reset_epoch" -gt 9999999999 ]; then
+        reset_epoch=$((reset_epoch / 1000))
+    fi
+
+    local now remaining_secs remaining_mins h m
+    now=$(date +%s)
+    remaining_secs=$((reset_epoch - now))
+
+    # five-hour 窗口的 reset 不应离当前时间特别远；过远通常是坏输入
+    if [ "$remaining_secs" -le 0 ] || [ "$remaining_secs" -gt 604800 ]; then
+        return
+    fi
+
+    remaining_mins=$((remaining_secs / 60))
+    if [ "$remaining_mins" -ge 60 ]; then
+        h=$((remaining_mins / 60))
+        m=$((remaining_mins % 60))
+        echo "${h}h ${m}m"
+    else
+        echo "${remaining_mins}m"
+    fi
 }
 
 # ==============================================================================
@@ -80,12 +172,14 @@ get_transcript_stats() {
 
     local cnt input_tokens output_tokens cache_read cache_creation tsv_raw
     tsv_raw=$(jq -rn '
-            [inputs] as $all |
-            ($all | map(select(has("message"))) | length) as $cnt |
-            ($all | map(select(.message.usage)) | last?.message.usage // {}) as $u |
-            [$cnt,
-             ($u.input_tokens // 0), ($u.output_tokens // 0),
-             ($u.cache_read_input_tokens // 0), ($u.cache_creation_input_tokens // 0)] |
+            reduce inputs as $item (
+                {cnt: 0, usage: {}};
+                (if ($item | has("message")) then .cnt += 1 else . end) |
+                (if ($item.message.usage? != null) then .usage = $item.message.usage else . end)
+            ) |
+            [.cnt,
+             (.usage.input_tokens // 0), (.usage.output_tokens // 0),
+             (.usage.cache_read_input_tokens // 0), (.usage.cache_creation_input_tokens // 0)] |
             @tsv' "$transcript_path" 2>/dev/null)
     # Use explicit IFS=$'\t' to avoid caller IFS='|' pollution on tab-separated jq output
     IFS=$'\t' read -r cnt input_tokens output_tokens cache_read cache_creation <<< "$tsv_raw"
@@ -95,9 +189,15 @@ get_transcript_stats() {
     cache_read=${cache_read:-0}
     cache_creation=${cache_creation:-0}
 
+    is_uint "$cnt" || cnt=0
+    is_uint "$input_tokens" || input_tokens=0
+    is_uint "$output_tokens" || output_tokens=0
+    is_uint "$cache_read" || cache_read=0
+    is_uint "$cache_creation" || cache_creation=0
+
     local context_length=$((input_tokens + cache_read + cache_creation))
     local cache_hit_rate=0
-    [ $context_length -gt 0 ] && cache_hit_rate=$((cache_read * 100 / context_length))
+    [ "$context_length" -gt 0 ] && cache_hit_rate=$((cache_read * 100 / context_length))
 
     echo "${cnt}|${context_length}|${input_tokens}|${output_tokens}|${cache_hit_rate}"
 }
@@ -126,38 +226,47 @@ format_working_directory() {
 # 核心功能 - Git 分支获取
 # ==============================================================================
 
-# 获取当前 Git 分支名（含 dirty 标记）
-get_git_branch() {
+# 获取 Git 信息：分支、dirty、ahead/behind、stash
+# 返回格式：branch<US>dirty<US>ahead<US>behind<US>stash
+get_git_info() {
     local cwd="$1"
+    local sep=$'\037'
 
     if [ -z "$cwd" ] || [ ! -d "$cwd" ]; then
-        echo ""
+        printf "%s%s0%s0%s0\n" "$sep" "$sep" "$sep" "$sep"
         return
     fi
 
-    local branch dirty=""
-    branch=$(git -C "$cwd" rev-parse --abbrev-ref HEAD 2>/dev/null) || return
-    git -C "$cwd" status --porcelain 2>/dev/null | grep -q . && dirty="*"
-    echo "${branch}${dirty}"
-}
-
-# 获取 Git ahead/behind 和 stash 数量
-# 返回格式：ahead|behind|stash
-get_git_extras() {
-    local cwd="$1"
-
-    if [ -z "$cwd" ] || [ ! -d "$cwd" ]; then
-        echo "0|0|0"
+    command -v git &>/dev/null || {
+        printf "%s%s0%s0%s0\n" "$sep" "$sep" "$sep" "$sep"
         return
-    fi
+    }
 
-    local ahead=0 behind=0 stash=0
-    local ab_raw
+    git -C "$cwd" rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
+        printf "%s%s0%s0%s0\n" "$sep" "$sep" "$sep" "$sep"
+        return
+    }
+
+    local branch dirty="" ahead=0 behind=0 stash=0
+    local ab_raw status_raw
+
+    branch=$(git -C "$cwd" symbolic-ref --quiet --short HEAD 2>/dev/null)
+    [ -n "$branch" ] || branch=$(git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
+
+    status_raw=$(git -C "$cwd" status --porcelain 2>/dev/null)
+    [ -n "$status_raw" ] && dirty="*"
+
     ab_raw=$(git -C "$cwd" rev-list --left-right --count HEAD...@{u} 2>/dev/null)
-    # IFS= to avoid tab being treated as delimiter (IFS may be '|' in caller scope)
     IFS=$'\t' read -r ahead behind <<< "$ab_raw"
-    stash=$(git -C "$cwd" stash list 2>/dev/null | wc -l | xargs)
-    echo "${ahead:-0}|${behind:-0}|${stash:-0}"
+    is_uint "$ahead" || ahead=0
+    is_uint "$behind" || behind=0
+
+    if git -C "$cwd" rev-parse --verify refs/stash >/dev/null 2>&1; then
+        stash=$(git -C "$cwd" stash list 2>/dev/null | wc -l | tr -d ' ')
+        is_uint "$stash" || stash=0
+    fi
+
+    printf "%s%s%s%s%s%s%s%s%s\n" "$branch" "$sep" "$dirty" "$sep" "$ahead" "$sep" "$behind" "$sep" "$stash"
 }
 
 # ==============================================================================
@@ -200,13 +309,15 @@ format_token_details() {
 # 格式化上下文使用情况（百分比 + 进度条 + 颜色预警）
 format_context_display() {
     local percentage="$1"
-    local exceeds="$2"
+    local exceeds_capacity="$2"
     local capacity_label="$3"
+
+    percentage=$(clamp_percentage "$percentage")
 
     local color="$COLOR_GREEN"
     [ "$percentage" -ge 60 ] && color="$COLOR_YELLOW"
     [ "$percentage" -ge 75 ] && color="$COLOR_RED"
-    [ "$exceeds" = "true" ] && color="$COLOR_RED"
+    [ "$exceeds_capacity" = "true" ] && color="$COLOR_RED"
 
     local progress_bar=$(generate_progress_bar "$percentage")
     local suffix="${percentage}%"
@@ -233,20 +344,42 @@ input=$(cat)
 command -v jq &>/dev/null || { echo "缺少 jq" >&2; exit 1; }
 
 # --- 一次性提取所有 stdin 字段 ---
-eval "$(echo "$input" | jq -r '@sh "
-    model_name=\(.model.display_name // "Sonnet 4")
-    model_id=\(.model.id // "")
-    total_cost=\(.cost.total_cost_usd // "0.00")
-    transcript_path=\(.transcript_path // "")
-    exceeds_200k=\(.exceeds_200k_tokens // "false")
-    cwd=\(.cwd // "")
-    context_native_pct=\(.context_window.used_percentage // "")
-    context_window_size=\(.context_window.context_window_size // "")
-    five_hour_pct=\(.rate_limits.five_hour.used_percentage // "")
-    seven_day_pct=\(.rate_limits.seven_day.used_percentage // "")
-    five_hour_reset=\(.rate_limits.five_hour.resets_at // "")
-    effort_level=\(.effort.level // "")
-    thinking_enabled=\(.thinking.enabled // false)"' 2>/dev/null)"
+model_name="Sonnet 4"
+model_id=""
+total_cost="0.00"
+transcript_path=""
+exceeds_200k="false"
+cwd=""
+context_native_pct=""
+context_window_size=""
+five_hour_pct=""
+seven_day_pct=""
+five_hour_reset=""
+effort_level=""
+thinking_enabled="false"
+
+parsed_input=$(printf "%s" "$input" | jq -r '
+    [
+        (.model.display_name // "Sonnet 4"),
+        (.model.id // ""),
+        (.cost.total_cost_usd // "0.00"),
+        (.transcript_path // ""),
+        (.exceeds_200k_tokens // false),
+        (.cwd // ""),
+        (.context_window.used_percentage // ""),
+        (.context_window.context_window_size // ""),
+        (.rate_limits.five_hour.used_percentage // ""),
+        (.rate_limits.seven_day.used_percentage // ""),
+        (.rate_limits.five_hour.resets_at // ""),
+        (.effort.level // ""),
+        (.thinking.enabled // false)
+    ] | map(tostring) | join("\u001f")' 2>/dev/null)
+
+if [ -n "$parsed_input" ]; then
+    IFS=$'\037' read -r model_name model_id total_cost transcript_path exceeds_200k cwd \
+        context_native_pct context_window_size five_hour_pct seven_day_pct \
+        five_hour_reset effort_level thinking_enabled <<< "$parsed_input"
+fi
 
 # --- 1M 上下文标注 ---
 model_name_display="$model_name"
@@ -257,25 +390,28 @@ fi
 # --- 对话统计 ---
 IFS='|' read -r message_count context_tokens input_tokens output_tokens cache_hit_rate \
     <<< "$(get_transcript_stats "$transcript_path")"
+is_uint "$message_count" || message_count=0
+is_uint "$context_tokens" || context_tokens=0
+is_uint "$input_tokens" || input_tokens=0
+is_uint "$output_tokens" || output_tokens=0
+is_uint "$cache_hit_rate" || cache_hit_rate=0
 
 # --- 工作目录 + Git ---
 formatted_cwd=$(format_working_directory "$cwd")
-git_branch=$(get_git_branch "$cwd")
-IFS='|' read -r git_ahead git_behind git_stash <<< "$(get_git_extras "$cwd")"
+IFS=$'\037' read -r git_branch git_dirty git_ahead git_behind git_stash <<< "$(get_git_info "$cwd")"
 
 # --- 上下文使用率（优先 stdin 原生百分比，v2.1.6+）---
 context_percentage=0
 if [ -n "$context_native_pct" ]; then
-    context_percentage=$(printf "%.0f" "$context_native_pct" 2>/dev/null || echo 0)
-    [ "$context_percentage" -gt 100 ] && context_percentage=100
+    context_percentage=$(clamp_percentage "$context_native_pct")
 elif [ "${context_tokens:-0}" -gt 0 ]; then
-    effective_max=${context_window_size:-$CONTEXT_MAX_TOKENS}
+    effective_max=$(positive_int_or_default "$context_window_size" "$CONTEXT_MAX_TOKENS")
     context_percentage=$((context_tokens * 100 / effective_max))
     [ "$context_percentage" -gt 100 ] && context_percentage=100
 fi
 
 # --- 格式化显示元素 ---
-formatted_cost=$(printf "%.2f" "$total_cost")
+formatted_cost=$(format_cost "$total_cost")
 
 model_display=$(format_model_name "$model_name_display")
 token_info=$(format_token_details "$input_tokens" "$output_tokens" "$cache_hit_rate")
@@ -299,8 +435,8 @@ if [ -n "$formatted_cwd" ]; then
 fi
 if [ -n "$git_branch" ]; then
     [ -n "$block1" ] && block1="${block1}\033[38;2;${COLOR_GRAY}m · \033[0m"
-    if [[ "$git_branch" == *"*" ]]; then
-        branch_name="${git_branch%\*}"
+    if [ -n "$git_dirty" ]; then
+        branch_name="$git_branch"
         block1="${block1}\033[38;2;${COLOR_DIRTY}m⎇ ${branch_name} *\033[0m"
     else
         block1="${block1}\033[38;2;${COLOR_GREEN}m⎇ ${git_branch}\033[0m"
@@ -337,9 +473,15 @@ else
 fi
 
 # 区块3：上下文 + token 详情
-effective_max=${context_window_size:-$CONTEXT_MAX_TOKENS}
+effective_max=$(positive_int_or_default "$context_window_size" "$CONTEXT_MAX_TOKENS")
 capacity_label=$(format_number "$effective_max")
-block3=$(format_context_display "$context_percentage" "$exceeds_200k" "$capacity_label")
+context_exceeds_capacity="false"
+if [ "$context_percentage" -ge 100 ]; then
+    context_exceeds_capacity="true"
+elif [ "$exceeds_200k" = "true" ] && [ "$effective_max" -le "$CONTEXT_MAX_TOKENS" ]; then
+    context_exceeds_capacity="true"
+fi
+block3=$(format_context_display "$context_percentage" "$context_exceeds_capacity" "$capacity_label")
 [ -n "$token_info" ] && block3="${block3}${sep}${token_info}"
 
 # 拼接三块
@@ -353,7 +495,7 @@ printf "%b\n" "$line1"
 
 # --- 第2行：Usage ███░░░░░░░ 38% (1h 29m / 5h) 7d:████████░░ 82%（订阅用户专属）---
 if [ -n "$five_hour_pct" ]; then
-    five_int=$(printf "%.0f" "$five_hour_pct" 2>/dev/null)
+    five_int=$(clamp_percentage "$five_hour_pct")
     if [ -n "$five_int" ]; then
         usage_color="\033[38;2;${COLOR_GREEN}m"
         [ "$five_int" -ge 70 ] && usage_color="\033[38;2;${COLOR_YELLOW}m"
@@ -363,24 +505,14 @@ if [ -n "$five_hour_pct" ]; then
         line2="${milk}Usage  \033[0m${usage_color}${usage_bar}  ${five_int}%\033[0m"
 
         # 重置剩余时间
-        if [ -n "$five_hour_reset" ] && [ "$five_hour_reset" -gt 0 ] 2>/dev/null; then
-            now=$(date +%s)
-            remaining_secs=$((five_hour_reset - now))
-            if [ "$remaining_secs" -gt 0 ]; then
-                remaining_mins=$((remaining_secs / 60))
-                if [ "$remaining_mins" -ge 60 ]; then
-                    h=$((remaining_mins / 60)); m=$((remaining_mins % 60))
-                    reset_label="${h}h ${m}m"
-                else
-                    reset_label="${remaining_mins}m"
-                fi
-                line2="${line2}  \033[38;2;${COLOR_GRAY}m(${reset_label} / 5h)\033[0m"
-            fi
+        reset_label=$(format_reset_time "$five_hour_reset")
+        if [ -n "$reset_label" ]; then
+            line2="${line2}  \033[38;2;${COLOR_GRAY}m(${reset_label} / 5h)\033[0m"
         fi
 
         # 7天（>= 80% 才显示）
         if [ -n "$seven_day_pct" ]; then
-            seven_int=$(printf "%.0f" "$seven_day_pct" 2>/dev/null)
+            seven_int=$(clamp_percentage "$seven_day_pct")
             if [ -n "$seven_int" ] && [ "$seven_int" -ge 80 ]; then
                 seven_color="\033[38;2;${COLOR_YELLOW}m"
                 [ "$seven_int" -ge 90 ] && seven_color="\033[38;2;${COLOR_RED}m"
