@@ -10,3 +10,10 @@ alias c-d='claude --dangerously-skip-permissions'
 function skilladd(){
     npx skills add "$1" -g -a claude-code
 }
+
+function claudetap(){
+    claude-tap --tap-target "$1" --tap-live --tap-port 18080 -- --settings '{"env":{"ANTHROPIC_BASE_URL":"http://127.0.0.1:18080","NO_PROXY":"127.0.0.1,localhost"}}'
+}
+alias claude-live='claudetap'
+alias claude-live-ds='claudetap https://api.deepseek.com/anthropic'
+alias claude-live-any='claudetap https://anyrouter.top'
