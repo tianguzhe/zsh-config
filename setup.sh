@@ -1,6 +1,7 @@
 #!/bin/bash
+# 目标系统为 macOS 自带的 /bin/bash 3.2，全程避免 bash 4+ 特性（如关联数组）。
 
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/lib.sh"
@@ -28,16 +29,10 @@ install_if_missing "Oh My Zsh" \
 echo ""
 
 # Install brew tools
+# 一次性安装，brew 会自动跳过已装包；依赖解析只跑一次，比逐个安装快。
 info "安装基础工具..."
 TOOLS="pipx eza tlrc fzf atuin zoxide neovim nodejs jq"
-for tool in $TOOLS; do
-    if brew list "$tool" &>/dev/null; then
-        warn "$tool 已安装"
-    else
-        info "安装 $tool..."
-        brew install "$tool"
-    fi
-done
+brew install $TOOLS
 success "基础工具安装完成"
 
 echo ""
@@ -45,7 +40,7 @@ echo ""
 # Install Python tools
 info "安装 Python 工具..."
 if command -v pipx &>/dev/null; then
-    if ! pipx install ruff pyrefly; then
+    if ! pipx install ruff; then
         warn "Python 工具可能已安装"
     fi
     success "Python 工具安装完成"
@@ -84,28 +79,6 @@ install_if_missing "Claude Code" \
 
 echo ""
 
-# Configure MCP servers
-info "配置 MCP 服务器..."
-if command -v claude &>/dev/null; then
-    configure_mcp "ace-tool" "ACE_TOOL_TOKEN" \
-        'claude mcp add ace-tool -s user --transport stdio -- npx ace-tool --base-url https://acemcp.heroman.wtf/relay/ --token "$ACE_TOOL_TOKEN"' \
-        'claude mcp add ace-tool -s user --transport stdio -- npx ace-tool --base-url https://acemcp.heroman.wtf/relay/ --token <your_token>'
-
-    configure_mcp "context7" "CONTEXT7_API_KEY" \
-        'claude mcp add context7 -s user --transport http --url https://mcp.context7.com/mcp --header "CONTEXT7_API_KEY:$CONTEXT7_API_KEY"' \
-        'claude mcp add context7 -s user --transport http --url https://mcp.context7.com/mcp --header CONTEXT7_API_KEY:<your_key>'
-
-    configure_mcp "sequential-thinking" "" \
-        'claude mcp add sequential-thinking -s user --transport stdio -- npx -y @modelcontextprotocol/server-sequential-thinking' \
-        'claude mcp add sequential-thinking -s user --transport stdio -- npx -y @modelcontextprotocol/server-sequential-thinking'
-
-    success "MCP 服务器配置完成"
-else
-    warn "Claude Code 未安装，跳过 MCP 服务器配置"
-fi
-
-echo ""
-
 # Configure LazyVim
 install_if_missing "LazyVim" \
     "[ -d ~/.config/nvim ]" \
@@ -117,20 +90,18 @@ echo ""
 info "安装 zsh 插件..."
 ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
 
-declare -A plugins=(
-    ["fast-syntax-highlighting"]="https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
-    ["fzf-tab"]="https://github.com/Aloxaf/fzf-tab"
-    ["git-open"]="https://github.com/paulirish/git-open.git"
-    ["you-should-use"]="https://github.com/MichaelAquilina/zsh-you-should-use.git"
-    ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions"
-)
+# bash 3.2 无关联数组，改用 "name|url" 文本清单 + here-string 循环（不开子 shell）。
+PLUGINS="fast-syntax-highlighting|https://github.com/zdharma-continuum/fast-syntax-highlighting.git
+fzf-tab|https://github.com/Aloxaf/fzf-tab
+git-open|https://github.com/paulirish/git-open.git
+you-should-use|https://github.com/MichaelAquilina/zsh-you-should-use.git
+zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions"
 
-for plugin in "${!plugins[@]}"; do
+while IFS="|" read -r plugin url; do
     plugin_dir="$ZSH_CUSTOM/plugins/$plugin"
     if [ ! -d "$plugin_dir" ]; then
         info "安装 $plugin..."
-        local err
-        if err=$(git clone "${plugins[$plugin]}" "$plugin_dir" 2>&1); then
+        if err=$(git clone "$url" "$plugin_dir" 2>&1); then
             success "$plugin 安装完成"
         else
             warn "$plugin 安装失败: $err"
@@ -138,7 +109,7 @@ for plugin in "${!plugins[@]}"; do
     else
         warn "$plugin 已安装"
     fi
-done
+done <<< "$PLUGINS"
 
 success "zsh 插件处理完成"
 

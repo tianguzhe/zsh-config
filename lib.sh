@@ -26,20 +26,3 @@ install_if_missing() {
         warn "$name 已安装"
     fi
 }
-
-# Configure an MCP server for Claude Code.
-# Usage: configure_mcp "name" "ENV_VAR" "add_cmd" "manual_hint"
-configure_mcp() {
-    local name="$1" env_var="$2" add_cmd="$3" manual_hint="$4"
-    if ! claude mcp list 2>/dev/null | grep -q "$name"; then
-        info "配置 $name MCP 服务器..."
-        if [ -n "${!env_var}" ]; then
-            eval "$add_cmd" || warn "$name 配置失败"
-        else
-            warn "未设置 $env_var 环境变量，跳过 $name 配置"
-            info "手动运行: $manual_hint"
-        fi
-    else
-        warn "$name 已配置"
-    fi
-}
