@@ -1,0 +1,61 @@
+# -------------------- 窗口设置 --------------------
+window-save-state = never
+window-width = 138
+window-height = 36
+window-padding-x = 10
+window-padding-y = 10
+# 延伸背景色到 padding 区域，视觉更统一
+window-padding-color = extend
+# 自动平衡 padding，消除单元格对齐产生的不均匀留白
+window-padding-balance = true
+confirm-close-surface = false
+
+# -------------------- 面板视觉 --------------------
+# 非活动面板变暗，聚焦当前面板
+unfocused-split-opacity = 0.7
+
+# -------------------- 终端设置 --------------------
+term = xterm-ghostty
+shell-integration = zsh
+
+# -------------------- 主题设置 --------------------
+theme = "TokyoNight"
+cursor-color = #FF8700
+cursor-style = bar
+cursor-style-blink = false
+adjust-cursor-thickness = 8
+
+# -------------------- 字体设置 --------------------
+font-family = "Maple Mono NF CN"
+font-size = 13
+font-thicken = true
+bold-color = bright
+# 启用连字（Maple Mono 支持）
+font-feature = liga
+# 启用上下文替换
+font-feature = calt
+# 行高增加 5%，更舒适
+adjust-cell-height = 5%
+
+# -------------------- 背景与透明 --------------------
+background-opacity = 0.92
+background-blur = true
+
+# -------------------- 剪贴板 --------------------
+clipboard-read = ask
+# 选中即复制到系统剪贴板
+copy-on-select = clipboard
+# 复制后自动取消选中
+selection-clear-on-copy = true
+# 复制时去掉行尾空格
+clipboard-trim-trailing-spaces = true
+
+# -------------------- 滚动 --------------------
+scrollback-limit = 100000
+
+# -------------------- 性能 --------------------
+# 隐藏滚动条
+scrollbar = never
+
+# -------------------- 其他设置 --------------------
+mouse-hide-while-typing = true
