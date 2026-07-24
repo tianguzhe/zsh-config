@@ -5,7 +5,7 @@ alias ls="eza --git --icons"
 alias man='tldr'
 alias tar="tar --exclude '.DS_Store'"
 
-alias c-d='claude --dangerously-skip-permissions'
+alias csp='claude --dangerously-skip-permissions'
 
 function skilladd(){
     npx skills add "$1" -g -a claude-code

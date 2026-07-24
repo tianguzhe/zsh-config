@@ -6,8 +6,9 @@
 
 - **Shell 配置**: Oh My Zsh + ys 主题
 - **开发工具**: Homebrew, Rust, Bun, Neovim (LazyVim)
-- **Python 工具**: pipx, ruff, pyrefly, uv
-- **实用工具**: eza, tldr, fzf, atuin, zoxide
+- **Python 工具**: uv, ruff, pyrefly, claude-tap
+- **npm 工具**: @antfu/ni, @anthropic-ai/claude-code, @openai/codex
+- **实用工具**: eza, tldr, fzf, atuin, zoxide, fd, ripgrep
 - **Zsh 插件**:
   - fast-syntax-highlighting (语法高亮)
   - fzf-tab (模糊搜索)
@@ -34,7 +35,28 @@ chmod +x dev-up.sh
 ./dev-up.sh
 ```
 
-批量更新 Homebrew、npm、pipx、Rust、Bun、uv 等开发工具。
+批量更新 Homebrew、npm、uv tool、Rust、Bun 等开发工具。
+
+## uv 常用命令
+
+```bash
+# 全局 CLI 工具管理（替代 pipx）
+uv tool install <package>    # 安装全局工具
+uv tool list                 # 列出已安装工具
+uv tool upgrade <package>    # 升级指定工具
+uv tool upgrade --all        # 升级所有工具
+uv tool uninstall <package>  # 卸载工具
+
+# 单文件脚本
+uv run script.py             # 运行脚本（自动解析内联依赖）
+
+# 项目依赖管理
+uv init                      # 初始化新项目
+uv add <package>             # 添加依赖
+uv remove <package>          # 移除依赖
+uv sync                      # 同步依赖
+uv lock                      # 锁定依赖版本
+```
 
 ## 包含的配置文件
 

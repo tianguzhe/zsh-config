@@ -20,9 +20,15 @@ success "npm 更新完成"
 
 echo ""
 
-info "更新 pipx 包..."
-pipx upgrade-all
-success "pipx 更新完成"
+info "更新 uv..."
+uv self update
+success "uv 更新完成"
+
+echo ""
+
+info "更新 uv 工具..."
+uv tool upgrade --all
+success "uv 工具更新完成"
 
 echo ""
 
@@ -35,11 +41,5 @@ echo ""
 info "更新 Bun..."
 bun upgrade
 success "Bun 更新完成"
-
-echo ""
-
-info "更新 uv..."
-uv self update
-success "uv 更新完成"
 
 echo -e "\n${GREEN}========== 更新完成 ==========${NC}\n"

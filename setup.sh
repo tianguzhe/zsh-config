@@ -31,23 +31,9 @@ echo ""
 # Install brew tools
 # 一次性安装，brew 会自动跳过已装包；依赖解析只跑一次，比逐个安装快。
 info "安装基础工具..."
-TOOLS="pipx eza tlrc fzf atuin zoxide neovim nodejs jq"
+TOOLS="eza tlrc fzf atuin zoxide neovim nodejs jq fd ripgrep"
 brew install $TOOLS
 success "基础工具安装完成"
-
-echo ""
-
-# Install Python tools
-info "安装 Python 工具..."
-if command -v pipx &>/dev/null; then
-    if ! pipx install ruff; then
-        warn "Python 工具可能已安装"
-    fi
-    success "Python 工具安装完成"
-else
-    error "pipx 未安装，请先安装基础工具"
-    exit 1
-fi
 
 echo ""
 
@@ -55,6 +41,16 @@ echo ""
 install_if_missing "uv" \
     "command -v uv" \
     'curl -LsSf https://astral.sh/uv/install.sh | sh'
+
+echo ""
+
+# Install Python tools via uv
+info "安装 Python 工具..."
+if uv tool install ruff && uv tool install pyrefly && uv tool install claude-tap; then
+    success "Python 工具安装完成"
+else
+    warn "Python 工具可能已安装"
+fi
 
 echo ""
 
@@ -72,10 +68,14 @@ install_if_missing "Bun" \
 
 echo ""
 
-# Install Claude Code
-install_if_missing "Claude Code" \
-    "command -v claude" \
-    'curl -fsSL https://claude.ai/install.sh | bash'
+# Install npm global tools
+info "安装 npm 全局工具..."
+NPM_TOOLS="@antfu/ni @anthropic-ai/claude-code @openai/codex"
+if npm install -g $NPM_TOOLS; then
+    success "npm 全局工具安装完成"
+else
+    warn "部分 npm 工具可能已安装"
+fi
 
 echo ""
 
