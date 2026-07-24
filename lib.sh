@@ -1,11 +1,12 @@
 # Shared logging utilities for setup and update scripts.
 # Sourced by setup.sh and dev-up.sh — do not execute directly.
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
+# Catppuccin Mocha colors
+RED='\033[38;2;243;139;168m'
+GREEN='\033[38;2;166;227;161m'
+YELLOW='\033[38;2;249;226;175m'
+BLUE='\033[38;2;137;180;250m'
+CYAN='\033[38;2;148;226;213m'
 NC='\033[0m'
 
 info()    { echo -e "${BLUE}[INFO]${NC} $1"; }

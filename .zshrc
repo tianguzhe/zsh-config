@@ -78,12 +78,14 @@ ZSH_THEME="ys"
 plugins=(
 	you-should-use
 	git
+	uv
 	git-open
 	extract
 	fzf-tab
 	zsh-autosuggestions
 	# zsh-syntax-highlighting
 	fast-syntax-highlighting
+	copypath
 )
 
 source $ZSH/oh-my-zsh.sh

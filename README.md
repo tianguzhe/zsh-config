@@ -16,6 +16,8 @@
   - you-should-use (别名提示)
   - git-open (快速打开 Git 仓库)
   - extract (解压万能命令)
+  - copypath (复制路径到剪贴板)
+  - uv (uv/uvx 自动补全)
 
 ## 快速开始
 
