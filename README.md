@@ -15,6 +15,7 @@
   - zsh-autosuggestions (命令建议)
   - you-should-use (别名提示)
   - git-open (快速打开 Git 仓库)
+  - extract (解压万能命令)
 
 ## 快速开始
 
@@ -61,8 +62,9 @@ uv lock                      # 锁定依赖版本
 ## 包含的配置文件
 
 - `.zshrc` - Zsh 主配置
-- `.zshenv` - 环境变量配置
+- `.zprofile` - 环境变量配置
 - `.zsh_alias` - 命令别名
+- `lib.sh` - 共享日志工具函数（供 setup/dev-up 脚本使用）
 
 ## 自定义别名
 
@@ -70,6 +72,8 @@ uv lock                      # 锁定依赖版本
 - `man` → `tldr`
 - `st` → 打开 Sublime Text
 - `code` → 打开 Visual Studio Code
+- `csp` → `claude --dangerously-skip-permissions`
+- `claude-live` / `claude-live-ds` / `claude-live-any` → claude-tap 代理模式
 
 ## 备份说明
 
@@ -77,70 +81,24 @@ uv lock                      # 锁定依赖版本
 
 ## Claude Code 配置
 
-本项目集成了完整的 Claude Code CLI 配置系统，提供 AI 辅助开发能力。
-
-### 环境变量配置
-
-使用 MCP 服务器前需要配置以下环境变量：
-
-```bash
-export MCP_API_KEY="your_api_key"
-export MCP_PROFILE="your_profile"
-```
-
-### Agents（AI 助手角色）
-
-- **backend-architect** - 后端架构师：RESTful API 设计、微服务架构、数据库设计
-- **frontend-developer** - 前端开发者：React 组件、响应式设计、性能优化
-- **code-reviewer** - 代码审查专家：代码质量、安全性、可维护性检查
-- **mcp-expert** - MCP 集成专家：MCP 服务器配置、协议规范
+本项目集成了 Claude Code CLI 配置，提供自定义命令和状态栏。
 
 ### Commands（自定义命令）
 
-- **/explain-code** - 代码功能分析器：16 步系统化代码分析流程
+- **/explain-code** - 代码功能分析器：系统化代码分析流程
 - **/git-commit** - Git Commit 生成器：自动分析变更并生成规范的 commit 消息
-- **/git-reset** - Git 重置命令
-- **/git-force-push** - Git 强制推送命令
-
-### Skills（专业技能包）
-
-- **hilt** - Android 依赖注入（基于 Dagger）
-- **koin** - Kotlin 依赖注入框架（支持 Android、Ktor、KMP）
-
-**更多 Skills 资源：**
-
-- 访问 [Skills Marketplace](https://skillsmp.com/) 获取更多社区贡献的 Claude Code Skills
-- 浏览、安装和分享专业领域的 AI 技能包
-
-### MCP 服务器
-
-- **chrome-devtools** - Chrome 浏览器自动化
-- **context7** - 代码文档上下文检索
-- **exa** - AI 驱动的网络搜索
-- **sequential-thinking** - 多步骤思维推理
-- **serena** - 代码导航和分析工具
-- **codex** - AI 辅助编码和代码生成工具
-
-#### 添加 Serena MCP 服务器
-
-```bash
-claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context claude-code --project "$(pwd)"
-```
-
-#### 添加 Codex MCP 服务器
-
-```bash
-claude mcp add codex -s user --transport stdio -- uvx --from git+https://github.com/GuDaStudio/codexmcp.git codexmcp
-```
+- **/git-reset** - Git 重置命令：清除未提交的更改
+- **/git-force-push** - Git 强制推送：默认使用 `--force-with-lease` 安全推送
+- **/git-archive** - Git 归档：将仓库打包为 tar.gz
+- **/backup/create** - 单文件备份：带时间戳的快速备份
+- **/backup/cleanup** - 备份清理：清理旧备份文件
+- **/todo/clear-all** - 清除全部待办（危险操作，需确认）
 
 ### 状态栏功能
 
-自定义状态栏显示：
-- 模型名称和成本统计
-- 对话轮数和上下文使用率
-- Token 详情（输入/输出/缓存命中率）
-- IP 地理位置信息
-- 会话时长和 Git 分支
+自定义两行状态栏：
+- **第1行**：路径 • Git 分支 • 模型名称 · 成本 · 对话轮数 · 上下文使用率 · Token 详情
+- **第2行**：Usage 进度条 + 重置时间（订阅用户专属，7 天用量 ≥80% 时显示）
 
 ### 使用示例
 
@@ -152,19 +110,6 @@ claude mcp add codex -s user --transport stdio -- uvx --from git+https://github.
 # 生成 commit 消息
 /git-commit
 ```
-
-**使用 Skills：**
-```bash
-# 获取 Hilt 依赖注入帮助
-/hilt
-
-# 获取 Koin 依赖注入帮助
-/koin
-```
-
-**Agents 会在相关任务时自动触发**，例如：
-- 编写代码后自动触发 code-reviewer 进行审查
-- 设计 API 时自动触发 backend-architect 提供建议
 
 ## 许可证
 
