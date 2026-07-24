@@ -1,0 +1,9 @@
+[aliases]
+google = "https://www.google.com/search?q="
+bing = "https://www.bing.com/search?q="
+baidu = "https://www.baidu.com/s?wd="
+gh = "https://github.com/search?q="
+maven = "https://mvnrepository.com/search?q="
+npm = "https://npmx.dev/search?q="
+crates = "https://crates.io/search?q="
+docker = "https://hub.docker.com/search?q="

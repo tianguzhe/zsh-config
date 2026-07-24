@@ -67,6 +67,7 @@ uv lock                      # 锁定依赖版本
 - `.zprofile` - 环境变量配置
 - `.zsh_alias` - 命令别名
 - `lib.sh` - 共享日志工具函数（供 setup/dev-up 脚本使用）
+- `config/ws/config.toml` - ws 搜索工具配置
 
 ## 自定义别名
 
@@ -76,6 +77,18 @@ uv lock                      # 锁定依赖版本
 - `code` → 打开 Visual Studio Code
 - `csp` → `claude --dangerously-skip-permissions`
 - `claude-live` / `claude-live-ds` / `claude-live-any` → claude-tap 代理模式
+
+## ws 搜索工具
+
+自定义搜索命令行工具，[ws-search](https://github.com/tianguzhe/ws-search)。
+
+```bash
+ws google rust        # Google 搜索
+ws gh -q "rust async" # GitHub 搜索
+ws --list             # 查看所有别名
+```
+
+配置：`config/ws/config.toml`
 
 ## 备份说明
 

@@ -134,5 +134,15 @@ done
 
 success "配置文件处理完成"
 
+echo ""
+
+# Copy ws config
+info "配置 ws 搜索工具..."
+mkdir -p ~/.config/ws
+if [ -f "$SCRIPT_DIR/config/ws/config.toml" ]; then
+    cp "$SCRIPT_DIR/config/ws/config.toml" ~/.config/ws/config.toml
+    success "ws 配置已复制"
+fi
+
 echo -e "\n${GREEN}========== 安装完成 ==========${NC}"
 echo -e "${CYAN}请重启终端或运行: source ~/.zshrc${NC}\n"
