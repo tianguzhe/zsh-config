@@ -44,6 +44,29 @@ install_if_missing "uv" \
 
 echo ""
 
+# Install Android CLI
+if ! command -v android &>/dev/null; then
+    info "安装 Android CLI..."
+    ARCH="$(uname -m)"
+    if [ "$ARCH" = "arm64" ]; then
+        ANDROID_INSTALL_URL="https://dl.google.com/android/cli/latest/darwin_arm64/install.sh"
+    else
+        ANDROID_INSTALL_URL="https://dl.google.com/android/cli/latest/darwin_x86_64/install.sh"
+    fi
+    if curl -fsSL "$ANDROID_INSTALL_URL" | bash; then
+        success "Android CLI 安装完成"
+        export PATH="$HOME/.local/bin:$PATH"
+        info "注册 android-cli 技能..."
+        android skills add android-cli --agent=claude-code,codex || warn "技能注册失败，可稍后手动执行: android skills add android-cli --agent=claude-code,codex"
+    else
+        warn "Android CLI 安装失败"
+    fi
+else
+    warn "Android CLI 已安装"
+fi
+
+echo ""
+
 # Install Python tools via uv
 info "安装 Python 工具..."
 if uv tool install ruff && uv tool install pyrefly && uv tool install claude-tap; then
