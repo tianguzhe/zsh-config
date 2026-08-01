@@ -21,8 +21,6 @@ shell-integration = zsh
 # -------------------- 主题设置 --------------------
 theme = "TokyoNight"
 cursor-color = #FF8700
-cursor-style = bar
-cursor-style-blink = false
 adjust-cursor-thickness = 8
 
 # -------------------- 字体设置 --------------------
