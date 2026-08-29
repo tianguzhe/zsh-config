@@ -31,7 +31,7 @@ echo ""
 # Install brew tools
 # 一次性安装，brew 会自动跳过已装包；依赖解析只跑一次，比逐个安装快。
 info "安装基础工具..."
-TOOLS="eza tlrc fzf atuin zoxide neovim nodejs jq fd ripgrep"
+TOOLS="eza tlrc fzf atuin zoxide neovim nodejs jq fd ripgrep cloudflared"
 brew install $TOOLS
 success "基础工具安装完成"
 

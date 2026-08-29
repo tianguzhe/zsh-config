@@ -8,7 +8,7 @@
 - **开发工具**: Homebrew, Rust, Bun, Neovim (LazyVim)
 - **Python 工具**: uv, ruff, pyrefly, claude-tap
 - **npm 工具**: @antfu/ni, @anthropic-ai/claude-code, @openai/codex
-- **实用工具**: eza, tldr, fzf, atuin, zoxide, fd, ripgrep
+- **实用工具**: eza, tldr, fzf, atuin, zoxide, fd, ripgrep, cloudflared
 - **Zsh 插件**:
   - fast-syntax-highlighting (语法高亮)
   - fzf-tab (模糊搜索)
@@ -89,6 +89,29 @@ ws --list             # 查看所有别名
 ```
 
 配置：`config/ws/config.toml`
+
+## cloudflared 内网穿透
+
+Cloudflare Tunnel 客户端，把本地服务暴露为公网 HTTPS 地址（由 `setup.sh` 安装）。
+
+```bash
+# 临时隧道：自动分配 *.trycloudflare.com 域名，无需登录
+cloudflared tunnel --url http://localhost:8787
+
+# 命名隧道：长期可用，需 Cloudflare 账号和已托管域名
+cloudflared tunnel login                             # 浏览器授权
+cloudflared tunnel create my-app                     # 创建隧道
+cloudflared tunnel route dns my-app app.example.com  # 绑定域名
+cloudflared tunnel run my-app                        # 启动
+```
+
+临时隧道仅供测试，进程退出后地址即失效；长期使用改用命名隧道。
+
+隧道会把本地端口公开到互联网，启动前先确认该端口上跑的确实是要对外的服务：
+
+```bash
+lsof -nP -iTCP:8787 -sTCP:LISTEN
+```
 
 ## 备份说明
 
