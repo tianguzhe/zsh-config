@@ -15,4 +15,6 @@ export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 
 # PATH Configuration - set after path_helper to ensure correct priority
+# Keep PATH entries unique; nested login shells would otherwise prepend duplicates
+typeset -U path PATH
 export PATH="$LOCAL_TOOL/bin:$HOMEBREW/opt/curl/bin:$HOMEBREW/bin:$BUN_INSTALL/bin:$GOPATH/bin:$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$PATH"
