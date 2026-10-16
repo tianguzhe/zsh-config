@@ -19,6 +19,16 @@ install_if_missing "Homebrew" \
     "command -v brew" \
     '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
 
+# Homebrew 安装脚本只写 /etc/paths.d（对新终端生效），不改当前进程 PATH；
+# 首次安装后需手动加载，否则后续 brew 命令找不到。
+if ! command -v brew &>/dev/null; then
+    if [ "$(uname -m)" = "arm64" ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+fi
+
 echo ""
 
 # Install Oh My Zsh
@@ -37,10 +47,21 @@ success "基础工具安装完成"
 
 echo ""
 
+# Install JDK
+# 版本需与 .zprofile 的 JAVA_HOME (temurin-25.jdk) 保持一致。
+info "安装 JDK..."
+brew install --cask temurin@25
+success "JDK 安装完成"
+
+echo ""
+
 # Install uv
 install_if_missing "uv" \
     "command -v uv" \
     'curl -LsSf https://astral.sh/uv/install.sh | sh'
+
+# uv 安装脚本装到 ~/.local/bin，但不改当前进程 PATH。
+command -v uv &>/dev/null || export PATH="$HOME/.local/bin:$PATH"
 
 echo ""
 
@@ -69,10 +90,15 @@ echo ""
 
 # Install Python tools via uv
 info "安装 Python 工具..."
-if uv tool install ruff && uv tool install pyrefly && uv tool install claude-tap; then
+# 逐个安装：单个失败不影响其余；已安装时 uv 返回 0，非 0 即真实失败。
+UV_FAILED=""
+for tool in ruff pyrefly claude-tap; do
+    uv tool install "$tool" || UV_FAILED="$UV_FAILED $tool"
+done
+if [ -z "$UV_FAILED" ]; then
     success "Python 工具安装完成"
 else
-    warn "Python 工具可能已安装"
+    warn "Python 工具安装失败:$UV_FAILED"
 fi
 
 echo ""
@@ -97,7 +123,7 @@ NPM_TOOLS="@antfu/ni @anthropic-ai/claude-code @openai/codex"
 if npm install -g $NPM_TOOLS; then
     success "npm 全局工具安装完成"
 else
-    warn "部分 npm 工具可能已安装"
+    warn "npm 全局工具安装失败，请检查上方输出"
 fi
 
 echo ""
@@ -156,16 +182,6 @@ for file in .zsh_alias .zprofile .zshrc; do
 done
 
 success "配置文件处理完成"
-
-echo ""
-
-# Copy ws config
-info "配置 ws 搜索工具..."
-mkdir -p ~/.config/ws
-if [ -f "$SCRIPT_DIR/config/ws/config.toml" ]; then
-    cp "$SCRIPT_DIR/config/ws/config.toml" ~/.config/ws/config.toml
-    success "ws 配置已复制"
-fi
 
 echo -e "\n${GREEN}========== 安装完成 ==========${NC}"
 echo -e "${CYAN}请重启终端或运行: source ~/.zshrc${NC}\n"

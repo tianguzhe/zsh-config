@@ -5,7 +5,7 @@
 ## 功能特性
 
 - **Shell 配置**: Oh My Zsh + ys 主题
-- **开发工具**: Homebrew, Rust, Bun, Neovim (LazyVim)
+- **开发工具**: Homebrew, Rust, Bun, Neovim (LazyVim), JDK (Temurin 25)
 - **Python 工具**: uv, ruff, pyrefly, claude-tap
 - **npm 工具**: @antfu/ni, @anthropic-ai/claude-code, @openai/codex
 - **实用工具**: eza, tldr, fzf, atuin, zoxide, fd, ripgrep, cloudflared
@@ -67,28 +67,15 @@ uv lock                      # 锁定依赖版本
 - `.zprofile` - 环境变量配置
 - `.zsh_alias` - 命令别名
 - `lib.sh` - 共享日志工具函数（供 setup/dev-up 脚本使用）
-- `config/ws/config.toml` - ws 搜索工具配置
 
 ## 自定义别名
 
-- `ls` → `eza --git --icons`
+- `ls` → `eza --git --icons=auto`
 - `man` → `tldr`
 - `st` → 打开 Sublime Text
 - `code` → 打开 Visual Studio Code
 - `csp` → `claude --dangerously-skip-permissions`
 - `claude-live` / `claude-live-ds` / `claude-live-any` → claude-tap 代理模式
-
-## ws 搜索工具
-
-自定义搜索命令行工具，[ws-search](https://github.com/tianguzhe/ws-search)。
-
-```bash
-ws google rust        # Google 搜索
-ws gh -q "rust async" # GitHub 搜索
-ws --list             # 查看所有别名
-```
-
-配置：`config/ws/config.toml`
 
 ## cloudflared 内网穿透
 

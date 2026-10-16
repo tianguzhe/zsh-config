@@ -253,7 +253,7 @@ get_git_info() {
     branch=$(git -C "$cwd" symbolic-ref --quiet --short HEAD 2>/dev/null)
     [ -n "$branch" ] || branch=$(git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
 
-    status_raw=$(git -C "$cwd" status --porcelain 2>/dev/null)
+    status_raw=$(git --no-optional-locks -C "$cwd" status --porcelain 2>/dev/null)
     [ -n "$status_raw" ] && dirty="*"
 
     ab_raw=$(git -C "$cwd" rev-list --left-right --count HEAD...@{u} 2>/dev/null)
